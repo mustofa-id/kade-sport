@@ -21,8 +21,12 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+
     <activity android:name=".ui.MainActivity" />
 
+    <activity
+      android:name=".ui.leaguedetail.LeagueDetailActivity"
+      android:label="@string/title_detail" />
   </application>
 
 </manifest>

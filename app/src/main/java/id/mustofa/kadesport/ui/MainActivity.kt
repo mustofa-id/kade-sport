@@ -1,13 +1,16 @@
 package id.mustofa.kadesport.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import id.mustofa.kadesport.ui.league.LeagueFragment
 
 class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    Log.i(javaClass.name, "onCreate: CREATED")
+    supportFragmentManager.beginTransaction().apply {
+      replace(android.R.id.content, LeagueFragment())
+      commit()
+    }
   }
 }

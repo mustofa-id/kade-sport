@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -27,9 +28,16 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "org.jetbrains.anko:anko:$ankoVersion"
+    implementation "org.jetbrains.anko:anko-cardview-v7:$ankoVersion"
+    implementation "org.jetbrains.anko:anko-recyclerview-v7:$ankoVersion"
+    implementation "org.jetbrains.anko:anko-recyclerview-v7-coroutines:$ankoVersion"
 
     implementation "androidx.appcompat:appcompat:$compatVersion"
     implementation "androidx.core:core-ktx:$ktxVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
+
+    implementation "com.github.bumptech.glide:glide:${glideVersion}"
+    kapt "com.github.bumptech.glide:compiler:${glideVersion}"
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$extJunitVersion"
