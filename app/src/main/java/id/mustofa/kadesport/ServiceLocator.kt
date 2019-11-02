@@ -14,12 +14,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceLocator {
 
+  @Volatile
   private var leagueRepository: LeagueRepository? = null
 
-  fun provideLeagueRepository(): LeagueRepository {
-    synchronized(this) {
-      return leagueRepository ?: leagueRepository ?: createLeagueRepository()
-    }
+  fun provideLeagueRepository() = leagueRepository ?: synchronized(this) {
+    leagueRepository ?: createLeagueRepository()
   }
 
   private fun createLeagueRepository() = DefaultLeagueRepository(
