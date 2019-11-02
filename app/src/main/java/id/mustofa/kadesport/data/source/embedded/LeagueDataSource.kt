@@ -3,7 +3,7 @@ package id.mustofa.kadesport.data.source.embedded
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.League
 
-object LeagueDataSource {
+class LeagueDataSource {
 
   fun getLeagues() = listOf(
     League(
@@ -60,7 +60,7 @@ object LeagueDataSource {
       badgePath = R.drawable.spanish_la_liga
     ),
     League(
-      id = 4336,
+      id = 4346,
       name = "American Mayor League",
       description = """
         Major League Soccer (MLS) is a professional soccer league representing the sport's highest level in both the United States and Canada. MLS constitutes one of the major professional sports leagues of the United States and Canada. The league is composed of 20 teams—17 in the U.S. and 3 in Canada. The MLS regular season runs from March to October, with each team playing 34 games; the team with the best record is awarded the Supporters' Shield. The post season includes twelve teams competing in the MLS Cup Playoffs through November and December, culminating in the championship game, the MLS Cup. MLS teams also play in other competitions against teams from other divisions and countries, such as the U.S. Open Cup, the Canadian Championship, and the CONCACAF Champions League. MLS is sanctioned by the United States Soccer Federation (U.S. Soccer).

@@ -4,14 +4,22 @@
  */
 package id.mustofa.kadesport.data
 
-import android.os.Parcelable
 import androidx.annotation.DrawableRes
-import kotlinx.android.parcel.Parcelize
+import com.google.gson.annotations.SerializedName
 
-@Parcelize
 data class League(
+
+  @SerializedName("idLeague")
   val id: Long,
+
+  @SerializedName("strLeague")
   val name: String,
+
+  @SerializedName("strDescriptionEN")
   val description: String,
-  @DrawableRes val badgePath: Int
-) : Parcelable
+
+  @DrawableRes val badgePath: Int,
+
+  @SerializedName("strBadge")
+  val badgeUrl: String = ""
+)

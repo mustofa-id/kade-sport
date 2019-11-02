@@ -8,13 +8,15 @@ ext {
     ktxVersion = '1.1.0'
     compatVersion = '1.1.0'
     ankoVersion = '0.10.8'
+    recyclerviewVersion = '1.0.0'
+    glideVersion = '4.10.0'
+    retrofitVersion = '2.6.2'
+    lifecycleVersion = '2.1.0'
 
     // test dependency versions
     junitVersion = '4.12'
     extJunitVersion = '1.1.1'
     espressoVersion = '3.2.0'
-    recyclerviewVersion = '1.0.0'
-    glideVersion = '4.10.0'
 }
 
 buildscript {
@@ -32,7 +34,7 @@ buildscript {
 
     dependencies {
         // project dependencies
-        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "com.android.tools.build:gradle:${gradleVersion}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }

@@ -6,16 +6,28 @@ package id.mustofa.kadesport.ui.leaguedetail
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import id.mustofa.kadesport.data.League
+import id.mustofa.kadesport.ext.observe
+import id.mustofa.kadesport.ext.withViewModelFactory
 import org.jetbrains.anko.setContentView
 
 class LeagueDetailActivity : AppCompatActivity() {
 
+  private val model: LeagueDetailViewModel by viewModels { withViewModelFactory() }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    val league = intent.extras?.getParcelable<League>(EXTRA_LEAGUE)
-    LeagueDetailView(league).setContentView(this)
+    subscribeObservers()
+    supportActionBar?.apply {
+      setDisplayHomeAsUpEnabled(true)
+      elevation = 0f
+    }
+  }
+
+  private fun subscribeObservers() {
+    intent.extras?.getLong(EXTRA_LEAGUE_ID)?.let { model.loadLeague(it) }
+    observe(model.leagueState) { LeagueDetailView(it).setContentView(this) }
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -24,6 +36,6 @@ class LeagueDetailActivity : AppCompatActivity() {
   }
 
   companion object {
-    const val EXTRA_LEAGUE = "_itemLeagueExtra__"
+    const val EXTRA_LEAGUE_ID = "_ExtraLeagueId__"
   }
 }
