@@ -20,17 +20,41 @@ class DefaultLeagueRepository(
 ) : LeagueRepository {
 
   override suspend fun fetchAllLeagues(): State<List<League>> {
-    delay(800) // fake network request
+    delay(500) // fake network request
     return Success(leagueDataSource.getLeagues())
   }
 
-  override suspend fun fetchLeagueById(id: Long): State<League> {
+  override suspend fun fetchLeagueById(id: Long) = handleError {
+    val response = theSportDbService.lookupLeague(id)
+    response.body()?.leagues?.get(0)
+  }
+
+  override suspend fun fetchEventsNextLeague(eventId: Long) = handleError {
+    val response = theSportDbService.eventsNextLeague(eventId)
+    response.body()?.events
+  }
+
+  override suspend fun fetchEventsPastLeague(eventId: Long) = handleError {
+    val response = theSportDbService.eventsPastLeague(eventId)
+    response.body()?.events
+  }
+
+  override suspend fun fetchEventById(id: Long) = handleError {
+    val response = theSportDbService.lookupEvent(id)
+    response.body()?.events?.get(0)
+  }
+
+  override suspend fun searchEvents(query: String) = handleError {
+    val response = theSportDbService.searchEvents(query)
+    response.body()?.events
+  }
+
+  private inline fun <T> handleError(data: () -> T?): State<T> {
     return try {
-      val response = theSportDbService.lookupLeague(id)
-      val league = response.body()?.leagues?.get(0) ?: return Error(R.string.msg_empty_result)
-      Success(league)
+      val result = data() ?: return Error(R.string.msg_empty_result)
+      Success(result)
     } catch (e: Exception) {
-      Log.e(javaClass.name, "fetchLeagueById: ", e)
+      Log.e(javaClass.name, "handleError: ", e)
       Error(R.string.msg_failed_result)
     }
   }
