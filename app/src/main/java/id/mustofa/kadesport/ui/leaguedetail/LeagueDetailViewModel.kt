@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.data.State
@@ -53,14 +52,14 @@ class LeagueDetailViewModel(
   private suspend fun loadNextEvent(leagueId: Long) {
     when (val result = repository.fetchEventsNextLeague(leagueId)) {
       is Success -> _nextEvents.postValue(result.data)
-      is Error -> _nextEventError.postValue(R.string.msg_failed_result)
+      is Error -> _nextEventError.postValue(result.message)
     }
   }
 
   private suspend fun loadPastEvent(leagueId: Long) {
     when (val result = repository.fetchEventsPastLeague(leagueId)) {
       is Success -> _pastEvents.postValue(result.data)
-      is Error -> _pastEventError.postValue(R.string.msg_failed_result)
+      is Error -> _pastEventError.postValue(result.message)
     }
   }
 
