@@ -4,4 +4,37 @@
  */
 package id.mustofa.kadesport.data
 
-class LeagueEvent
+import com.google.gson.annotations.SerializedName
+
+data class LeagueEvent(
+
+  @SerializedName("idEvent")
+  val id: Long,
+
+  @SerializedName("strHomeTeam")
+  val home: String = "-",
+
+  @SerializedName("strAwayTeam")
+  val away: String = "-",
+
+  @SerializedName("intHomeScore")
+  val homeScore: Int? = null,
+
+  @SerializedName("intAwayScore")
+  val awayScore: Int? = null,
+
+  @SerializedName("idHomeTeam")
+  val idHome: Long,
+
+  @SerializedName("idAwayTeam")
+  val idAway: Long,
+
+  @SerializedName("strDate")
+  val date: String = "-",
+
+  @SerializedName("strTime")
+  val time: String = "-",
+
+  var homeBadgePath: String?,
+  var awayBadgePath: String?
+)

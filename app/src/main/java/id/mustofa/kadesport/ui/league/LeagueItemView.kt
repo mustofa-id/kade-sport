@@ -23,7 +23,7 @@ class LeagueItemView : AnkoComponent<ViewGroup> {
       applyClickEffect()
       lparams(
         width = matchParent,
-        height = dip(200) // TODO: support more screen
+        height = dip(186)
       ) { margin = 8 }
 
       imageView {

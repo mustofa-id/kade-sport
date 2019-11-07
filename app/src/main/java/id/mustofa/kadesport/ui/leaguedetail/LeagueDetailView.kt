@@ -5,13 +5,20 @@
 package id.mustofa.kadesport.ui.leaguedetail
 
 import android.graphics.Typeface
+import android.text.TextUtils
 import android.widget.TextView
+import androidx.annotation.IdRes
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.*
+import id.mustofa.kadesport.ext.clusterView
 import id.mustofa.kadesport.ext.errorView
 import id.mustofa.kadesport.ext.loadingView
+import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity
+import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity.Companion.EVENT_TYPE
+import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity.Companion.LEAGUE_ID
+import id.mustofa.kadesport.ui.leagueevents.LeagueEventType
 import id.mustofa.kadesport.util.GlideApp
 import id.mustofa.kadesport.util.usePlaceholder
 import org.jetbrains.anko.*
@@ -19,17 +26,20 @@ import org.jetbrains.anko.*
 class LeagueDetailView(private val state: State<League>) : AnkoComponent<LeagueDetailActivity> {
 
   override fun createView(ui: AnkoContext<LeagueDetailActivity>) = with(ui) {
+    @IdRes val detailId = 1123
+    @IdRes val nextEventId = 1124
     when (state) {
       is Loading -> loadingView()
       is Error -> errorView(state.message)
       is Success -> {
-        val (_, name, desc, _, badgeUrl) = state.data
+        val (leagueId, name, desc, _, badgeUrl) = state.data
         // detail layout
         scrollView {
           lparams(matchParent)
           relativeLayout {
-            lparams(matchParent)
+            lparams(matchParent) { bottomPadding = dip(16) }
 
+            // header background
             view {
               backgroundResource = R.color.colorPrimary
             }.lparams(matchParent, matchParent) {
@@ -58,25 +68,67 @@ class LeagueDetailView(private val state: State<League>) : AnkoComponent<LeagueD
             // title
             textView(name) {
               id = R.id.itemTitle
-              textSize = 18f
+              textSize = 24f
               typeface = Typeface.DEFAULT_BOLD
               textAlignment = TextView.TEXT_ALIGNMENT_CENTER
             }.lparams(matchParent) {
               below(R.id.itemBadge)
-              marginStart = dip(16)
-              marginEnd = dip(16)
+              horizontalMargin = dip(16)
+              bottomPadding = dip(8)
             }
 
+            // TODO: social & web links
+
             // description
-            textView(desc)
-              .lparams(matchParent) {
-                below(R.id.itemTitle)
-                margin = dip(16)
+            clusterView("About this league", onClick = {
+              ctx.alert(desc, name) {
+                yesButton { it.dismiss() }
+                show()
               }
+            }) {
+              id = detailId
+              textView(desc) {
+                maxLines = 4
+                ellipsize = TextUtils.TruncateAt.END
+                horizontalPadding = dip(16)
+              }
+            }.lparams(matchParent) {
+              below(R.id.itemTitle)
+            }
+
+            // Upcoming events
+            clusterView("Upcoming events", onClick = {
+              ctx.startActivity<LeagueEventActivity>(
+                LEAGUE_ID to leagueId,
+                EVENT_TYPE to LeagueEventType.NEXT
+              )
+            }) {
+              id = nextEventId
+              textView("Loading...") {
+                id = R.id.eventNext
+                horizontalPadding = dip(16)
+              }
+            }.lparams(matchParent) {
+              below(detailId)
+            }
+
+            // Latest events
+            clusterView("Latest result", onClick = {
+              ctx.startActivity<LeagueEventActivity>(
+                LEAGUE_ID to leagueId,
+                EVENT_TYPE to LeagueEventType.PAST
+              )
+            }) {
+              textView("Loading...") {
+                id = R.id.eventPast
+                horizontalPadding = dip(16)
+              }
+            }.lparams(matchParent) {
+              below(nextEventId)
+            }
           }
         }
       }
     }
   }
-
 }

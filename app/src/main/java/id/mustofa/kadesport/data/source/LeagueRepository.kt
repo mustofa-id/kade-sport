@@ -14,9 +14,15 @@ interface LeagueRepository {
 
   suspend fun fetchLeagueById(id: Long): State<League>
 
-  suspend fun fetchEventsNextLeague(eventId: Long): State<List<LeagueEvent>>
+  suspend fun fetchEventsNextLeague(
+    leagueId: Long,
+    badge: Boolean = false
+  ): State<List<LeagueEvent>>
 
-  suspend fun fetchEventsPastLeague(eventId: Long): State<List<LeagueEvent>>
+  suspend fun fetchEventsPastLeague(
+    leagueId: Long,
+    badge: Boolean = false
+  ): State<List<LeagueEvent>>
 
   suspend fun fetchEventById(id: Long): State<LeagueEvent>
 

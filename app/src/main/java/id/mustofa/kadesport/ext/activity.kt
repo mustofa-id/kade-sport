@@ -4,16 +4,18 @@
  */
 package id.mustofa.kadesport.ext
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import id.mustofa.kadesport.KadeApplication
 import id.mustofa.kadesport.ViewModelFactory
 
-fun Activity.withViewModelFactory(): ViewModelFactory {
-  val leagueRepository = (applicationContext as KadeApplication).leagueRepository
-  return ViewModelFactory(leagueRepository)
+inline fun <reified T : ViewModel> AppCompatActivity.viewModel() = lazy {
+  val appContext = application.applicationContext
+  val repository = (appContext as KadeApplication).leagueRepository
+  ViewModelProviders.of(this, ViewModelFactory(repository))[T::class.java]
 }
 
 fun <T> AppCompatActivity.observe(liveData: LiveData<T>, value: (T) -> Unit) {

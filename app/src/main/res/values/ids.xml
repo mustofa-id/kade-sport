@@ -3,4 +3,9 @@
   <item name="itemTitle" type="id" />
   <item name="itemBadge" type="id" />
   <item name="listLeague" type="id" />
+  <item name="badgeHome" type="id" />
+  <item name="badgeAway" type="id" />
+  <item name="infoContainer" type="id" />
+  <item name="eventPast" type="id" />
+  <item name="eventNext" type="id" />
 </resources>

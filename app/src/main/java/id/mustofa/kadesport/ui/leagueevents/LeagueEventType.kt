@@ -1,7 +1,10 @@
 /*
- * Mustofa on 11/1/19
+ * Mustofa on 11/4/19
  * https://mustofa.id
  */
 package id.mustofa.kadesport.ui.leagueevents
 
-class LeagueEventView
+enum class LeagueEventType {
+
+  PAST, NEXT
+}

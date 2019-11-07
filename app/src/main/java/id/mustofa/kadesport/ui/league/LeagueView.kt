@@ -4,12 +4,12 @@
  */
 package id.mustofa.kadesport.ui.league
 
-import android.content.Context
 import android.view.Gravity
-import android.view.View
 import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import id.mustofa.kadesport.R
+import id.mustofa.kadesport.ext.integer
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 
@@ -20,12 +20,11 @@ class LeagueView(
   private lateinit var progress: ProgressBar
 
   override fun createView(ui: AnkoContext<LeagueFragment>) = with(ui) {
-    val span = getColumnSpan(ui.ctx)
     frameLayout {
       lparams(width = matchParent, height = matchParent)
       recyclerView {
         id = R.id.listLeague
-        layoutManager = GridLayoutManager(ui.ctx, span)
+        layoutManager = GridLayoutManager(ui.ctx, integer(R.integer.list_league_col_span))
         adapter = leagueAdapter
         clipToPadding = false
         padding = 16
@@ -41,10 +40,6 @@ class LeagueView(
   }
 
   fun isLoading(constraint: Boolean) {
-    progress.visibility = if (constraint) View.VISIBLE else View.GONE
+    progress.isVisible = constraint
   }
-
-  private fun getColumnSpan(context: Context) =
-    context.resources.getInteger(R.integer.list_league_col_span)
-
 }

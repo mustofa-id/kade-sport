@@ -25,6 +25,7 @@
       <w>eventspastleague</w>
       <w>fifa</w>
       <w>figc</w>
+      <w>floatable</w>
       <w>fußball</w>
       <w>fútbol</w>
       <w>iffhs</w>
@@ -36,11 +37,13 @@
       <w>kade</w>
       <w>kadesport</w>
       <w>leaguedetail</w>
+      <w>leagueevents</w>
       <w>lega</w>
       <w>liga</w>
       <w>ligue</w>
       <w>lookupevent</w>
       <w>lookupleague</w>
+      <w>lookupteam</w>
       <w>marseille</w>
       <w>mönchengladbach</w>
       <w>oldham</w>
