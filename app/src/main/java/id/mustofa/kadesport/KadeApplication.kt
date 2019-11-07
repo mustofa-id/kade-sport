@@ -10,5 +10,5 @@ import id.mustofa.kadesport.data.source.LeagueRepository
 class KadeApplication : Application() {
 
   val leagueRepository: LeagueRepository
-    get() = ServiceLocator.provideLeagueRepository()
+    get() = ServiceLocator.provideLeagueRepository(this)
 }

@@ -15,16 +15,12 @@ import id.mustofa.kadesport.data.Team
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
 import kotlinx.coroutines.delay
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentMap
 
 class DefaultLeagueRepository(
   private val leagueDataSource: LeagueDataSource,
-  private val theSportDbService: TheSportDbService
+  private val cacheableSportService: TheSportDbService,
+  private val sportService: TheSportDbService
 ) : LeagueRepository {
-
-  // TODO: Doesn't work
-  private var cachedTeams: ConcurrentMap<Long, Team>? = null
 
   override suspend fun fetchAllLeagues(): State<List<League>> {
     delay(500) // fake network request
@@ -32,39 +28,33 @@ class DefaultLeagueRepository(
   }
 
   override suspend fun fetchLeagueById(id: Long) = handleError {
-    val response = theSportDbService.lookupLeague(id)
+    val response = cacheableSportService.lookupLeague(id)
     response.body()?.leagues?.get(0)
   }
 
   override suspend fun fetchEventsNextLeague(leagueId: Long, badge: Boolean) = handleError {
-    val response = theSportDbService.eventsNextLeague(leagueId)
+    val response = sportService.eventsNextLeague(leagueId)
     response.body()?.events?.applyBadge(badge)
   }
 
   override suspend fun fetchEventsPastLeague(leagueId: Long, badge: Boolean) = handleError {
-    val response = theSportDbService.eventsPastLeague(leagueId)
+    val response = sportService.eventsPastLeague(leagueId)
     response.body()?.events?.applyBadge(badge)
   }
 
   override suspend fun fetchEventById(id: Long) = handleError {
-    val response = theSportDbService.lookupEvent(id)
+    val response = sportService.lookupEvent(id)
     response.body()?.events?.get(0)
   }
 
   override suspend fun searchEvents(query: String) = handleError {
-    val response = theSportDbService.searchEvents(query)
+    val response = cacheableSportService.searchEvents(query)
     response.body()?.events
   }
 
   private suspend fun fetchTeamById(id: Long): Team? {
-    Log.d(javaClass.name, "fetchTeamById:: CACHE: ${cachedTeams?.size}")
-    val response = theSportDbService.lookupTeam(id)
-    return cachedTeams?.get(id) ?: response.body()?.teams?.get(0)?.also {
-      if (cachedTeams == null) {
-        cachedTeams = ConcurrentHashMap()
-      }
-      cachedTeams?.put(id, it)
-    }
+    val response = cacheableSportService.lookupTeam(id)
+    return response.body()?.teams?.get(0)
   }
 
   private suspend fun List<LeagueEvent>.applyBadge(constraint: Boolean): List<LeagueEvent> {

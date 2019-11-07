@@ -4,33 +4,67 @@
  */
 package id.mustofa.kadesport
 
+import android.content.Context
 import com.google.gson.GsonBuilder
 import id.mustofa.kadesport.data.source.DefaultLeagueRepository
 import id.mustofa.kadesport.data.source.LeagueRepository
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
+import okhttp3.Cache
+import okhttp3.CacheControl
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object ServiceLocator {
 
   @Volatile
   private var leagueRepository: LeagueRepository? = null
 
-  fun provideLeagueRepository() = leagueRepository ?: synchronized(this) {
-    leagueRepository ?: createLeagueRepository()
+  fun provideLeagueRepository(context: Context) = leagueRepository ?: synchronized(this) {
+    leagueRepository ?: createLeagueRepository(context)
   }
 
-  private fun createLeagueRepository() = DefaultLeagueRepository(
+  private fun createLeagueRepository(context: Context) = DefaultLeagueRepository(
     leagueDataSource = LeagueDataSource(),
-    theSportDbService = createTheSportDbService()
+    cacheableSportService = createTheSportDbService(context, true),
+    sportService = createTheSportDbService(context)
   )
 
-  private fun createTheSportDbService(): TheSportDbService {
+  private fun createTheSportDbService(
+    context: Context,
+    cacheable: Boolean = false
+  ): TheSportDbService {
     val baseUrl = "https://www.thesportsdb.com/api/v1/json/1/"
+    val okHttpClient = OkHttpClient.Builder()
+      .connectTimeout(1, TimeUnit.MINUTES)
+      .readTimeout(1, TimeUnit.MINUTES)
+
+    if (cacheable) {
+      val cacheSize = (10 * 1024 * 1024).toLong()
+      val cache = Cache(context.cacheDir, cacheSize)
+
+      val cacheControl = CacheControl.Builder()
+        .maxStale(7, TimeUnit.DAYS)
+        .build()
+
+      okHttpClient
+        .cache(cache)
+        .addInterceptor { chain ->
+          val request = chain
+            .request()
+            .newBuilder()
+            .cacheControl(cacheControl)
+            .build()
+          chain.proceed(request)
+        }
+    }
+
     return Retrofit.Builder()
       .baseUrl(baseUrl)
       .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+      .client(okHttpClient.build())
       .build()
       .create(TheSportDbService::class.java)
   }
