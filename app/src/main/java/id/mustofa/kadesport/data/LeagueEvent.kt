@@ -1,5 +1,5 @@
 /*
- * Mustofa on 11/3/19
+ * Mustofa on 11/8/19
  * https://mustofa.id
  */
 package id.mustofa.kadesport.data
@@ -7,34 +7,105 @@ package id.mustofa.kadesport.data
 import com.google.gson.annotations.SerializedName
 
 data class LeagueEvent(
-
   @SerializedName("idEvent")
   val id: Long,
 
+  @SerializedName("strSeason")
+  val session: String?,
+
+  var homeTeam: Team?,
+  var awayTeam: Team?,
+
   @SerializedName("strHomeTeam")
-  val home: String = "-",
+  val homeName: String?,
 
   @SerializedName("strAwayTeam")
-  val away: String = "-",
+  val awayName: String?,
 
   @SerializedName("intHomeScore")
-  val homeScore: Int? = null,
+  val homeScore: Int,
+
+  @SerializedName("intRound")
+  val round: Int,
 
   @SerializedName("intAwayScore")
-  val awayScore: Int? = null,
+  val awayScore: Int,
 
-  @SerializedName("idHomeTeam")
-  val idHome: Long,
+  @SerializedName("idLeague")
+  val leagueId: Long,
 
-  @SerializedName("idAwayTeam")
-  val idAway: Long,
+  @SerializedName("strHomeGoalDetails")
+  val homeGoalDetails: String?,
+
+  @SerializedName("strHomeRedCards")
+  val homeRedCards: String?,
+
+  @SerializedName("strHomeYellowCards")
+  val homeYellowCards: String?,
+
+  @SerializedName("strHomeLineupGoalkeeper")
+  val homeLineupGoalkeeper: String?,
+
+  @SerializedName("strHomeLineupDefense")
+  val homeLineupDefense: String?,
+
+  @SerializedName("strHomeLineupMidfield")
+  val homeLineupMidfield: String?,
+
+  @SerializedName("strHomeLineupForward")
+  val homeLineupForward: String?,
+
+  @SerializedName("strHomeLineupSubstitutes")
+  val homeLineupSubstitutes: String?,
+
+  @SerializedName("strHomeFormation")
+  val homeFormation: String?,
+
+  @SerializedName("strAwayRedCards")
+  val awayRedCards: String?,
+
+  @SerializedName("strAwayYellowCards")
+  val awayYellowCards: String?,
+
+  @SerializedName("strAwayGoalDetails")
+  val awayGoalDetails: String?,
+
+  @SerializedName("strAwayLineupGoalkeeper")
+  val awayLineupGoalkeeper: String?,
+
+  @SerializedName("strAwayLineupDefense")
+  val awayLineupDefense: String?,
+
+  @SerializedName("strAwayLineupMidfield")
+  val awayLineupMidfield: String?,
+
+  @SerializedName("strAwayLineupForward")
+  val awayLineupForward: String?,
+
+  @SerializedName("strAwayLineupSubstitutes")
+  val awayLineupSubstitutes: String?,
+
+  @SerializedName("strAwayFormation")
+  val awayFormation: String?,
+
+  @SerializedName("dateEvent")
+  val dateEvent: String?,
+
+  @SerializedName("dateEventLocal")
+  val dateEventLocal: String?,
 
   @SerializedName("strDate")
-  val date: String = "-",
+  val date: String?,
 
   @SerializedName("strTime")
-  val time: String = "-",
+  val time: String?,
 
-  var homeBadgePath: String?,
-  var awayBadgePath: String?
+  @SerializedName("strTimeLocal")
+  val timeLocal: String?,
+
+  @SerializedName("idHomeTeam")
+  val homeTeamId: Long,
+
+  @SerializedName("idAwayTeam")
+  val awayTeamId: Long
 )

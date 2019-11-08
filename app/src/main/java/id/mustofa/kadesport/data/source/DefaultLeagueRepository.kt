@@ -7,7 +7,7 @@ package id.mustofa.kadesport.data.source
 import android.util.Log
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.League
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.LeagueEventMin
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
@@ -42,9 +42,14 @@ class DefaultLeagueRepository(
     response.body()?.events?.applyBadge(badge)
   }
 
-  override suspend fun fetchEventById(id: Long) = handleError {
+  override suspend fun fetchEventById(id: Long, fetchTeam: Boolean) = handleError {
     val response = sportService.lookupEvent(id)
-    response.body()?.events?.get(0)
+    response.body()?.events?.get(0)?.apply {
+      if (fetchTeam) {
+        homeTeam = fetchTeamById(homeTeamId)
+        awayTeam = fetchTeamById(awayTeamId)
+      }
+    }
   }
 
   override suspend fun searchEvents(query: String) = handleError {
@@ -57,7 +62,7 @@ class DefaultLeagueRepository(
     return response.body()?.teams?.get(0)
   }
 
-  private suspend fun List<LeagueEvent>.applyBadge(constraint: Boolean): List<LeagueEvent> {
+  private suspend fun List<LeagueEventMin>.applyBadge(constraint: Boolean): List<LeagueEventMin> {
     if (!constraint) return this
     return map {
       it.apply {

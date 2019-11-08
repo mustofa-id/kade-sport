@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.LeagueEventMin
 import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
 import id.mustofa.kadesport.data.source.LeagueRepository
@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 
 class LeagueEventViewModel(private val repository: LeagueRepository) : ViewModel() {
 
-  private val _events = MutableLiveData<List<LeagueEvent>>()
-  val events: LiveData<List<LeagueEvent>> = _events
+  private val _events = MutableLiveData<List<LeagueEventMin>>()
+  val events: LiveData<List<LeagueEventMin>> = _events
 
   private val _loading = MutableLiveData<Boolean>()
   val loading: LiveData<Boolean> = _loading

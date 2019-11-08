@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
+import id.mustofa.kadesport.ui.leagueeventdetail.LeagueEventDetailActivity
 import id.mustofa.kadesport.util.GlideApp
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
@@ -28,7 +29,9 @@ class LeagueEventActivity : AppCompatActivity() {
   private val model by viewModel<LeagueEventViewModel>()
   private val adapter by lazy {
     LeagueEventAdapter(GlideApp.with(this)) {
-
+      startActivity<LeagueEventDetailActivity>(
+        LeagueEventDetailActivity.EVENT_ID to it.id
+      )
     }
   }
 

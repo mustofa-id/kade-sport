@@ -14,16 +14,16 @@ interface TheSportDbService {
   suspend fun lookupLeague(@Query("id") leagueId: Long): Response<LeagueResponse>
 
   @GET("eventsnextleague.php")
-  suspend fun eventsNextLeague(@Query("id") leagueId: Long): Response<LeagueEventResponse>
+  suspend fun eventsNextLeague(@Query("id") leagueId: Long): Response<LeagueEventMinResponse>
 
   @GET("eventspastleague.php")
-  suspend fun eventsPastLeague(@Query("id") leagueId: Long): Response<LeagueEventResponse>
+  suspend fun eventsPastLeague(@Query("id") leagueId: Long): Response<LeagueEventMinResponse>
 
   @GET("lookupevent.php")
   suspend fun lookupEvent(@Query("id") eventId: Long): Response<LeagueEventResponse>
 
   @GET("searchevents.php")
-  suspend fun searchEvents(@Query("e") query: String): Response<LeagueEventResponse>
+  suspend fun searchEvents(@Query("e") query: String): Response<LeagueEventMinResponse>
 
   @GET("lookupteam.php")
   suspend fun lookupTeam(@Query("id") teamId: Long): Response<TeamResponse>

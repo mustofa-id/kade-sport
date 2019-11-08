@@ -34,6 +34,10 @@
     <activity
       android:name=".ui.leagueevents.LeagueEventActivity"
       android:label="@string/title_event" />
+
+    <activity
+      android:name=".ui.leagueeventdetail.LeagueEventDetailActivity"
+      android:label="@string/title_event_detail" />
   </application>
 
 </manifest>
