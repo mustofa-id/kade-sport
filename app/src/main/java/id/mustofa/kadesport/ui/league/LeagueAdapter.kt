@@ -38,7 +38,7 @@ class LeagueAdapter(private val glide: GlideRequests) :
     fun bindLeague(league: League) {
       with(itemView) {
         find<TextView>(R.id.itemTitle).text = league.name
-        glide.load(league.badgePath).into(find(R.id.itemBadge))
+        glide.load(league.badgeUrl).into(find(R.id.itemBadge))
       }
     }
   }

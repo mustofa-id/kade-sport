@@ -4,7 +4,6 @@
  */
 package id.mustofa.kadesport.data
 
-import androidx.annotation.DrawableRes
 import com.google.gson.annotations.SerializedName
 
 data class League(
@@ -16,9 +15,7 @@ data class League(
   val name: String,
 
   @SerializedName("strDescriptionEN")
-  val description: String,
-
-  @DrawableRes val badgePath: Int,
+  val description: String = "",
 
   @SerializedName("strBadge")
   val badgeUrl: String = ""
