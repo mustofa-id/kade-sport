@@ -29,6 +29,7 @@ class LeagueEventViewModel(private val repository: LeagueRepository) : ViewModel
     if (events.value != null) return
 
     _loading.postValue(true)
+    _message.postValue(0)
     viewModelScope.launch {
       when (val result = getEventResponse(leagueId, type)) {
         is Success -> _events.postValue(result.data)

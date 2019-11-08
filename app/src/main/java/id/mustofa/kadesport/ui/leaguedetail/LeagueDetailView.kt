@@ -6,6 +6,7 @@ package id.mustofa.kadesport.ui.leaguedetail
 
 import android.graphics.Typeface
 import android.text.TextUtils
+import android.view.Gravity
 import android.widget.TextView
 import androidx.annotation.IdRes
 import id.mustofa.kadesport.R
@@ -13,8 +14,6 @@ import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.*
 import id.mustofa.kadesport.ext.clusterView
-import id.mustofa.kadesport.ext.errorView
-import id.mustofa.kadesport.ext.loadingView
 import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity
 import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity.Companion.EVENT_TYPE
 import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity.Companion.LEAGUE_ID
@@ -29,10 +28,29 @@ class LeagueDetailView(private val state: State<League>) : AnkoComponent<LeagueD
     @IdRes val detailId = 1123
     @IdRes val nextEventId = 1124
     when (state) {
-      is Loading -> loadingView()
-      is Error -> errorView(state.message)
+      is Loading -> frameLayout {
+        lparams(matchParent, matchParent) { padding = dip(16) }
+        progressBar {
+          isIndeterminate = true
+        }.lparams(matchParent) {
+          gravity = Gravity.CENTER
+        }
+      }
+
+      is Error -> verticalLayout {
+        lparams(matchParent, matchParent)
+        gravity = Gravity.CENTER
+        padding = dip(16)
+        imageView(R.drawable.ic_error)
+          .lparams(matchParent, dip(92))
+        textView(state.message) {
+          textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+          textSize = 16f
+        }.lparams(matchParent)
+      }
+
       is Success -> {
-        val (leagueId, name, desc, _, badgeUrl) = state.data
+        val (leagueId, name, desc, badgeUrl) = state.data
         // detail layout
         scrollView {
           lparams(matchParent)
