@@ -11,97 +11,97 @@ data class LeagueEvent(
   val id: Long,
 
   @SerializedName("strSeason")
-  val session: String?,
+  val session: String? = "-",
 
   var homeTeam: Team?,
   var awayTeam: Team?,
 
   @SerializedName("strHomeTeam")
-  val homeName: String?,
+  val homeName: String? = "-",
 
   @SerializedName("strAwayTeam")
-  val awayName: String?,
+  val awayName: String? = "-",
 
   @SerializedName("intHomeScore")
-  val homeScore: Int,
+  val homeScore: Int?,
 
   @SerializedName("intRound")
-  val round: Int,
+  val round: Int?,
 
   @SerializedName("intAwayScore")
-  val awayScore: Int,
+  val awayScore: Int?,
 
   @SerializedName("idLeague")
   val leagueId: Long,
 
   @SerializedName("strHomeGoalDetails")
-  val homeGoalDetails: String?,
+  val homeGoalDetails: String? = "-",
 
   @SerializedName("strHomeRedCards")
-  val homeRedCards: String?,
+  val homeRedCards: String? = "-",
 
   @SerializedName("strHomeYellowCards")
-  val homeYellowCards: String?,
+  val homeYellowCards: String? = "-",
 
   @SerializedName("strHomeLineupGoalkeeper")
-  val homeLineupGoalkeeper: String?,
+  val homeLineupGoalkeeper: String? = "-",
 
   @SerializedName("strHomeLineupDefense")
-  val homeLineupDefense: String?,
+  val homeLineupDefense: String? = "-",
 
   @SerializedName("strHomeLineupMidfield")
-  val homeLineupMidfield: String?,
+  val homeLineupMidfield: String? = "-",
 
   @SerializedName("strHomeLineupForward")
-  val homeLineupForward: String?,
+  val homeLineupForward: String? = "-",
 
   @SerializedName("strHomeLineupSubstitutes")
-  val homeLineupSubstitutes: String?,
+  val homeLineupSubstitutes: String? = "-",
 
   @SerializedName("strHomeFormation")
-  val homeFormation: String?,
+  val homeFormation: String? = "-",
 
   @SerializedName("strAwayRedCards")
-  val awayRedCards: String?,
+  val awayRedCards: String? = "-",
 
   @SerializedName("strAwayYellowCards")
-  val awayYellowCards: String?,
+  val awayYellowCards: String? = "-",
 
   @SerializedName("strAwayGoalDetails")
-  val awayGoalDetails: String?,
+  val awayGoalDetails: String? = "-",
 
   @SerializedName("strAwayLineupGoalkeeper")
-  val awayLineupGoalkeeper: String?,
+  val awayLineupGoalkeeper: String? = "-",
 
   @SerializedName("strAwayLineupDefense")
-  val awayLineupDefense: String?,
+  val awayLineupDefense: String? = "-",
 
   @SerializedName("strAwayLineupMidfield")
-  val awayLineupMidfield: String?,
+  val awayLineupMidfield: String? = "-",
 
   @SerializedName("strAwayLineupForward")
-  val awayLineupForward: String?,
+  val awayLineupForward: String? = "-",
 
   @SerializedName("strAwayLineupSubstitutes")
-  val awayLineupSubstitutes: String?,
+  val awayLineupSubstitutes: String? = "-",
 
   @SerializedName("strAwayFormation")
-  val awayFormation: String?,
+  val awayFormation: String? = "-",
 
   @SerializedName("dateEvent")
-  val dateEvent: String?,
+  val dateEvent: String? = "-",
 
   @SerializedName("dateEventLocal")
-  val dateEventLocal: String?,
+  val dateEventLocal: String? = "-",
 
   @SerializedName("strDate")
-  val date: String?,
+  val date: String? = "-",
 
   @SerializedName("strTime")
-  val time: String?,
+  val time: String? = "-",
 
   @SerializedName("strTimeLocal")
-  val timeLocal: String?,
+  val timeLocal: String? = "-",
 
   @SerializedName("idHomeTeam")
   val homeTeamId: Long,

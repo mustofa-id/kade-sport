@@ -18,10 +18,10 @@ data class LeagueEventMin(
   val away: String = "-",
 
   @SerializedName("intHomeScore")
-  val homeScore: Int? = null,
+  val homeScore: Int?,
 
   @SerializedName("intAwayScore")
-  val awayScore: Int? = null,
+  val awayScore: Int?,
 
   @SerializedName("idHomeTeam")
   val idHome: Long,
