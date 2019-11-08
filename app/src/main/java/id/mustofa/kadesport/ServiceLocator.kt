@@ -41,6 +41,8 @@ object ServiceLocator {
       .connectTimeout(1, TimeUnit.MINUTES)
       .readTimeout(1, TimeUnit.MINUTES)
 
+    // enable caching for data that changes over
+    // a long period of time like League or Team
     if (cacheable) {
       val cacheSize = (10 * 1024 * 1024).toLong()
       val cache = Cache(context.cacheDir, cacheSize)
