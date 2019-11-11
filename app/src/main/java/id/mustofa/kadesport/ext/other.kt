@@ -5,3 +5,5 @@
 package id.mustofa.kadesport.ext
 
 fun Int?.str() = if (this == null) "-" else "$this"
+
+fun String?.str() = this ?: "-"

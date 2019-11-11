@@ -96,7 +96,7 @@ class LeagueEventItemView(
 
   fun bind(event: LeagueEventMin): Unit = with(event) {
     val bothScore = "${homeScore.str()} : ${awayScore.str()}"
-    val dateTime = "$time\n$date"
+    val dateTime = "${time.str()}\n${date.str()}"
     homeName.text = home
     awayName.text = away
     score.text = bothScore
