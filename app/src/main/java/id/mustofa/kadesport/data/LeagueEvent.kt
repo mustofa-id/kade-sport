@@ -35,7 +35,7 @@ data class LeagueEvent(
   val leagueId: Long,
 
   @SerializedName("strHomeGoalDetails")
-  val homeGoalDetails: String? = "-",
+  val homeGoalDetails: String?,
 
   @SerializedName("strHomeRedCards")
   val homeRedCards: String? = "-",
@@ -68,7 +68,7 @@ data class LeagueEvent(
   val awayYellowCards: String? = "-",
 
   @SerializedName("strAwayGoalDetails")
-  val awayGoalDetails: String? = "-",
+  val awayGoalDetails: String?,
 
   @SerializedName("strAwayLineupGoalkeeper")
   val awayLineupGoalkeeper: String? = "-",

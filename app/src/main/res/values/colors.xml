@@ -2,4 +2,10 @@
 <resources>
   <color name="colorPrimary">#616161</color>
   <color name="colorAccent">#D81B60</color>
+  <color name="colorYellowCard">#FDD835</color>
+  <color name="colorRedCard">#E64A19</color>
+  <color name="colorBall">#C5C5C5</color>
+  <color name="colorSeparator">#E9E9E9</color>
+  <color name="colorHomeStadium">#F8FFF9</color>
+  <color name="colorAwayStadium">#FFF7F7</color>
 </resources>

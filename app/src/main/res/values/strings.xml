@@ -1,7 +1,8 @@
 <resources>
   <string name="app_name">Kade Sport</string>
   <string name="title_detail">Detail</string>
+  <string name="title_event">Events</string>
+  <string name="title_event_detail">Detail Event</string>
   <string name="msg_empty_result">No data!</string>
   <string name="msg_failed_result">Failed to fetch data!</string>
-  <string name="title_event">Events</string>
 </resources>

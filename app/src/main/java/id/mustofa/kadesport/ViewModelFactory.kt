@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import id.mustofa.kadesport.data.source.LeagueRepository
 import id.mustofa.kadesport.ui.league.LeagueViewModel
 import id.mustofa.kadesport.ui.leaguedetail.LeagueDetailViewModel
+import id.mustofa.kadesport.ui.leagueeventdetail.LeagueEventDetailViewModel
 import id.mustofa.kadesport.ui.leagueevents.LeagueEventViewModel
 
 class ViewModelFactory(
@@ -24,6 +25,8 @@ class ViewModelFactory(
         LeagueViewModel(leagueRepository)
       isAssignableFrom(LeagueEventViewModel::class.java) ->
         LeagueEventViewModel(leagueRepository)
+      isAssignableFrom(LeagueEventDetailViewModel::class.java) ->
+        LeagueEventDetailViewModel(leagueRepository)
       else -> throw IllegalArgumentException("Unknown ViewModel class: $model")
     } as T
   }
