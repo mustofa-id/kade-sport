@@ -6,6 +6,7 @@ package id.mustofa.kadesport.ui.leagueevents
 
 import android.os.Bundle
 import android.view.Gravity
+import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -37,6 +38,7 @@ class LeagueEventActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
     frameLayout {
       lparams(matchParent, matchParent)
       recyclerView {
@@ -66,6 +68,11 @@ class LeagueEventActivity : AppCompatActivity() {
 
     subscribeObservers()
     loadEvents()
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    if (item.itemId == android.R.id.home) onBackPressed()
+    return super.onOptionsItemSelected(item)
   }
 
   private fun subscribeObservers() {
