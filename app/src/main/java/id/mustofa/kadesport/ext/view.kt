@@ -16,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.annotation.IntegerRes
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import id.mustofa.kadesport.R
 import org.jetbrains.anko.*
@@ -77,4 +78,15 @@ inline fun ViewManager.clusterView(
     }
     children()
   }
+}
+
+fun SearchView.onQuerySubmit(action: (String?) -> Unit) {
+  setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+    override fun onQueryTextSubmit(query: String?): Boolean {
+      action(query)
+      return true
+    }
+
+    override fun onQueryTextChange(newText: String?) = false
+  })
 }

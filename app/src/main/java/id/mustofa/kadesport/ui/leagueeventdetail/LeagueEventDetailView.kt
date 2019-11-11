@@ -20,6 +20,7 @@ import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.*
 import id.mustofa.kadesport.ext.str
 import id.mustofa.kadesport.util.GlideApp
+import id.mustofa.kadesport.util.usePlaceholder
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.tintedImageView
 import org.jetbrains.anko.cardview.v7._CardView
@@ -68,7 +69,10 @@ class LeagueEventDetailView(
               imageView {
                 id = R.id.badgeHome
                 adjustViewBounds = true
-                e.homeTeam?.let { glide.load(it.badgePath).into(this) }
+                e.homeTeam?.let {
+                  glide.load(it.badgePath)
+                    .usePlaceholder(context).into(this)
+                }
               }.lparams(height = dip(96)) {
                 alignParentStart()
                 horizontalMargin = dip(24)
@@ -104,7 +108,10 @@ class LeagueEventDetailView(
               imageView {
                 id = R.id.badgeAway
                 adjustViewBounds = true
-                e.awayTeam?.let { glide.load(it.badgePath).into(this) }
+                e.awayTeam?.let {
+                  glide.load(it.badgePath)
+                    .usePlaceholder(context).into(this)
+                }
               }.lparams(height = dip(96)) {
                 alignParentEnd()
                 horizontalMargin = dip(24)

@@ -6,9 +6,18 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
-  <style name="AppTheme.Splash" parent="Theme.AppCompat.NoActionBar">
+  <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimaryDark">@color/colorPrimary</item>
+    <item name="searchViewStyle">@style/AppTheme.SearchView</item>
+  </style>
+
+  <style name="AppTheme.Splash" parent="AppTheme.NoActionBar">
     <item name="android:windowBackground">@drawable/bg_splash</item>
     <item name="colorPrimaryDark">@color/colorPrimary</item>
+  </style>
+
+  <style name="AppTheme.SearchView" parent="Widget.AppCompat.SearchView">
+    <item name="queryBackground">@android:color/transparent</item>
   </style>
 
 </resources>

@@ -53,8 +53,10 @@ class DefaultLeagueRepository(
   }
 
   override suspend fun searchEvents(query: String) = handleError {
-    val response = cacheableSportService.searchEvents(query)
+    val response = sportService.searchEvents(query)
     response.body()?.events
+      ?.filter { it.sport == "Soccer" }
+      ?.applyBadge(true)
   }
 
   private suspend fun fetchTeamById(id: Long): Team? {
@@ -75,6 +77,9 @@ class DefaultLeagueRepository(
   private inline fun <T> handleError(data: () -> T?): State<T> {
     return try {
       val result = data() ?: return Error(R.string.msg_empty_result)
+      if (result is List<*> && result.isEmpty()) {
+        return Error(R.string.msg_empty_result)
+      }
       Success(result)
     } catch (e: Exception) {
       Log.e(javaClass.name, "handleError: ", e)

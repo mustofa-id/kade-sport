@@ -11,6 +11,7 @@ import id.mustofa.kadesport.ui.league.LeagueViewModel
 import id.mustofa.kadesport.ui.leaguedetail.LeagueDetailViewModel
 import id.mustofa.kadesport.ui.leagueeventdetail.LeagueEventDetailViewModel
 import id.mustofa.kadesport.ui.leagueevents.LeagueEventViewModel
+import id.mustofa.kadesport.ui.leagueeventsearch.LeagueEventSearchViewModel
 
 class ViewModelFactory(
   private val leagueRepository: LeagueRepository
@@ -27,6 +28,8 @@ class ViewModelFactory(
         LeagueEventViewModel(leagueRepository)
       isAssignableFrom(LeagueEventDetailViewModel::class.java) ->
         LeagueEventDetailViewModel(leagueRepository)
+      isAssignableFrom(LeagueEventSearchViewModel::class.java) ->
+        LeagueEventSearchViewModel(leagueRepository)
       else -> throw IllegalArgumentException("Unknown ViewModel class: $model")
     } as T
   }

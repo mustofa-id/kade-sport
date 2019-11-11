@@ -30,11 +30,14 @@ data class LeagueEventMin(
   val idAway: Long,
 
   @SerializedName("strDate")
-  val date: String = "-",
+  val date: String?,
 
   @SerializedName("strTime")
-  val time: String = "-",
+  val time: String?,
 
   var homeBadgePath: String?,
-  var awayBadgePath: String?
+  var awayBadgePath: String?,
+
+  @SerializedName("strSport")
+  val sport: String?
 )
