@@ -30,6 +30,7 @@ class LeagueEventSearchViewModel(
   fun search(query: String) {
     _message.postValue(0)
     _loading.postValue(true)
+    _events.postValue(emptyList())
     viewModelScope.launch {
       when (val state = repository.searchEvents(query)) {
         is Success -> _events.postValue(state.data)
