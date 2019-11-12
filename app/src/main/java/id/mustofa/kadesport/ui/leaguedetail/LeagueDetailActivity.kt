@@ -35,13 +35,13 @@ class LeagueDetailActivity : AppCompatActivity() {
     observe(model.pastEvents) {
       val event = find<TextView>(R.id.eventPast)
       event.text = it.joinToString(separator = "\n") { events ->
-        with(events) { "$homeScore : $awayScore $home VS $away" }
+        with(events) { "$homeScore : $awayScore $homeName VS $awayName" }
       }
     }
     observe(model.nextEvents) {
       val event = find<TextView>(R.id.eventNext)
       event.text = it.joinToString(separator = "\n") { events ->
-        with(events) { "$date $time $home VS $away" }
+        with(events) { "$date $time $homeName VS $awayName" }
       }
     }
   }

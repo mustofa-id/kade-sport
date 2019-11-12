@@ -23,8 +23,8 @@ class LeagueEventItemView(
 
   private lateinit var homeBadge: ImageView
   private lateinit var awayBadge: ImageView
-  private lateinit var homeName: TextView
-  private lateinit var awayName: TextView
+  private lateinit var homeTitle: TextView
+  private lateinit var awayTitle: TextView
   private lateinit var score: TextView
   private lateinit var playTime: TextView
 
@@ -47,7 +47,7 @@ class LeagueEventItemView(
         }
 
         // home name
-        homeName = textView {
+        homeTitle = textView {
           textAlignment = TextView.TEXT_ALIGNMENT_CENTER
         }.lparams {
           alignStart(R.id.badgeHome)
@@ -82,7 +82,7 @@ class LeagueEventItemView(
         }
 
         // away name
-        awayName = textView {
+        awayTitle = textView {
           textAlignment = TextView.TEXT_ALIGNMENT_CENTER
         }.lparams {
           alignStart(R.id.badgeAway)
@@ -97,8 +97,8 @@ class LeagueEventItemView(
   fun bind(event: LeagueEventMin): Unit = with(event) {
     val bothScore = "${homeScore.str()} : ${awayScore.str()}"
     val dateTime = "${time.str()}\n${date.str()}"
-    homeName.text = home
-    awayName.text = away
+    homeTitle.text = homeName
+    awayTitle.text = awayName
     score.text = bothScore
     playTime.text = dateTime
     homeBadgePath?.let { glide.load(it).into(homeBadge) }
