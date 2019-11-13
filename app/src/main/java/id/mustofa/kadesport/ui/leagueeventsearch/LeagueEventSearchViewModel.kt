@@ -28,9 +28,8 @@ class LeagueEventSearchViewModel(
   val message: LiveData<Int> = _message
 
   fun search(query: String) {
-    _message.postValue(0)
-    _loading.postValue(true)
-    _events.postValue(emptyList())
+    if (_loading.value == true) return
+    initValue()
     viewModelScope.launch {
       when (val state = repository.searchEvents(query)) {
         is Success -> _events.postValue(state.data)
@@ -38,5 +37,11 @@ class LeagueEventSearchViewModel(
       }
       _loading.postValue(false)
     }
+  }
+
+  private fun initValue() {
+    _message.postValue(0)
+    _loading.postValue(true)
+    _events.postValue(emptyList())
   }
 }
