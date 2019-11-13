@@ -5,14 +5,20 @@
 package id.mustofa.kadesport.ui.leagueeventdetail
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import id.mustofa.kadesport.R
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
 import org.jetbrains.anko.setContentView
+import org.jetbrains.anko.toast
 
 class LeagueEventDetailActivity : AppCompatActivity() {
 
+  @DrawableRes
+  private var favoriteIcon = R.drawable.ic_favorite_removed
   private val model by viewModel<LeagueEventDetailViewModel>()
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,8 +28,15 @@ class LeagueEventDetailActivity : AppCompatActivity() {
     subscribeObservers()
   }
 
+  override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+    menu?.add(0, R.id.menuFavorite, 0, R.string.title_event_favorite)?.setIcon(favoriteIcon)
+      ?.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+    return super.onPrepareOptionsMenu(menu)
+  }
+
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     if (item.itemId == android.R.id.home) onBackPressed()
+    else if (item.itemId == R.id.menuFavorite) model.toggleFavorite()
     return super.onOptionsItemSelected(item)
   }
 
@@ -35,8 +48,11 @@ class LeagueEventDetailActivity : AppCompatActivity() {
   }
 
   private fun subscribeObservers() {
-    observe(model.eventState) {
-      LeagueEventDetailView(it).setContentView(this)
+    observe(model.eventState) { LeagueEventDetailView(it).setContentView(this) }
+    observe(model.favoriteMessage) { toast(it) }
+    observe(model.favoriteIcon) {
+      favoriteIcon = it
+      invalidateOptionsMenu()
     }
   }
 

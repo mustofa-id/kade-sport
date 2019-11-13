@@ -8,4 +8,5 @@
   <item name="infoContainer" type="id" />
   <item name="eventPast" type="id" />
   <item name="eventNext" type="id" />
+  <item name="menuFavorite" type="id" />
 </resources>

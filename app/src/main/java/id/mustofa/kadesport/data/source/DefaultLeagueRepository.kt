@@ -97,9 +97,8 @@ class DefaultLeagueRepository(
   ): State<T> {
     return try {
       val result = data() ?: return Error(R.string.msg_empty_result)
-      if (result is List<*> && result.isEmpty()) {
-        return Error(R.string.msg_empty_result)
-      }
+      if (result is List<*> && result.isEmpty()) return Error(R.string.msg_empty_result)
+      if (result is Boolean && !result) return Error(error)
       Success(result)
     } catch (e: Exception) {
       Log.e(javaClass.name, "handleError: ", e)

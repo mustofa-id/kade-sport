@@ -69,8 +69,8 @@ class LeagueEventDetailView(
               imageView {
                 id = R.id.badgeHome
                 adjustViewBounds = true
-                e.homeTeam?.let {
-                  glide.load(it.badgePath)
+                e.homeBadgePath?.let {
+                  glide.load(it)
                     .usePlaceholder(context).into(this)
                 }
               }.lparams(height = dip(96)) {
@@ -108,8 +108,8 @@ class LeagueEventDetailView(
               imageView {
                 id = R.id.badgeAway
                 adjustViewBounds = true
-                e.awayTeam?.let {
-                  glide.load(it.badgePath)
+                e.awayBadgePath?.let {
+                  glide.load(it)
                     .usePlaceholder(context).into(this)
                 }
               }.lparams(height = dip(96)) {
