@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.data.LeagueEventMin
+import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.ext.selectableItemBackground
 import id.mustofa.kadesport.ext.str
 import id.mustofa.kadesport.util.GlideRequests
@@ -94,7 +94,7 @@ class LeagueEventItemView(
     }
   }
 
-  fun bind(event: LeagueEventMin): Unit = with(event) {
+  fun bind(event: LeagueEvent): Unit = with(event) {
     val bothScore = "${homeScore.str()} : ${awayScore.str()}"
     val dateTime = "${time.str()}\n${date.str()}"
     homeTitle.text = homeName

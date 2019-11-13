@@ -7,7 +7,7 @@ package id.mustofa.kadesport.data.source
 import android.util.Log
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.League
-import id.mustofa.kadesport.data.LeagueEventMin
+import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
@@ -42,14 +42,9 @@ class DefaultLeagueRepository(
     response.body()?.events?.applyBadge(badge)
   }
 
-  override suspend fun fetchEventById(id: Long, fetchTeam: Boolean) = handleError {
+  override suspend fun fetchEventById(id: Long, badge: Boolean) = handleError {
     val response = sportService.lookupEvent(id)
-    response.body()?.events?.get(0)?.apply {
-      if (fetchTeam) {
-        homeTeam = fetchTeamById(homeTeamId)
-        awayTeam = fetchTeamById(awayTeamId)
-      }
-    }
+    response.body()?.events?.applyBadge(badge)?.get(0)
   }
 
   override suspend fun searchEvents(query: String) = handleError {
@@ -64,17 +59,19 @@ class DefaultLeagueRepository(
     return response.body()?.teams?.get(0)
   }
 
-  private suspend fun List<LeagueEventMin>.applyBadge(constraint: Boolean): List<LeagueEventMin> {
-    if (!constraint) return this
-    return map {
+  private suspend fun List<LeagueEvent>.applyBadge(constraint: Boolean) =
+    if (!constraint) this
+    else map {
       it.apply {
-        homeBadgePath = fetchTeamById(it.idHome)?.badgePath
-        awayBadgePath = fetchTeamById(it.idAway)?.badgePath
+        homeBadgePath = fetchTeamById(it.homeTeamId)?.badgePath
+        awayBadgePath = fetchTeamById(it.awayTeamId)?.badgePath
       }
     }
-  }
 
-  private inline fun <T> handleError(data: () -> T?): State<T> {
+  private inline fun <T> handleError(
+    error: Int = R.string.msg_failed_result,
+    data: () -> T?
+  ): State<T> {
     return try {
       val result = data() ?: return Error(R.string.msg_empty_result)
       if (result is List<*> && result.isEmpty()) {
@@ -83,7 +80,7 @@ class DefaultLeagueRepository(
       Success(result)
     } catch (e: Exception) {
       Log.e(javaClass.name, "handleError: ", e)
-      Error(R.string.msg_failed_result)
+      Error(error)
     }
   }
 }

@@ -7,26 +7,14 @@ package id.mustofa.kadesport.data.source.remote
 import com.google.gson.annotations.SerializedName
 import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.LeagueEvent
-import id.mustofa.kadesport.data.LeagueEventMin
 import id.mustofa.kadesport.data.Team
 
-data class LeagueResponse(
-  val leagues: List<League>?
-)
-
-data class LeagueEventMinResponse(
-
-  // Search will using alternate value although the result is json array.
-  @SerializedName(value = "events", alternate = ["event"])
-  val events: List<LeagueEventMin>?
-)
+data class LeagueResponse(val leagues: List<League>?)
 
 data class LeagueEventResponse(
-
-  @SerializedName(value = "events")
+  // Search will using alternate value although the result is json array.
+  @SerializedName(value = "events", alternate = ["event"])
   val events: List<LeagueEvent>?
 )
 
-data class TeamResponse(
-  val teams: List<Team>?
-)
+data class TeamResponse(val teams: List<Team>?)

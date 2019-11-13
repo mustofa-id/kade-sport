@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.mustofa.kadesport.data.League
-import id.mustofa.kadesport.data.LeagueEventMin
+import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.*
 import id.mustofa.kadesport.data.source.LeagueRepository
@@ -22,11 +22,11 @@ class LeagueDetailViewModel(
   private val _leagueState = MutableLiveData<State<League>>()
   val leagueState: LiveData<State<League>> = _leagueState
 
-  private val _pastEvents = MutableLiveData<List<LeagueEventMin>>()
-  val pastEvents: LiveData<List<LeagueEventMin>> = _pastEvents
+  private val _pastEvents = MutableLiveData<List<LeagueEvent>>()
+  val pastEvents: LiveData<List<LeagueEvent>> = _pastEvents
 
-  private val _nextEvents = MutableLiveData<List<LeagueEventMin>>()
-  val nextEvents: LiveData<List<LeagueEventMin>> = _nextEvents
+  private val _nextEvents = MutableLiveData<List<LeagueEvent>>()
+  val nextEvents: LiveData<List<LeagueEvent>> = _nextEvents
 
   private val _pastEventError = MutableLiveData<Int>()
   val pastEventError: LiveData<Int> = _pastEventError

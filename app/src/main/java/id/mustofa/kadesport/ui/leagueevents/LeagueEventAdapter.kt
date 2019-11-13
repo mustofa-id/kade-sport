@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import id.mustofa.kadesport.data.LeagueEventMin
+import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.util.GlideRequests
 
 class LeagueEventAdapter(
   private val glide: GlideRequests,
-  private val onItemClick: (LeagueEventMin) -> Unit
-) : ListAdapter<LeagueEventMin, LeagueEventAdapter.EventViewHolder>(EventDiffCallback) {
+  private val onItemClick: (LeagueEvent) -> Unit
+) : ListAdapter<LeagueEvent, LeagueEventAdapter.EventViewHolder>(EventDiffCallback) {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
     EventViewHolder(LeagueEventItemView(parent, glide)).apply {
@@ -30,8 +30,8 @@ class LeagueEventAdapter(
   inner class EventViewHolder(val eventItemView: LeagueEventItemView) :
     RecyclerView.ViewHolder(eventItemView.create())
 
-  object EventDiffCallback : DiffUtil.ItemCallback<LeagueEventMin>() {
-    override fun areItemsTheSame(old: LeagueEventMin, new: LeagueEventMin) = old.id == new.id
-    override fun areContentsTheSame(old: LeagueEventMin, new: LeagueEventMin) = old == new
+  object EventDiffCallback : DiffUtil.ItemCallback<LeagueEvent>() {
+    override fun areItemsTheSame(old: LeagueEvent, new: LeagueEvent) = old.id == new.id
+    override fun areContentsTheSame(old: LeagueEvent, new: LeagueEvent) = old == new
   }
 }

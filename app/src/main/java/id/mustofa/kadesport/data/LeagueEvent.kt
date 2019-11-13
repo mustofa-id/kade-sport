@@ -5,16 +5,16 @@
 package id.mustofa.kadesport.data
 
 import com.google.gson.annotations.SerializedName
+import id.mustofa.kadesport.util.PrimaryKey
 
 data class LeagueEvent(
+
+  @PrimaryKey
   @SerializedName("idEvent")
   val id: Long,
 
   @SerializedName("strSeason")
   val session: String? = "-",
-
-  var homeTeam: Team?,
-  var awayTeam: Team?,
 
   @SerializedName("strHomeTeam")
   val homeName: String? = "-",
@@ -107,5 +107,11 @@ data class LeagueEvent(
   val homeTeamId: Long,
 
   @SerializedName("idAwayTeam")
-  val awayTeamId: Long
+  val awayTeamId: Long,
+
+  var homeBadgePath: String?,
+  var awayBadgePath: String?,
+
+  @SerializedName("strSport")
+  val sport: String?
 )
