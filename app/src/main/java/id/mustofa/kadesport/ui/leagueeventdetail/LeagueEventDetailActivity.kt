@@ -29,6 +29,7 @@ class LeagueEventDetailActivity : AppCompatActivity() {
   }
 
   override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+    menu?.clear() // prevent duplicate menu on config change
     menu?.add(0, R.id.menuFavorite, 0, R.string.title_event_favorite)?.setIcon(favoriteIcon)
       ?.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
     return super.onPrepareOptionsMenu(menu)
