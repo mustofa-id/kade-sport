@@ -27,4 +27,12 @@ interface LeagueRepository {
   suspend fun fetchEventById(id: Long, badge: Boolean = false): State<LeagueEvent>
 
   suspend fun searchEvents(query: String): State<List<LeagueEvent>>
+
+  suspend fun getAllFavoriteEvents(): State<List<LeagueEvent>>
+
+  suspend fun getFavoriteEventById(eventId: Long): State<LeagueEvent>
+
+  suspend fun addEventToFavorite(event: LeagueEvent): State<Boolean>
+
+  suspend fun removeEventFromFavorite(eventId: Long): State<Boolean>
 }

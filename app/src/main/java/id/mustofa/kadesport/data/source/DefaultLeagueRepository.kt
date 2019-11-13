@@ -13,13 +13,15 @@ import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
 import id.mustofa.kadesport.data.Team
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
+import id.mustofa.kadesport.data.source.local.EventDataSource
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
 import kotlinx.coroutines.delay
 
 class DefaultLeagueRepository(
   private val leagueDataSource: LeagueDataSource,
   private val cacheableSportService: TheSportDbService,
-  private val sportService: TheSportDbService
+  private val sportService: TheSportDbService,
+  private val eventDataSource: EventDataSource
 ) : LeagueRepository {
 
   override suspend fun fetchAllLeagues(): State<List<League>> {
@@ -54,6 +56,27 @@ class DefaultLeagueRepository(
       ?.applyBadge(true)
   }
 
+  override suspend fun getAllFavoriteEvents() = handleError {
+    eventDataSource.getAllFavorites()
+  }
+
+  override suspend fun getFavoriteEventById(eventId: Long) = handleError {
+    eventDataSource.getFavorite(eventId)
+  }
+
+  override suspend fun addEventToFavorite(event: LeagueEvent): State<Boolean> {
+    return handleError(R.string.msg_failed_add_fav) {
+      eventDataSource.addFavorite(event) != 0L
+    }
+  }
+
+  override suspend fun removeEventFromFavorite(eventId: Long): State<Boolean> {
+    return handleError(R.string.msg_failed_remove_fav) {
+      eventDataSource.removeFavorite(eventId) != 0
+    }
+  }
+
+  // -- private logic --
   private suspend fun fetchTeamById(id: Long): Team? {
     val response = cacheableSportService.lookupTeam(id)
     return response.body()?.teams?.get(0)

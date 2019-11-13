@@ -9,6 +9,8 @@ import com.google.gson.GsonBuilder
 import id.mustofa.kadesport.data.source.DefaultLeagueRepository
 import id.mustofa.kadesport.data.source.LeagueRepository
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
+import id.mustofa.kadesport.data.source.local.EventDataSource
+import id.mustofa.kadesport.data.source.local.SportDBHelper
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
 import okhttp3.Cache
 import okhttp3.CacheControl
@@ -29,7 +31,8 @@ object ServiceLocator {
   private fun createLeagueRepository(context: Context) = DefaultLeagueRepository(
     leagueDataSource = LeagueDataSource(),
     cacheableSportService = createTheSportDbService(context, true),
-    sportService = createTheSportDbService(context)
+    sportService = createTheSportDbService(context),
+    eventDataSource = createEventDataSource(context)
   )
 
   private fun createTheSportDbService(
@@ -69,5 +72,11 @@ object ServiceLocator {
       .client(okHttpClient.build())
       .build()
       .create(TheSportDbService::class.java)
+  }
+
+  private fun createEventDataSource(context: Context): EventDataSource {
+    val dbName = context.getString(R.string.db_name)
+    val dbHelper = SportDBHelper(context, dbName)
+    return EventDataSource(dbHelper)
   }
 }
