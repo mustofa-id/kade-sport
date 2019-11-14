@@ -14,4 +14,5 @@
   <string name="msg_ok_add_fav">Added to favorite</string>
   <string name="msg_ok_remove_fav">Removed from favorite!</string>
   <string name="msg_please_wait">Please wait…</string>
+  <string name="msg_long_wait">Anyway, why don\'t you order a chicken or sandwich?</string>
 </resources>

@@ -7,13 +7,15 @@ package id.mustofa.kadesport.ui.leagueeventdetail
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
+import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.find
 import org.jetbrains.anko.setContentView
-import org.jetbrains.anko.toast
 
 class LeagueEventDetailActivity : AppCompatActivity() {
 
@@ -49,8 +51,9 @@ class LeagueEventDetailActivity : AppCompatActivity() {
   }
 
   private fun subscribeObservers() {
+    val root = find<View>(android.R.id.content)
     observe(model.eventState) { LeagueEventDetailView(it).setContentView(this) }
-    observe(model.favoriteMessage) { toast(it) }
+    observe(model.favoriteMessage) { root.snackbar(it) }
     observe(model.favoriteIcon) {
       favoriteIcon = it
       invalidateOptionsMenu()

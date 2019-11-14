@@ -19,6 +19,7 @@ import id.mustofa.kadesport.ext.viewModel
 import id.mustofa.kadesport.ui.leagueeventdetail.LeagueEventDetailActivity
 import id.mustofa.kadesport.util.GlideApp
 import org.jetbrains.anko.*
+import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 class LeagueEventActivity : AppCompatActivity() {
@@ -76,8 +77,10 @@ class LeagueEventActivity : AppCompatActivity() {
   }
 
   private fun subscribeObservers() {
+    val root = find<View>(android.R.id.content)
     observe(model.events) { adapter.submitList(it) }
     observe(model.loading) { progress.isVisible = it }
+    observe(model.notifier) { root.longSnackbar(it) }
     observe(model.message) {
       errorView.isVisible = (it != 0).also { has ->
         if (has) errorText.setText(it)
