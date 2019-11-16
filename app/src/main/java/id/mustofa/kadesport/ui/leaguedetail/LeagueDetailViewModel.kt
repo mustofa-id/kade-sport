@@ -4,6 +4,8 @@
  */
 package id.mustofa.kadesport.ui.leaguedetail
 
+import androidx.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting.PRIVATE
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -49,27 +51,19 @@ class LeagueDetailViewModel(
     }
   }
 
-  private suspend fun loadNextEvent(leagueId: Long) {
+  @VisibleForTesting(otherwise = PRIVATE)
+  suspend fun loadNextEvent(leagueId: Long) {
     when (val result = repository.fetchEventsNextLeague(leagueId)) {
       is Success -> _nextEvents.postValue(result.data)
       is Error -> _nextEventError.postValue(result.message)
     }
   }
 
-  private suspend fun loadPastEvent(leagueId: Long) {
+  @VisibleForTesting(otherwise = PRIVATE)
+  suspend fun loadPastEvent(leagueId: Long) {
     when (val result = repository.fetchEventsPastLeague(leagueId)) {
       is Success -> _pastEvents.postValue(result.data)
       is Error -> _pastEventError.postValue(result.message)
     }
   }
-
-//  private inline fun <T> State<T>.on(
-//    error: MutableLiveData<Int>,
-//    onSuccess: (T) -> Unit
-//  ) {
-//    when (this) {
-//      is Success -> onSuccess(data)
-//      is Error -> error.postValue(R.string.msg_error_events)
-//    }
-//  }
 }

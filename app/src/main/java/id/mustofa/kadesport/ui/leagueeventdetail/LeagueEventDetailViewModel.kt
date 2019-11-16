@@ -16,7 +16,7 @@ class LeagueEventDetailViewModel(
   private val repository: LeagueRepository
 ) : ViewModel() {
 
-  private var event: LeagueEvent? = null
+  var event: LeagueEvent? = null
   private val isInFavorite = MutableLiveData<Boolean>()
 
   private val _eventState = MutableLiveData<State<LeagueEvent>>()
@@ -37,12 +37,12 @@ class LeagueEventDetailViewModel(
       val localEvent = checkFavorite(eventId)
 
       // fetch from network
-      when (val network = repository.fetchEventById(eventId, true)) {
-        // if success fill local event & check favorite
-        is Success -> {
-          event = network.data
-          _eventState.postValue(network)
-        }
+      val network = repository.fetchEventById(eventId, true)
+      _eventState.postValue(network)
+
+      when (network) {
+        // if success fill local event
+        is Success -> event = network.data
         // if fail get from local database
         is Error -> {
           val result = localEvent?.let {

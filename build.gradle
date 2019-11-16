@@ -17,6 +17,9 @@ ext {
     junitVersion = '4.12'
     extJunitVersion = '1.1.1'
     espressoVersion = '3.2.0'
+    mockitoVersion = '3.0.0'
+    archTestVersion = '2.0.1'
+    coroutinesTestVersion = '1.2.1'
 }
 
 buildscript {
