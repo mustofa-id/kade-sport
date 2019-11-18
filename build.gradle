@@ -20,6 +20,7 @@ ext {
     mockitoVersion = '3.0.0'
     archTestVersion = '2.0.1'
     coroutinesTestVersion = '1.2.1'
+    androidxTestVersion = '1.2.0'
 }
 
 buildscript {
