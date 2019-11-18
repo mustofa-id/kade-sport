@@ -1,5 +1,7 @@
-package id.mustofa.kadesport.util
+package id.mustofa.kadesport
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -8,6 +10,8 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.ContinuationInterceptor
 
 @ExperimentalCoroutinesApi
@@ -22,4 +26,19 @@ class MainCoroutineRule : TestWatcher(), TestCoroutineScope by TestCoroutineScop
     super.finished(description)
     Dispatchers.resetMain()
   }
+}
+
+fun <T> valueOf(liveData: LiveData<T>): T {
+  val data = arrayOfNulls<Any>(1)
+  val latch = CountDownLatch(1)
+  val observer = object : Observer<T> {
+    override fun onChanged(t: T) {
+      data[0] = t
+      latch.countDown()
+      liveData.removeObserver(this)
+    }
+  }
+  liveData.observeForever(observer)
+  latch.await(2, TimeUnit.SECONDS)
+  @Suppress("UNCHECKED_CAST") return data[0] as T
 }
