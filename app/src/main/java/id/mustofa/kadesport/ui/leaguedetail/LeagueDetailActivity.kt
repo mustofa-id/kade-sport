@@ -30,16 +30,16 @@ class LeagueDetailActivity : AppCompatActivity() {
   private fun subscribeObservers() {
     intent.extras?.getLong(EXTRA_LEAGUE_ID)?.let { model.loadLeague(it) }
     observe(model.leagueState) { LeagueDetailView(it).setContentView(this) }
-    observe(model.pastEventError) { find<TextView>(R.id.eventPast).setText(it) }
-    observe(model.nextEventError) { find<TextView>(R.id.eventNext).setText(it) }
+    observe(model.pastEventError) { find<TextView>(R.id.eventPastText).setText(it) }
+    observe(model.nextEventError) { find<TextView>(R.id.eventNextText).setText(it) }
     observe(model.pastEvents) {
-      val event = find<TextView>(R.id.eventPast)
+      val event = find<TextView>(R.id.eventPastText)
       event.text = it.joinToString(separator = "\n") { events ->
         with(events) { "$homeScore : $awayScore $homeName VS $awayName" }
       }
     }
     observe(model.nextEvents) {
-      val event = find<TextView>(R.id.eventNext)
+      val event = find<TextView>(R.id.eventNextText)
       event.text = it.joinToString(separator = "\n") { events ->
         with(events) { "$date $time $homeName VS $awayName" }
       }

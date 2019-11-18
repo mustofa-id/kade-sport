@@ -7,6 +7,7 @@ import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
 import id.mustofa.kadesport.data.source.FakeTheSportDb
 import id.mustofa.kadesport.data.source.LeagueRepository
+import id.mustofa.kadesport.ui.common.EventType
 import id.mustofa.kadesport.valueOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -49,7 +50,7 @@ class LeagueEventViewModelTest {
     val pastEvents = sportDb.eventsPastLeague()
     `when`(repository.fetchEventsPastLeague(leagueId, true))
       .thenReturn(Success(pastEvents))
-    model.loadEvents(leagueId, LeagueEventType.PAST)
+    model.loadEvents(leagueId, EventType.PAST)
 
     val events = valueOf(model.events)
     assertEquals(events, pastEvents)
@@ -62,7 +63,7 @@ class LeagueEventViewModelTest {
     val nextEvents = sportDb.eventsNextLeague()
     `when`(repository.fetchEventsNextLeague(leagueId, true))
       .thenReturn(Success(nextEvents))
-    model.loadEvents(leagueId, LeagueEventType.NEXT)
+    model.loadEvents(leagueId, EventType.NEXT)
 
     val events = valueOf(model.events)
     assertEquals(events, nextEvents)
@@ -73,7 +74,7 @@ class LeagueEventViewModelTest {
   @Test
   fun getLoading() {
     coroutineRule.pauseDispatcher()
-    model.loadEvents(leagueId, LeagueEventType.NEXT)
+    model.loadEvents(leagueId, EventType.NEXT)
     val loadingOnFetching = valueOf(model.loading)
     assertTrue(loadingOnFetching)
 
@@ -86,7 +87,7 @@ class LeagueEventViewModelTest {
   fun getMessage() = runBlockingTest {
     `when`(repository.fetchEventsNextLeague(leagueId, true))
       .thenReturn(Error(R.string.msg_failed_result))
-    model.loadEvents(leagueId, LeagueEventType.NEXT)
+    model.loadEvents(leagueId, EventType.NEXT)
 
     val message = valueOf(model.message)
     assertEquals(message, R.string.msg_failed_result)
@@ -100,7 +101,7 @@ class LeagueEventViewModelTest {
     doAnswer(AnswersWithDelay(7_000 + 100) {
       Success(sportDb.eventsNextLeague())
     }).`when`(repository).fetchEventsNextLeague(leagueId, true)
-    model.loadEvents(leagueId, LeagueEventType.NEXT)
+    model.loadEvents(leagueId, EventType.NEXT)
 
     val notifier = valueOf(model.notifier)
     assertEquals(notifier, R.string.msg_long_wait)

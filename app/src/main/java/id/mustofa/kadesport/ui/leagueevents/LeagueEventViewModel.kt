@@ -13,6 +13,7 @@ import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
 import id.mustofa.kadesport.data.source.LeagueRepository
+import id.mustofa.kadesport.ui.common.EventType
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.schedule
@@ -31,7 +32,7 @@ class LeagueEventViewModel(private val repository: LeagueRepository) : ViewModel
   private val _notifier = MutableLiveData<Int>()
   val notifier: LiveData<Int> = _notifier
 
-  fun loadEvents(leagueId: Long, type: LeagueEventType) {
+  fun loadEvents(leagueId: Long, type: EventType) {
     if (events.value != null) return
     _loading.postValue(true)
     _message.postValue(0)
@@ -54,8 +55,8 @@ class LeagueEventViewModel(private val repository: LeagueRepository) : ViewModel
     }
   }
 
-  private suspend fun getEventResponse(id: Long, type: LeagueEventType) = when (type) {
-    LeagueEventType.NEXT -> repository.fetchEventsNextLeague(id, true)
-    LeagueEventType.PAST -> repository.fetchEventsPastLeague(id, true)
+  private suspend fun getEventResponse(id: Long, type: EventType) = when (type) {
+    EventType.NEXT -> repository.fetchEventsNextLeague(id, true)
+    EventType.PAST -> repository.fetchEventsPastLeague(id, true)
   }
 }

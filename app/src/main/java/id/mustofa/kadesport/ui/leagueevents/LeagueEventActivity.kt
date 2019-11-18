@@ -5,68 +5,35 @@
 package id.mustofa.kadesport.ui.leagueevents
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.kadesport.R
+import id.mustofa.kadesport.ext.listingView
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
-import id.mustofa.kadesport.ui.leagueeventdetail.LeagueEventDetailActivity
-import id.mustofa.kadesport.util.GlideApp
-import org.jetbrains.anko.*
+import id.mustofa.kadesport.ui.common.EventAdapter
+import id.mustofa.kadesport.ui.common.EventType
+import id.mustofa.kadesport.ui.common.ListingView
 import org.jetbrains.anko.design.indefiniteSnackbar
-import org.jetbrains.anko.recyclerview.v7.recyclerView
+import org.jetbrains.anko.find
 
 class LeagueEventActivity : AppCompatActivity() {
 
-  private lateinit var progress: ProgressBar
-  private lateinit var errorView: View
-  private lateinit var errorText: TextView
-
   private val model by viewModel<LeagueEventViewModel>()
-  private val adapter by lazy {
-    LeagueEventAdapter(GlideApp.with(this)) {
-      startActivity<LeagueEventDetailActivity>(
-        LeagueEventDetailActivity.EVENT_ID to it.id
-      )
-    }
-  }
+
+  private lateinit var eventView: ListingView
+  private lateinit var eventAdapter: EventAdapter
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    frameLayout {
-      lparams(matchParent, matchParent)
-      recyclerView {
-        val activity = this@LeagueEventActivity
-        layoutManager = LinearLayoutManager(activity)
-        adapter = activity.adapter
-      }
-
-      progress = progressBar {
-        isIndeterminate = true
-      }.lparams(matchParent) {
-        gravity = Gravity.CENTER
-      }
-
-      errorView = verticalLayout {
-        lparams(matchParent, matchParent)
-        gravity = Gravity.CENTER
-        padding = dip(16)
-        imageView(R.drawable.ic_error)
-          .lparams(matchParent, dip(92))
-        errorText = textView {
-          textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-          textSize = 16f
-        }.lparams(matchParent)
-      }
+    eventAdapter = EventAdapter(this)
+    eventView = listingView {
+      adapter = eventAdapter
+      layoutManager = LinearLayoutManager(context)
     }
-
     subscribeObservers()
     loadEvents()
   }
@@ -78,20 +45,16 @@ class LeagueEventActivity : AppCompatActivity() {
 
   private fun subscribeObservers() {
     val root = find<View>(android.R.id.content)
-    observe(model.events) { adapter.submitList(it) }
-    observe(model.loading) { progress.isVisible = it }
+    observe(model.events) { eventAdapter.submitList(it) }
+    observe(model.loading) { eventView.isLoading(it) }
     observe(model.notifier) { root.indefiniteSnackbar(it, R.string.close) {} }
-    observe(model.message) {
-      errorView.isVisible = (it != 0).also { has ->
-        if (has) errorText.setText(it)
-      }
-    }
+    observe(model.message) { eventView.setMessage(it) }
   }
 
   private fun loadEvents() {
     intent.extras?.let {
       val id = it.getLong(LEAGUE_ID)
-      val type = it.getSerializable(EVENT_TYPE) as LeagueEventType
+      val type = it.getSerializable(EVENT_TYPE) as EventType
       model.loadEvents(id, type)
     }
   }

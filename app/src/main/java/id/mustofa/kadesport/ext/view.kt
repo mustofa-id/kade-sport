@@ -18,7 +18,10 @@ import androidx.annotation.IdRes
 import androidx.annotation.IntegerRes
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import id.mustofa.kadesport.R
+import id.mustofa.kadesport.ui.common.EventView
+import id.mustofa.kadesport.ui.common.ListingView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 
@@ -89,4 +92,12 @@ fun SearchView.onQuerySubmit(action: (String?) -> Unit) {
 
     override fun onQueryTextChange(newText: String?) = false
   })
+}
+
+fun ViewManager.listingView(init: RecyclerView.() -> Unit): ListingView {
+  return ankoView({ ListingView(it, init) }, 0) {}
+}
+
+inline fun ViewManager.eventView(init: EventView.() -> Unit): EventView {
+  return ankoView({ EventView(it) }, 0) { init() }
 }
