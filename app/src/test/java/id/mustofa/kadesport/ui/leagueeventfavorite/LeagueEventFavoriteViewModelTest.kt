@@ -3,9 +3,9 @@ package id.mustofa.kadesport.ui.leagueeventfavorite
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import id.mustofa.kadesport.MainCoroutineRule
 import id.mustofa.kadesport.R
+import id.mustofa.kadesport.data.FakeTheSportDb
 import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
-import id.mustofa.kadesport.data.source.FakeTheSportDb
 import id.mustofa.kadesport.data.source.LeagueRepository
 import id.mustofa.kadesport.valueOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi

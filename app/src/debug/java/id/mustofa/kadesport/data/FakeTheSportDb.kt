@@ -2,11 +2,9 @@
  * Mustofa on 11/16/19
  * https://mustofa.id
  */
-package id.mustofa.kadesport.data.source
+package id.mustofa.kadesport.data
 
 import com.google.gson.Gson
-import id.mustofa.kadesport.data.League
-import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.remote.LeagueEventResponse
 
@@ -20,9 +18,9 @@ class FakeTheSportDb {
       .first { it.id == id }
   }
 
-  fun eventsNextLeague() = readJson("eventsnextleague.json")
+  fun eventsNextLeague() = jsonOf<LeagueEventResponse>("eventsnextleague.json")?.events!!
 
-  fun eventsPastLeague() = readJson("eventspastleague.json")
+  fun eventsPastLeague() = jsonOf<LeagueEventResponse>("eventspastleague.json")?.events!!
 
   fun eventById(eventId: Long): LeagueEvent {
     val events = eventsNextLeague() + eventsPastLeague()
@@ -40,9 +38,8 @@ class FakeTheSportDb {
     }
   }
 
-  private fun readJson(fileName: String) = javaClass.classLoader
-    ?.getResourceAsStream(fileName)
+  private inline fun <reified T> jsonOf(resName: String) = javaClass.classLoader
+    ?.getResourceAsStream(resName)
     ?.reader()
-    ?.let { gson.fromJson(it, LeagueEventResponse::class.java) }
-    ?.events!!
+    ?.let { gson.fromJson(it, T::class.java) }
 }
