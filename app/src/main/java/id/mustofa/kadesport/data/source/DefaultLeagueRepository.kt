@@ -15,6 +15,7 @@ import id.mustofa.kadesport.data.Team
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.local.EventDataSource
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
+import id.mustofa.kadesport.util.wrapWithIdlingResource
 import kotlinx.coroutines.delay
 
 class DefaultLeagueRepository(
@@ -25,8 +26,10 @@ class DefaultLeagueRepository(
 ) : LeagueRepository {
 
   override suspend fun fetchAllLeagues(): State<List<League>> {
-    delay(500) // fake network request
-    return Success(leagueDataSource.getLeagues())
+    return wrapWithIdlingResource {
+      delay(500) // fake network request
+      Success(leagueDataSource.getLeagues())
+    }
   }
 
   override suspend fun fetchLeagueById(id: Long) = handleError {
@@ -95,14 +98,16 @@ class DefaultLeagueRepository(
     error: Int = R.string.msg_failed_result,
     data: () -> T?
   ): State<T> {
-    return try {
-      val result = data() ?: return Error(R.string.msg_empty_result)
-      if (result is List<*> && result.isEmpty()) return Error(R.string.msg_empty_result)
-      if (result is Boolean && !result) return Error(error)
-      Success(result)
-    } catch (e: Exception) {
-      Log.e(javaClass.name, "handleError: ", e)
-      Error(error)
+    return wrapWithIdlingResource {
+      try {
+        val result = data() ?: return Error(R.string.msg_empty_result)
+        if (result is List<*> && result.isEmpty()) return Error(R.string.msg_empty_result)
+        if (result is Boolean && !result) return Error(error)
+        Success(result)
+      } catch (e: Exception) {
+        Log.e(javaClass.name, "handleError: ", e)
+        Error(error)
+      }
     }
   }
 }
