@@ -81,36 +81,101 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
 
 * LeagueEventFavoriteViewModelTest
   * getFavoriteEvents
+    * Memanggil fungsi `loadEvents()`
+    * Memastikan nilai dari property `favoriteEvents` sesuai dengan data source
+    * Memverifikasi fungsi `getAllFavoriteEvents()` dari repository terpanggil
   * getLoading
+    * Memastikan property `loading` bernilai `true` saat memuat data
+    * Memastikan property `loading` bernilai `false` saat data selesai dimuat
   * getMessage
+    * Memanggil fungsi `loadEvents()`
+    * Memastikan nilai property `message` adalah `Failed to fetch data!` atau `No data!`
   
 * LeagueEventViewModelTest
   * getEvents Past
+    * Memanggil fungsi `loadEvents(leagueId, type)`
+    * Memastikan nilai propery `events` sesuai dengan data source
+    * Memverifikasi fungsi `fetchEventsPastLeague()` terpanggil dari repository
   * getEvents Next
+    * Memanggil fungsi `loadEvents(leagueId, type)`
+    * Memastikan nilai propery `events` sesuai dengan data source
+    * Memverifikasi fungsi `fetchEventsNextLeague()` terpanggil dari repository
   * getLoading
+    * Memastikan property `loading` bernilai `true` saat memuat data
+    * Memastikan property `loading` bernilai `false` saat data selesai dimuat
   * getMessage
+    * Memanggil fungsi `loadEvents(leagueId, type)`
+    * Memastikan nilai property `message` adalah `Failed to fetch data!`
+    * Memverifikasi fungsi `fetchEventsNextLeague()` terpanggil dari repository
   * getNotifier
+    * Memanggil fungsi `loadEvents(leagueId, type)`
+    * Memastikan nilai property `notifier` adalah `R.string.msg_long_wait` setelah proses memuat data selama 7100ms
+    * Memverifikasi fungsi `fetchEventsNextLeague()` terpanggil dari repository
   
 * LeagueEventSearchViewModelTest
   * getEvents
+    * Memanggil fungsi `search(query)`
+    * Memastikan nilai dari property `events` sesuai dengan data source
+    * Memverifikasi fungsi `searchEvents(query)` pada repository terpanggil
   * getLoading
+    * Memastikan property `loading` bernilai `true` saat memuat data
+    * Memastikan property `loading` bernilai `false` saat data selesai dimuat
   * getMessage
+    * Memanggil fungsi `search(query)`
+    * Memastikan nilai property `message` adalah `No data!`
 
 * DbHelperTest
-  * createColumnsTest
-  * createContentValueTest
+  * createColumns
+    * Memastikan nilai balik fungsi `createColumns<type>()` sama dengan nilai array yang ditulis manual
+  * contentValueOf
+    * Memastikan nilai balik fungsi `contentValueOf()` sama dengan nilai array yang ditulis manual
 
 * DefaultLeagueRepositoryTest
   * fetchAllLeagues
+    * Memastikan fungsi mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source
   * fetchLeagueById
+    * Memastikan fungsi mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source
+    * Memverifikasi fungsi `lookupLeague()` terpanggil dari data source
   * fetchEventsNextLeague
+    * Memastikan fungsi dengan nilai parameter `badge` adalah `false` mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source
+    * Memastikan fungsi dengan nilai parameter `badge` adalah `true` mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source dan memiliki nilai pada property `homeBadgePath` dan `awayBadgePath`
+    * Memverifikasi fungsi `eventsNextLeague(leagueId)` dan `lookupTeam(id)` terpanggil pada data source
   * fetchEventsPastLeague
+    * Memastikan fungsi dengan nilai parameter `badge` adalah `false` mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source
+    * Memastikan fungsi dengan nilai parameter `badge` adalah `true` mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source dan memiliki nilai pada property `homeBadgePath` dan `awayBadgePath`
+    * Memverifikasi fungsi `eventsPastLeague(leagueId)` dan `lookupTeam(id)` terpanggil pada data source
   * fetchEventById
+    * Memastikan fungsi dengan nilai parameter `badge` adalah `false` mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source
+    * Memastikan fungsi dengan nilai parameter `badge` adalah `true` mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source dan memiliki nilai pada property `homeBadgePath` dan `awayBadgePath`
+    * Memverifikasi fungsi `lookupEvent(id)` dan `lookupTeam(id)` terpanggil pada data source
   * searchEvents
+    * Memastikan fungsi dengan parameter `query` mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source
+    * Memverifikasi fungsi `searchEvents(query)` dan `lookupTeam(id)` terpanggil pada data source
   * getAllFavoriteEvents
+    * Memastikan fungsi mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source
+    * Memverifikasi fungsi `getAllFavorites()` terpanggil pada data source
   * getFavoriteEventById
+    * Memastikan fungsi mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` sama dengan data source
+    * Memverifikasi fungsi `getFavorite(id)` terpanggil pada data source
   * addEventToFavorite
+    * Memastikan fungsi mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` adalah `true`
+    * Memverifikasi fungsi `addFavorite(event)` terpanggil pada data source
   * removeEventFromFavorite
+    * Memastikan fungsi mengembalikan objek `Success`
+    * Memastikan nilai property `data` pada objek `Success` adalah `true`
+    * Memverifikasi fungsi `removeFavorite(id)` terpanggil pada data source
 
 # Instrumentation Tests
 * LeagueFragmentTest
