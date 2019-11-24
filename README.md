@@ -52,11 +52,32 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
 
 * LeagueEventDetailViewModelTest
   * getEventState Loading
+    * Memastikan nilai awal property `eventState` adalah `Loading` saat fungsi `loadEvent(id)` dipanggil
+    * Memastikan nilai property `eventState` tidak sama dengan `Loading` setelah proses `loadEvent(id)`
   * getEventState Success
+    * Memanggil fungsi `loadEvent(id)`
+    * Memverifikasi fungsi `fetchEventById(id)` di repository terpanggil
+    * Memastikan nilai property `eventState` adalah `Success`
   * getEventState Error
+    * Memanggil fungsi `loadEvent(id)`
+    * Memverifikasi fungsi `fetchEventById(id)` di repository terpanggil
+    * Memverifikasi fungsi `getFavoriteEventById(id)` di repository terpanggil
+    * Memastikan nilai dari property `eventState` adalah `Error`
   * getFavoriteMessage
+    * Memanggil fungsi `toggleFavorite()`
+    * Memastikan nilai `favoriteMessage` adalah `Please wait...` karena data event belum dimuat
+    * Memanggil fungsi `loadEvent(id)`
+    * Memanggil fungsi `toggleFavorite()`
+    * Memastikan nilai `favoriteMessage` adalah `Added to favorite`
+    * Memanggil fungsi `toggleFavorite()`
+    * Memastikan nilai `favoriteMessage` adalah `Removed from favorite`
+    * Memverifikasi fungsi `fetchEventById(eventId, true)`, `addEventToFavorite(event)`, `removeEventFromFavorite(eventId)` dan `getFavoriteEventById(eventId)` pada repository terpanggil
   * getFavoriteIcon InFavorite
+    * Memanggil fungsi `loadEvent()`
+    * Memastikan nilai `favoriteIcon` adalah `R.drawable.ic_favorite_added`
   * getFavoriteIcon NotInFavorite
+    * Memanggil fungsi `loadEvent()`
+    * Memastikan nilai `favoriteIcon` adalah `R.drawable.ic_favorite_removed`
 
 * LeagueEventFavoriteViewModelTest
   * getFavoriteEvents
