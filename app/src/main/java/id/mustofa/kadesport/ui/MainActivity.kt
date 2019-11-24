@@ -50,7 +50,10 @@ class MainActivity : AppCompatActivity() {
         }.lparams(matchParent) {
           scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS
         }
-        mainTab = tabLayout { lparams(matchParent) }
+        mainTab = tabLayout {
+          id = R.id.mainTab
+          lparams(matchParent)
+        }
       }
       mainPager = viewPager {
         id = pagerId
@@ -63,10 +66,10 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun Toolbar.applyMenu() {
-    menu?.add(0, 0, 0, R.string.title_event_search)
+    menu?.add(0, R.id.menuSearch, 0, R.string.title_event_search)
       ?.setIcon(R.drawable.ic_search)
       ?.setOnMenuItemClickListener {
-        if (it.itemId == 0)
+        if (it.itemId == R.id.menuSearch)
           startActivity<LeagueEventSearchActivity>()
         true
       }

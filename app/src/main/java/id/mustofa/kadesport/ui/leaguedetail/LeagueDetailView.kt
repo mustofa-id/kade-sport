@@ -78,8 +78,9 @@ class LeagueDetailView(state: State<League>) : StateView<League>(state) {
             show()
           }
         }) {
-          id = R.id.detailDesc
+          id = R.id.itemDescContainer
           textView(desc) {
+            id = R.id.itemDescText
             maxLines = 4
             ellipsize = TextUtils.TruncateAt.END
             horizontalPadding = dip(16)
@@ -101,7 +102,7 @@ class LeagueDetailView(state: State<League>) : StateView<League>(state) {
             horizontalPadding = dip(16)
           }
         }.lparams(matchParent) {
-          below(R.id.detailDesc)
+          below(R.id.itemDescContainer)
         }
 
         // Latest events

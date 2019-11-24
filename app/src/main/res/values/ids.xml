@@ -20,7 +20,11 @@
   <item name="scoreText" type="id" />
   <item name="playTimeText" type="id" />
   <item name="titleAway" type="id" />
-  <item name="detailDesc" type="id" />
+  <item name="itemDescContainer" type="id" />
   <item name="eventNextContainer" type="id" />
   <item name="eventPastContainer" type="id" />
+  <item name="itemDescText" type="id" />
+  <item name="clusterHeader" type="id" />
+  <item name="mainTab" type="id" />
+  <item name="menuSearch" type="id" />
 </resources>

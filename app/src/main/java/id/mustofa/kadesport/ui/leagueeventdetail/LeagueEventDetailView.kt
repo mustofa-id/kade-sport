@@ -19,6 +19,8 @@ import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.ext.eventView
+import id.mustofa.kadesport.ext.split
+import id.mustofa.kadesport.ext.splitLiner
 import id.mustofa.kadesport.ui.common.StateView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.tintedImageView
@@ -96,7 +98,7 @@ class LeagueEventDetailView(state: State<LeagueEvent>) : StateView<LeagueEvent>(
       bottomPadding = dip(8)
       lparams(matchParent)
 
-      textView(splitLiner(homeText)) {
+      textView(homeText.splitLiner()) {
         horizontalPadding = dip(8)
         gravity = Gravity.END
       }.lparams(0, weight = 1f)
@@ -105,7 +107,7 @@ class LeagueEventDetailView(state: State<LeagueEvent>) : StateView<LeagueEvent>(
         setColorFilter(ContextCompat.getColor(context, color))
       }.lparams(height = matchParent)
 
-      textView(splitLiner(awayText)) {
+      textView(awayText.splitLiner()) {
         horizontalPadding = dip(8)
       }.lparams(0, weight = 1f)
     }
@@ -135,10 +137,10 @@ class LeagueEventDetailView(state: State<LeagueEvent>) : StateView<LeagueEvent>(
       }.lparams(matchParent)
 
       // lineups
-      lineupView(split(goalKeeper))
-      lineupView(split(defense))
-      lineupView(split(midfield))
-      lineupView(split(forward))
+      lineupView(goalKeeper.split())
+      lineupView(defense.split())
+      lineupView(midfield.split())
+      lineupView(forward.split())
     }
   }
 
@@ -168,8 +170,4 @@ class LeagueEventDetailView(state: State<LeagueEvent>) : StateView<LeagueEvent>(
       bottomMargin = dip(8)
     }
   }
-
-  private fun splitLiner(text: String?) = split(text)?.joinToString("\n")
-
-  private fun split(text: String?) = text?.split(';')?.dropLastWhile { it.isBlank() }
 }
