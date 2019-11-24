@@ -5,7 +5,7 @@
 package id.mustofa.kadesport.data.source.local
 
 import id.mustofa.kadesport.data.LeagueEvent
-import id.mustofa.kadesport.util.createContentValue
+import id.mustofa.kadesport.util.contentValueOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.db.*
@@ -30,7 +30,7 @@ class EventDataSource(private val db: ManagedSQLiteOpenHelper) {
   }
 
   suspend fun addFavorite(event: LeagueEvent) = withContext(Dispatchers.IO) {
-    val values = createContentValue(event)
+    val values = contentValueOf(event)
     db.use { replace(tableFavorite, *values) }
   }
 

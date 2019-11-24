@@ -14,7 +14,7 @@ import kotlin.reflect.full.primaryConstructor
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class PrimaryKey
 
-inline fun <reified T : Any> createContentValue(model: T) =
+inline fun <reified T : Any> contentValueOf(model: T) =
   T::class.memberProperties
     .map { Pair(it.name, it.get(model)) }
     .toTypedArray()

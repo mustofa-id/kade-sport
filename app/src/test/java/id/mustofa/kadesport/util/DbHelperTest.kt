@@ -24,7 +24,7 @@ class DbHelperTest {
   )
 
   @Test
-  fun createColumnsTest() {
+  fun createColumns() {
     val result = createColumns<FakeTeam>()
 
     val columns = arrayOf(
@@ -41,9 +41,9 @@ class DbHelperTest {
   }
 
   @Test
-  fun createContentValueTest() {
+  fun contentValueOf() {
     val team = FakeTeam(133612, "Man United", 1878, "/badge.png")
-    val result = createContentValue(team)
+    val result = contentValueOf(team)
 
     val content = arrayOf(
       "id" to team.id,
@@ -52,7 +52,7 @@ class DbHelperTest {
       "badge" to team.badge
     )
 
-    // createContentValue using KClass#memberProperties
+    // contentValueOf using KClass#memberProperties
     // that sorted by it's name
     content.sortBy { it.first }
 
