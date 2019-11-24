@@ -5,11 +5,11 @@
 package id.mustofa.kadesport
 
 import androidx.annotation.VisibleForTesting
-import androidx.annotation.VisibleForTesting.PROTECTED
+import androidx.annotation.VisibleForTesting.PRIVATE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
-@VisibleForTesting(otherwise = PROTECTED)
+@VisibleForTesting(otherwise = PRIVATE)
 class SingleFragmentActivity : AppCompatActivity() {
 
   fun bind(fragment: Fragment) {
