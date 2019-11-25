@@ -180,23 +180,69 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
 # Instrumentation Tests
 * LeagueFragmentTest
   * loadLeagues
+    * Memastikan `RecyclerView` tampil
+    * Memastikan jumlah data pada `RecyclverView` sesuai dengan data source
   * checkLeague
+    * Memastikan data pada indeks pertama terdapat pada `RecyclerView`
 
 * LeagueDetailActivityTest
   * loadLeague
+    * Memastikan gambar badge tampil
+    * Memastikan judul liga tampil
+    * Memastikan deskripsi lengkap liga tampil pada popup saat diklik
+    * Memastikan popup deskripsi lengkap menghilang saat klik OK
+    * Memastikan deskripsi liga tampil
+    * Melakukan aksi swipe up untuk melihat semua events
+    * memastikan next dan past event tampil
 
 * LeagueEventDetailActivityTest
   * loadEvent
+    * Memastikan gambar badge tim home tampil
+    * Memastikan nama tim home tampil dan dengan teks sesuai data
+    * Memastikan score pertandingan tampil dan dengan teks sesuai data
+    * Memastikan waktu pertandingan tampil dan sesuai dengan data
+    * Memastikan gambar badge tim away tampil
+    * Memastikan nama tim away tampil dan dengan teks sesuai data
+    * Memastikan nama pemain dan waktu goal home dan away tampil dan sesuai dengan data
+    * Memastikan nama pemain dengan kartu kuning tampil dan teks sesuai dengan data
+    * Melakukan aksi swipe up
+    * Memastikan home dan away team lineup tampil
   * toggleFavorite
+    * Memastikan tampil dan memberi aksi klik pada menu icon favorite
+    * Memastikan tampil pesan `Added to favorite` atau `Removed from favorite!`
 
 * LeagueEventFavoriteFragmentTest
   * loadFavorites
+    * Memastikan `RecyclerView` tampil dan jumlah data sesuai
 
 * LeagueEventActivityTest
   * loadEvents
+    * Memastikan `RecyclerView` tampil dan terdapat data sesuai id dan tipe liga
 
 * LeagueEventSearchActivityTest
   * searchEvents
+    * Memastikan tampil dan memberi aksi klik pada `SearchView`
+    * Memastikan element turunan `EditText` tampil dan mengetik karakter `man` lalu menekan tombol enter atau search
+    * Memastikan `RecyclerView` dan data hasil search tampil
 
 * KadeSportTest
   * app
+    * Memastikan jumlah tab dan judul pada masing-masing tab sesuai
+    * Memastikan `RecyclerView` tampil untuk daftar liga dan memberi aksi klik pada data pertama
+    * Memastikan judul liga tampil pada layar detail liga
+    * Memastikan deskripsi lengkap liga tampil pada popup saat diklik
+    * Memastikan popup deskripsi lengkap menghilang saat klik OK
+    * Melakukan aksi swipe up untuk melihat semua events
+    * Memastikan tampil dan memberi aksi klik pada past event
+    * Memastikan `RecyclerView` events tampil dan terdapat data sesuai id dan tipe liga dan memberi aksi klik pada data pertama
+    * Memastikan badge dan title tim home dan away tampil
+    * Memastikan tampil dan memberi aksi klik pada menu icon favorite
+    * Memastikan tampil pesan `Added to favorite` atau `Removed from favorite!`
+    * Memberi aksi tombol back hingga kembali pada layar main
+    * Memberi aksi klik pada tab `Favorite event`
+    * Memastikan data favorite events tampil dan memberi aksi klik pada data pertama lalu menekan tombol back
+    * Atau jika tidak ada data favorite maka memastikan pesan `No data!` tampil
+    * Memberi aksi klik pada icon menu search
+    * Memastikan element turunan `EditText` tampil dan mengetik karakter `man` lalu menekan tombol enter atau search
+    * Memastikan `RecyclerView` dan data hasil search tampil
+
