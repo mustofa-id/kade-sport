@@ -250,3 +250,6 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
     * Memastikan element turunan `EditText` tampil dan mengetik karakter `man` lalu menekan tombol enter atau search
     * Memastikan `RecyclerView` dan data hasil search tampil
 
+# Warning!
+You must be know this image bellow
+[![Dicoding plagiarism notice](images/dicoding_plagiarism_warn.jpeg)](https://www.dicoding.com/academies/55/)
