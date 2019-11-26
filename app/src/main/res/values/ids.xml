@@ -24,7 +24,6 @@
   <item name="eventNextContainer" type="id" />
   <item name="eventPastContainer" type="id" />
   <item name="itemDescText" type="id" />
-  <item name="clusterHeader" type="id" />
   <item name="mainTab" type="id" />
   <item name="menuSearch" type="id" />
 </resources>
