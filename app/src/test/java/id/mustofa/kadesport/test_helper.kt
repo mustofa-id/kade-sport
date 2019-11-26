@@ -10,6 +10,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
+import org.mockito.Mockito
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.ContinuationInterceptor
@@ -42,3 +43,5 @@ fun <T> valueOf(liveData: LiveData<T>): T {
   latch.await(2, TimeUnit.SECONDS)
   @Suppress("UNCHECKED_CAST") return data[0] as T
 }
+
+inline fun <reified T> mock(): T = Mockito.mock(T::class.java)

@@ -1,12 +1,15 @@
 package id.mustofa.kadesport.ui.leagueevents
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import id.mustofa.kadesport.MainCoroutineRule
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.FakeTheSportDb
+import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
 import id.mustofa.kadesport.data.source.LeagueRepository
+import id.mustofa.kadesport.mock
 import id.mustofa.kadesport.ui.common.EventType
 import id.mustofa.kadesport.valueOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,12 +53,15 @@ class LeagueEventViewModelTest {
     val pastEvents = sportDb.eventsPastLeague()
     `when`(repository.fetchEventsPastLeague(leagueId, true))
       .thenReturn(Success(pastEvents))
-    model.loadEvents(leagueId, EventType.PAST)
 
+    val observer: Observer<List<LeagueEvent>> = mock()
+    model.events.observeForever(observer)
+
+    model.loadEvents(leagueId, EventType.PAST)
     val events = valueOf(model.events)
     assertEquals(events, pastEvents)
 
-    verify(repository).fetchEventsPastLeague(leagueId, true)
+    verify(observer).onChanged(pastEvents)
   }
 
   @Test
@@ -63,12 +69,15 @@ class LeagueEventViewModelTest {
     val nextEvents = sportDb.eventsNextLeague()
     `when`(repository.fetchEventsNextLeague(leagueId, true))
       .thenReturn(Success(nextEvents))
-    model.loadEvents(leagueId, EventType.NEXT)
 
+    val observer: Observer<List<LeagueEvent>> = mock()
+    model.events.observeForever(observer)
+
+    model.loadEvents(leagueId, EventType.NEXT)
     val events = valueOf(model.events)
     assertEquals(events, nextEvents)
 
-    verify(repository).fetchEventsNextLeague(leagueId, true)
+    verify(observer).onChanged(nextEvents)
   }
 
   @Test
@@ -87,12 +96,15 @@ class LeagueEventViewModelTest {
   fun getMessage() = runBlockingTest {
     `when`(repository.fetchEventsNextLeague(leagueId, true))
       .thenReturn(Error(R.string.msg_failed_result))
-    model.loadEvents(leagueId, EventType.NEXT)
 
+    val observer: Observer<Int> = mock()
+    model.message.observeForever(observer)
+
+    model.loadEvents(leagueId, EventType.NEXT)
     val message = valueOf(model.message)
     assertEquals(message, R.string.msg_failed_result)
 
-    verify(repository).fetchEventsNextLeague(leagueId, true)
+    verify(observer).onChanged(R.string.msg_failed_result)
   }
 
   @Test
@@ -101,14 +113,17 @@ class LeagueEventViewModelTest {
     doAnswer(AnswersWithDelay(7_000 + 100) {
       Success(sportDb.eventsNextLeague())
     }).`when`(repository).fetchEventsNextLeague(leagueId, true)
-    model.loadEvents(leagueId, EventType.NEXT)
 
+    val observer: Observer<Int> = mock()
+    model.notifier.observeForever(observer)
+
+    model.loadEvents(leagueId, EventType.NEXT)
     val notifier = valueOf(model.notifier)
     assertEquals(notifier, R.string.msg_long_wait)
 
     val events = valueOf(model.events)
     assertTrue(events.isNotEmpty())
 
-    verify(repository).fetchEventsNextLeague(leagueId, true)
+    verify(observer).onChanged(R.string.msg_long_wait)
   }
 }

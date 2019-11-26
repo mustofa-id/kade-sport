@@ -1,10 +1,13 @@
 package id.mustofa.kadesport.ui.league
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import id.mustofa.kadesport.MainCoroutineRule
+import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State.Success
 import id.mustofa.kadesport.data.source.LeagueRepository
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
+import id.mustofa.kadesport.mock
 import id.mustofa.kadesport.valueOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -46,10 +49,13 @@ class LeagueViewModelTest {
     `when`(repository.fetchAllLeagues())
       .thenReturn(Success(leaguesSource))
 
+    val observer: Observer<List<League>> = mock()
+    model.leagues.observeForever(observer)
+
     val leagues = valueOf(model.leagues)
     assertEquals(leagues, leaguesSource)
 
-    verify(repository).fetchAllLeagues()
+    verify(observer).onChanged(leaguesSource)
   }
 
   @Test

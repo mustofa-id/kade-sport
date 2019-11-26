@@ -1,12 +1,15 @@
 package id.mustofa.kadesport.ui.leagueeventsearch
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import id.mustofa.kadesport.MainCoroutineRule
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.FakeTheSportDb
+import id.mustofa.kadesport.data.LeagueEvent
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.source.LeagueRepository
+import id.mustofa.kadesport.mock
 import id.mustofa.kadesport.valueOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -49,12 +52,15 @@ class LeagueEventSearchViewModelTest {
     val events = sportDb.searchEvents(searchQuery)
     `when`(repository.searchEvents(searchQuery))
       .thenReturn(State.Success(events))
+
+    val observer: Observer<List<LeagueEvent>> = mock()
+    model.events.observeForever(observer)
+
     model.search(searchQuery)
-
     val eventResults = valueOf(model.events)
-    assertEquals(events, eventResults)
+    assertEquals(eventResults, events)
 
-    verify(repository).searchEvents(searchQuery)
+    verify(observer).onChanged(events)
   }
 
   @Test
@@ -75,10 +81,13 @@ class LeagueEventSearchViewModelTest {
     `when`(repository.searchEvents(failQuery))
       .thenReturn(Error(R.string.msg_empty_result))
 
-    model.search(failQuery)
-    verify(repository).searchEvents(failQuery)
+    val observer: Observer<Int> = mock()
+    model.message.observeForever(observer)
 
+    model.search(failQuery)
     val message = valueOf(model.message)
     assertEquals(message, R.string.msg_empty_result)
+
+    verify(observer).onChanged(R.string.msg_empty_result)
   }
 }

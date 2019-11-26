@@ -1,11 +1,16 @@
 package id.mustofa.kadesport.ui.leaguedetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import id.mustofa.kadesport.MainCoroutineRule
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.FakeTheSportDb
+import id.mustofa.kadesport.data.League
+import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.*
 import id.mustofa.kadesport.data.source.LeagueRepository
+import id.mustofa.kadesport.mock
 import id.mustofa.kadesport.valueOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -65,10 +70,14 @@ class LeagueDetailViewModelTest {
       .thenReturn(successResult)
 
     model.loadLeague(leagueId)
+
+    val observer: Observer<State<League>> = mock()
+    model.leagueState.observeForever(observer)
+
     val state = valueOf(model.leagueState)
     assertEquals(state, successResult)
 
-    verify(repository).fetchLeagueById(leagueId)
+    verify(observer).onChanged(successResult)
   }
 
   @Test
@@ -78,11 +87,14 @@ class LeagueDetailViewModelTest {
     `when`(repository.fetchLeagueById(1))
       .thenReturn(errorResultNoData)
 
+    val observer: Observer<State<League>> = mock()
+    model.leagueState.observeForever(observer)
+
     model.loadLeague(1)
     val stateErrorNoData = valueOf(model.leagueState)
     assertEquals(stateErrorNoData, errorResultNoData)
 
-    verify(repository).fetchLeagueById(1)
+    verify(observer).onChanged(errorResultNoData)
   }
 
   @Test
@@ -92,11 +104,14 @@ class LeagueDetailViewModelTest {
     `when`(repository.fetchLeagueById(leagueId))
       .thenReturn(errorResultFetchFailed)
 
+    val observer: Observer<State<League>> = mock()
+    model.leagueState.observeForever(observer)
+
     model.loadLeague(leagueId)
     val stateErrorFetchFailed = valueOf(model.leagueState)
     assertEquals(stateErrorFetchFailed, errorResultFetchFailed)
 
-    verify(repository).fetchLeagueById(leagueId)
+    verify(observer).onChanged(errorResultFetchFailed)
   }
 
   @Test
@@ -106,11 +121,14 @@ class LeagueDetailViewModelTest {
     `when`(repository.fetchEventsPastLeague(leagueId))
       .thenReturn(Success(pastEvents))
 
+    val observer: Observer<List<LeagueEvent>> = mock()
+    model.pastEvents.observeForever(observer)
+
     model.loadPastEvent(leagueId)
     val events = valueOf(model.pastEvents)
     assertEquals(events, pastEvents)
 
-    verify(repository).fetchEventsPastLeague(leagueId)
+    verify(observer).onChanged(pastEvents)
   }
 
   @Test
@@ -120,11 +138,14 @@ class LeagueDetailViewModelTest {
     `when`(repository.fetchEventsNextLeague(leagueId))
       .thenReturn(Success(nextEvents))
 
+    val observer: Observer<List<LeagueEvent>> = mock()
+    model.nextEvents.observeForever(observer)
+
     model.loadNextEvent(leagueId)
     val events = valueOf(model.nextEvents)
     assertEquals(events, nextEvents)
 
-    verify(repository).fetchEventsNextLeague(leagueId)
+    verify(observer).onChanged(nextEvents)
   }
 
   @Test
@@ -132,11 +153,14 @@ class LeagueDetailViewModelTest {
     `when`(repository.fetchEventsPastLeague(leagueId))
       .thenReturn(Error(R.string.msg_empty_result))
 
+    val observer: Observer<Int> = mock()
+    model.pastEventError.observeForever(observer)
+
     model.loadPastEvent(leagueId)
     val errorMsg = valueOf(model.pastEventError)
     assertEquals(errorMsg, R.string.msg_empty_result)
 
-    verify(repository).fetchEventsPastLeague(leagueId)
+    verify(observer).onChanged(R.string.msg_empty_result)
   }
 
   @Test
@@ -144,10 +168,13 @@ class LeagueDetailViewModelTest {
     `when`(repository.fetchEventsNextLeague(leagueId))
       .thenReturn(Error(R.string.msg_empty_result))
 
+    val observer: Observer<Int> = mock()
+    model.nextEventError.observeForever(observer)
+
     model.loadNextEvent(leagueId)
     val errorMsg = valueOf(model.nextEventError)
     assertEquals(errorMsg, R.string.msg_empty_result)
 
-    verify(repository).fetchEventsNextLeague(leagueId)
+    verify(observer).onChanged(R.string.msg_empty_result)
   }
 }
