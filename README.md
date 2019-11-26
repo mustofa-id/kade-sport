@@ -9,6 +9,10 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
 - Match search: https://www.thesportsdb.com/api/v1/json/1/searchevents.php?e={query}
 
 # Unit Tests
+<details>
+<summary>Show unit test case</summary>
+<p>
+
 * LeagueViewModelTest
   * getLeagues
     * Memastikan nilai `leagues` diproses dan sesuai dengan data source
@@ -180,8 +184,15 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
     * Memastikan fungsi mengembalikan objek `Success`
     * Memastikan nilai property `data` pada objek `Success` adalah `true`
     * Memverifikasi fungsi `removeFavorite(id)` terpanggil pada data source
+</p>
+</details>
 
 # Instrumentation Tests
+
+<details>
+<summary>Show instrumentation test case</summary>
+<p>
+
 * LeagueFragmentTest
   * loadLeagues
     * Memastikan `RecyclerView` tampil
@@ -249,6 +260,8 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
     * Memberi aksi klik pada icon menu search
     * Memastikan element turunan `EditText` tampil dan mengetik karakter `man` lalu menekan tombol enter atau search
     * Memastikan `RecyclerView` dan data hasil search tampil
+</p>
+</details>
 
 # Warning!
 
