@@ -11,8 +11,8 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
 # Unit Tests
 * LeagueViewModelTest
   * getLeagues
-    * Memastikan nilai `leagues` diproses dari repository dan sesuai dengan data source
-    * Memastikan fungsi `fetchAllLeagues()` pada repository terpanggil
+    * Memastikan nilai `leagues` diproses dan sesuai dengan data source
+    * Memastikan terjadi perubahan nilai pada `leagues` LiveData
   * getLoading
     * Memastikan property `loading` bernilai `true` saat memuat data
     * Memastikan property `loading` bernilai `false` saat data selesai dimuat
@@ -24,31 +24,31 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
   * getLeagueState Success
     * Memanggil fungsi `loadLeague(id)`
     * Memastikan nilai property `leagueState` adalah `Success`
-    * Memverifikasi fungsi `fetchLeagueById(id)` dari repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `leagueState` LiveData
   * getLeagueState Error NoData
     * Memanggil fungsi `loadLeague(id)`
     * Memastikan nilai property `leagueState` adalah `Error` dan berisi `message` `No data!`
-    * Memverifikasi fungsi `fetchLeagueById(id)` dari repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `leagueState` LiveData
   * getLeagueState Error FetchFailed
     * Memanggil fungsi `loadLeague(id)`
     * Memastikan nilai property `leagueState` adalah `Error` dan berisi `message` `Failed to fetch data!`
-    * Memverifikasi fungsi `fetchLeagueById(id)` dari repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `leagueState` LiveData
   * getPastEvents
     * Memanggil fungsi `loadPastEvent(id)`
     * Memastikan property `pastEvents` bernilai sesuai dengan data source
-    * Memverisfikasi fungsi `fetchEventsPastLeague(id)` dari repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `pastEvents` LiveData
   * getNextEvents
     * Memanggil fungsi `loadNextEvent(id)`
     * Memastikan property `nextEvents` bernilai sesuai dengan data source
-    * Memverisfikasi fungsi `fetchEventsNextLeague(id)` dari repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `nextEvents` LiveData
   * getPastEvents Error
     * Memanggil fungsi `loadPastEvent(id)`
     * Memastikan property `pastEventError` bernilai `No data!`
-    * Memverisfikasi fungsi `fetchEventsPastLeague(id)` dari repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `pastEventError` LiveData
   * getNextEvents Error
     * Memanggil fungsi `loadNextEvent(id)`
     * Memastikan property `nextEventError` bernilai `No data!`
-    * Memverisfikasi fungsi `fetchEventsNextLeague(id)` dari repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `nextEventError` LiveData
 
 * LeagueEventDetailViewModelTest
   * getEventState Loading
@@ -56,73 +56,77 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
     * Memastikan nilai property `eventState` tidak sama dengan `Loading` setelah proses `loadEvent(id)`
   * getEventState Success
     * Memanggil fungsi `loadEvent(id)`
-    * Memverifikasi fungsi `fetchEventById(id)` di repository terpanggil
     * Memastikan nilai property `eventState` adalah `Success`
+    * Memastikan terjadi perubahan nilai pada `eventState` LiveData
   * getEventState Error
     * Memanggil fungsi `loadEvent(id)`
-    * Memverifikasi fungsi `fetchEventById(id)` di repository terpanggil
-    * Memverifikasi fungsi `getFavoriteEventById(id)` di repository terpanggil
     * Memastikan nilai dari property `eventState` adalah `Error`
+    * Memastikan terjadi perubahan nilai pada `eventState` LiveData
   * getFavoriteMessage
     * Memanggil fungsi `toggleFavorite()`
     * Memastikan nilai `favoriteMessage` adalah `Please wait...` karena data event belum dimuat
+    * Memastikan terjadi perubahan nilai pada `favoriteMessage` LiveData
     * Memanggil fungsi `loadEvent(id)`
     * Memanggil fungsi `toggleFavorite()`
+    * Memastikan terjadi perubahan nilai pada `favoriteMessage` LiveData
     * Memastikan nilai `favoriteMessage` adalah `Added to favorite`
     * Memanggil fungsi `toggleFavorite()`
     * Memastikan nilai `favoriteMessage` adalah `Removed from favorite`
-    * Memverifikasi fungsi `fetchEventById(eventId, true)`, `addEventToFavorite(event)`, `removeEventFromFavorite(eventId)` dan `getFavoriteEventById(eventId)` pada repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `favoriteMessage` LiveData
   * getFavoriteIcon InFavorite
     * Memanggil fungsi `loadEvent()`
     * Memastikan nilai `favoriteIcon` adalah `R.drawable.ic_favorite_added`
+    * Memastikan terjadi perubahan nilai pada `favoriteIcon` LiveData
   * getFavoriteIcon NotInFavorite
     * Memanggil fungsi `loadEvent()`
     * Memastikan nilai `favoriteIcon` adalah `R.drawable.ic_favorite_removed`
+    * Memastikan terjadi perubahan nilai pada `favoriteIcon` LiveData
 
 * LeagueEventFavoriteViewModelTest
   * getFavoriteEvents
     * Memanggil fungsi `loadEvents()`
     * Memastikan nilai dari property `favoriteEvents` sesuai dengan data source
-    * Memverifikasi fungsi `getAllFavoriteEvents()` dari repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `favoriteEvents` LiveData
   * getLoading
     * Memastikan property `loading` bernilai `true` saat memuat data
     * Memastikan property `loading` bernilai `false` saat data selesai dimuat
   * getMessage
     * Memanggil fungsi `loadEvents()`
-    * Memastikan nilai property `message` adalah `Failed to fetch data!` atau `No data!`
+    * Memastikan terjadi perubahan nilai pada `message` LiveData
   
 * LeagueEventViewModelTest
   * getEvents Past
     * Memanggil fungsi `loadEvents(leagueId, type)`
     * Memastikan nilai propery `events` sesuai dengan data source
-    * Memverifikasi fungsi `fetchEventsPastLeague()` terpanggil dari repository
+    * Memastikan terjadi perubahan nilai pada `events` LiveData
   * getEvents Next
     * Memanggil fungsi `loadEvents(leagueId, type)`
     * Memastikan nilai propery `events` sesuai dengan data source
-    * Memverifikasi fungsi `fetchEventsNextLeague()` terpanggil dari repository
+    * Memastikan terjadi perubahan nilai pada `events` LiveData
   * getLoading
     * Memastikan property `loading` bernilai `true` saat memuat data
     * Memastikan property `loading` bernilai `false` saat data selesai dimuat
   * getMessage
     * Memanggil fungsi `loadEvents(leagueId, type)`
     * Memastikan nilai property `message` adalah `Failed to fetch data!`
-    * Memverifikasi fungsi `fetchEventsNextLeague()` terpanggil dari repository
+    * Memastikan terjadi perubahan nilai pada `message` LiveData
   * getNotifier
     * Memanggil fungsi `loadEvents(leagueId, type)`
     * Memastikan nilai property `notifier` adalah `R.string.msg_long_wait` setelah proses memuat data selama 7100ms
-    * Memverifikasi fungsi `fetchEventsNextLeague()` terpanggil dari repository
+    * Memastikan terjadi perubahan nilai pada `notifier` LiveData
   
 * LeagueEventSearchViewModelTest
   * getEvents
     * Memanggil fungsi `search(query)`
     * Memastikan nilai dari property `events` sesuai dengan data source
-    * Memverifikasi fungsi `searchEvents(query)` pada repository terpanggil
+    * Memastikan terjadi perubahan nilai pada `events` LiveData
   * getLoading
     * Memastikan property `loading` bernilai `true` saat memuat data
     * Memastikan property `loading` bernilai `false` saat data selesai dimuat
   * getMessage
     * Memanggil fungsi `search(query)`
     * Memastikan nilai property `message` adalah `No data!`
+    * Memastikan terjadi perubahan nilai pada `message` LiveData
 
 * DbHelperTest
   * createColumns
