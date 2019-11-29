@@ -9,7 +9,7 @@ import android.graphics.Typeface
 import android.widget.ImageView
 import android.widget.TextView
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.ext.str
 import id.mustofa.kadesport.util.GlideApp
 import org.jetbrains.anko.*
@@ -91,7 +91,7 @@ class EventView(context: Context) : _RelativeLayout(context) {
     }
   }
 
-  fun bind(event: LeagueEvent): Unit = with(event) {
+  fun bind(event: Event): Unit = with(event) {
     val bothScore = "${homeScore.str()} : ${awayScore.str()}"
     val dateTime = "${time.str()}\n${date.str()}"
     homeTitle.text = homeName

@@ -4,7 +4,7 @@
  */
 package id.mustofa.kadesport.data.source.local
 
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.util.contentValueOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +17,7 @@ class EventDataSource(private val db: ManagedSQLiteOpenHelper) {
   suspend fun getAllFavorites() = withContext(Dispatchers.IO) {
     db.use {
       select(tableFavorite)
-        .parseList(classParser<LeagueEvent>())
+        .parseList(classParser<Event>())
     }
   }
 
@@ -25,11 +25,11 @@ class EventDataSource(private val db: ManagedSQLiteOpenHelper) {
     db.use {
       select(tableFavorite)
         .whereArgs("id = {eventId}", "eventId" to eventId)
-        .parseOpt(classParser<LeagueEvent>())
+        .parseOpt(classParser<Event>())
     }
   }
 
-  suspend fun addFavorite(event: LeagueEvent) = withContext(Dispatchers.IO) {
+  suspend fun addFavorite(event: Event) = withContext(Dispatchers.IO) {
     val values = contentValueOf(event)
     db.use { replace(tableFavorite, *values) }
   }

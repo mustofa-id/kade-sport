@@ -11,8 +11,8 @@ import android.widget.TextView
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State
+import id.mustofa.kadesport.data.source.repository.EventRepository.EventType
 import id.mustofa.kadesport.ext.clusterView
-import id.mustofa.kadesport.ui.common.EventType
 import id.mustofa.kadesport.ui.common.StateView
 import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity
 import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity.Companion.EVENT_TYPE

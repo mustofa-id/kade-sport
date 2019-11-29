@@ -42,6 +42,8 @@ abstract class StateView<T>(private val state: State<T>) : AnkoComponent<Activit
         }.lparams(matchParent)
       }
 
+      is Empty -> verticalLayout {}
+
       is Success -> successView(ui, state.data)
     }
   }

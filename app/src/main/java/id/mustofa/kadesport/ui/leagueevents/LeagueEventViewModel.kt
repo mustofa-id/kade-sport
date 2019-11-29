@@ -9,19 +9,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
-import id.mustofa.kadesport.data.source.LeagueRepository
-import id.mustofa.kadesport.ui.common.EventType
+import id.mustofa.kadesport.data.source.repository.EventRepository
+import id.mustofa.kadesport.data.source.repository.EventRepository.EventType
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.schedule
 
-class LeagueEventViewModel(private val repository: LeagueRepository) : ViewModel() {
+class LeagueEventViewModel(
+  private val eventRepo: EventRepository
+) : ViewModel() {
 
-  private val _events = MutableLiveData<List<LeagueEvent>>()
-  val events: LiveData<List<LeagueEvent>> = _events
+  private val _events = MutableLiveData<List<Event>>()
+  val events: LiveData<List<Event>> = _events
 
   private val _loading = MutableLiveData<Boolean>()
   val loading: LiveData<Boolean> = _loading
@@ -38,7 +40,7 @@ class LeagueEventViewModel(private val repository: LeagueRepository) : ViewModel
     _message.postValue(0)
     initNotifier()
     viewModelScope.launch {
-      when (val result = getEventResponse(leagueId, type)) {
+      when (val result = eventRepo.getAll(leagueId, type, true)) {
         is Success -> _events.postValue(result.data)
         is Error -> _message.postValue(result.message)
       }
@@ -53,10 +55,5 @@ class LeagueEventViewModel(private val repository: LeagueRepository) : ViewModel
         _notifier.postValue(R.string.msg_long_wait)
       }
     }
-  }
-
-  private suspend fun getEventResponse(id: Long, type: EventType) = when (type) {
-    EventType.NEXT -> repository.fetchEventsNextLeague(id, true)
-    EventType.PAST -> repository.fetchEventsPastLeague(id, true)
   }
 }

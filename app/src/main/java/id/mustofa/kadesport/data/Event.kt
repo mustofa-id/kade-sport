@@ -7,7 +7,7 @@ package id.mustofa.kadesport.data
 import com.google.gson.annotations.SerializedName
 import id.mustofa.kadesport.util.PrimaryKey
 
-data class LeagueEvent(
+data class Event(
 
   @PrimaryKey
   @SerializedName("idEvent")

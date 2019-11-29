@@ -5,10 +5,12 @@
 package id.mustofa.kadesport
 
 import android.app.Application
-import id.mustofa.kadesport.data.source.LeagueRepository
 
 class KadeApplication : Application() {
 
-  val leagueRepository: LeagueRepository
-    get() = ServiceLocator.provideLeagueRepository(this)
+  val repositories: Map<String, Any>
+    get() = mapOf(
+      "leagueRepository" to ServiceLocator.provideLeagueRepository(this),
+      "eventRepository" to ServiceLocator.provideEventRepository(this)
+    )
 }

@@ -18,8 +18,8 @@ import org.jetbrains.anko.custom.ankoView
 
 inline fun <reified T : ViewModel> AppCompatActivity.viewModel() = lazy {
   val appContext = application.applicationContext
-  val repository = (appContext as KadeApplication).leagueRepository
-  ViewModelProviders.of(this, ViewModelFactory(repository))[T::class.java]
+  val repositories = (appContext as KadeApplication).repositories
+  ViewModelProviders.of(this, ViewModelFactory(repositories))[T::class.java]
 }
 
 fun <T> AppCompatActivity.observe(liveData: LiveData<T>, value: (T) -> Unit) {

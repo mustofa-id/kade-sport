@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State
-import id.mustofa.kadesport.data.source.LeagueRepository
+import id.mustofa.kadesport.data.source.repository.LeagueRepository
 import kotlinx.coroutines.launch
 
 class LeagueViewModel(private val repository: LeagueRepository) : ViewModel() {
@@ -28,7 +28,7 @@ class LeagueViewModel(private val repository: LeagueRepository) : ViewModel() {
   private fun loadLeagues() {
     _loading.postValue(true)
     viewModelScope.launch {
-      when (val state = repository.fetchAllLeagues()) {
+      when (val state = repository.getAll()) {
         is State.Success -> _leagues.postValue(state.data)
       }
       _loading.postValue(false)

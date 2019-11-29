@@ -8,18 +8,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.data.State.Error
 import id.mustofa.kadesport.data.State.Success
-import id.mustofa.kadesport.data.source.LeagueRepository
+import id.mustofa.kadesport.data.source.repository.EventRepository
 import kotlinx.coroutines.launch
 
 class LeagueEventSearchViewModel(
-  private val repository: LeagueRepository
+  private val eventRepo: EventRepository
 ) : ViewModel() {
 
-  private val _events = MutableLiveData<List<LeagueEvent>>()
-  val events: LiveData<List<LeagueEvent>> = _events
+  private val _events = MutableLiveData<List<Event>>()
+  val events: LiveData<List<Event>> = _events
 
   private val _loading = MutableLiveData<Boolean>()
   val loading: LiveData<Boolean> = _loading
@@ -31,7 +31,7 @@ class LeagueEventSearchViewModel(
     if (_loading.value == true) return
     initValue()
     viewModelScope.launch {
-      when (val state = repository.searchEvents(query)) {
+      when (val state = eventRepo.search(query)) {
         is Success -> _events.postValue(state.data)
         is Error -> _message.postValue(state.message)
       }

@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import id.mustofa.kadesport.AsyncUIOperation
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.activityTestRuleIntentOf
-import id.mustofa.kadesport.ui.common.EventType
+import id.mustofa.kadesport.data.source.repository.EventRepository.EventType
 import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity.Companion.EVENT_TYPE
 import id.mustofa.kadesport.ui.leagueevents.LeagueEventActivity.Companion.LEAGUE_ID
 import org.junit.Rule

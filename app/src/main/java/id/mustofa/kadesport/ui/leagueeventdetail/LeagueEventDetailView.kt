@@ -16,7 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.ext.eventView
 import id.mustofa.kadesport.ext.split
@@ -27,9 +27,9 @@ import org.jetbrains.anko.appcompat.v7.tintedImageView
 import org.jetbrains.anko.cardview.v7._CardView
 import org.jetbrains.anko.custom.ankoView
 
-class LeagueEventDetailView(state: State<LeagueEvent>) : StateView<LeagueEvent>(state) {
+class LeagueEventDetailView(state: State<Event>) : StateView<Event>(state) {
 
-  override fun successView(ui: AnkoContext<Activity>, data: LeagueEvent) = with(ui) {
+  override fun successView(ui: AnkoContext<Activity>, data: Event) = with(ui) {
     scrollView {
       id = R.id.parentContainer
       verticalLayout {

@@ -6,12 +6,14 @@ package id.mustofa.kadesport
 
 import android.content.Context
 import com.google.gson.GsonBuilder
+import id.mustofa.kadesport.data.source.DefaultEventRepository
 import id.mustofa.kadesport.data.source.DefaultLeagueRepository
-import id.mustofa.kadesport.data.source.LeagueRepository
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.local.EventDataSource
 import id.mustofa.kadesport.data.source.local.SportDBHelper
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
+import id.mustofa.kadesport.data.source.repository.EventRepository
+import id.mustofa.kadesport.data.source.repository.LeagueRepository
 import okhttp3.Cache
 import okhttp3.CacheControl
 import okhttp3.OkHttpClient
@@ -23,17 +25,23 @@ object ServiceLocator {
 
   @Volatile
   private var leagueRepository: LeagueRepository? = null
+  @Volatile
+  private var eventRepository: EventRepository? = null
 
   fun provideLeagueRepository(context: Context) = leagueRepository ?: synchronized(this) {
-    leagueRepository ?: createLeagueRepository(context)
+    leagueRepository ?: DefaultLeagueRepository(
+      embeddedSource = LeagueDataSource(),
+      remoteSource = createTheSportDbService(context)
+    )
   }
 
-  private fun createLeagueRepository(context: Context) = DefaultLeagueRepository(
-    leagueDataSource = LeagueDataSource(),
-    cacheableSportService = createTheSportDbService(context, true),
-    sportService = createTheSportDbService(context),
-    eventDataSource = createEventDataSource(context)
-  )
+  fun provideEventRepository(context: Context) = eventRepository ?: synchronized(this) {
+    eventRepository ?: DefaultEventRepository(
+      remoteSource = createTheSportDbService(context),
+      cacheableRemoteSource = createTheSportDbService(context, true),
+      localSource = createEventDataSource(context)
+    )
+  }
 
   private fun createTheSportDbService(
     context: Context,

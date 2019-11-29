@@ -8,15 +8,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.data.State
-import id.mustofa.kadesport.data.source.LeagueRepository
+import id.mustofa.kadesport.data.source.repository.EventRepository
 import kotlinx.coroutines.launch
 
-class LeagueEventFavoriteViewModel(private val repository: LeagueRepository) : ViewModel() {
+class LeagueEventFavoriteViewModel(
+  private val eventRepo: EventRepository
+) : ViewModel() {
 
-  private val _favoriteEvents = MutableLiveData<List<LeagueEvent>>()
-  val favoriteEvents: LiveData<List<LeagueEvent>> = _favoriteEvents
+  private val _favoriteEvents = MutableLiveData<List<Event>>()
+  val favoriteEvents: LiveData<List<Event>> = _favoriteEvents
 
   private val _loading = MutableLiveData<Boolean>()
   val loading: LiveData<Boolean> = _loading
@@ -27,7 +29,7 @@ class LeagueEventFavoriteViewModel(private val repository: LeagueRepository) : V
   fun loadEvents() {
     initValue()
     viewModelScope.launch {
-      when (val state = repository.getAllFavoriteEvents()) {
+      when (val state = eventRepo.getFavorites()) {
         is State.Success -> _favoriteEvents.postValue(state.data)
         is State.Error -> _message.postValue(state.message)
       }

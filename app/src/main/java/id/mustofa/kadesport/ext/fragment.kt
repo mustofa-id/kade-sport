@@ -14,8 +14,8 @@ import id.mustofa.kadesport.ViewModelFactory
 
 inline fun <reified T : ViewModel> Fragment.viewModel() = lazy {
   val appContext = requireActivity().application.applicationContext
-  val repository = (appContext as KadeApplication).leagueRepository
-  ViewModelProviders.of(requireActivity(), ViewModelFactory(repository))[T::class.java]
+  val repositories = (appContext as KadeApplication).repositories
+  ViewModelProviders.of(requireActivity(), ViewModelFactory(repositories))[T::class.java]
 }
 
 fun <T> Fragment.observe(liveData: LiveData<T>, value: (T) -> Unit) {

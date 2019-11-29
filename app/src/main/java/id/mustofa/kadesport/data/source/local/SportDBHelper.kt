@@ -2,7 +2,7 @@ package id.mustofa.kadesport.data.source.local
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.util.createColumns
 import org.jetbrains.anko.db.ManagedSQLiteOpenHelper
 import org.jetbrains.anko.db.createTable
@@ -12,7 +12,7 @@ class SportDBHelper(context: Context, dbName: String) :
   ManagedSQLiteOpenHelper(context, dbName) {
 
   override fun onCreate(db: SQLiteDatabase?) {
-    val columns = createColumns<LeagueEvent>()
+    val columns = createColumns<Event>()
     db?.createTable(TABLE_FAVORITE_EVENT, true, *columns)
   }
 

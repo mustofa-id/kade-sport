@@ -25,17 +25,17 @@ class FakeTheSportDb {
 
   fun eventsPastLeague() = jsonOf<LeagueEventResponse>("eventspastleague.json")?.events!!
 
-  fun eventById(eventId: Long): LeagueEvent {
+  fun eventById(eventId: Long): Event {
     val events = eventsNextLeague() + eventsPastLeague()
     return events.first { it.id == eventId }
   }
 
-  fun favoriteEvents(): List<LeagueEvent> {
+  fun favoriteEvents(): List<Event> {
     // filter team name contain `man` like Man United or Man City
     return searchEvents("man")
   }
 
-  fun searchEvents(query: String): List<LeagueEvent> {
+  fun searchEvents(query: String): List<Event> {
     return (eventsNextLeague() + eventsPastLeague()).filter {
       "${it.homeName} ${it.awayName}".contains(query, true)
     }

@@ -6,21 +6,21 @@ package id.mustofa.kadesport.ui.leagueeventdetail
 
 import androidx.lifecycle.*
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.data.LeagueEvent
+import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.*
-import id.mustofa.kadesport.data.source.LeagueRepository
+import id.mustofa.kadesport.data.source.repository.EventRepository
 import kotlinx.coroutines.launch
 
 class LeagueEventDetailViewModel(
-  private val repository: LeagueRepository
+  private val eventRepo: EventRepository
 ) : ViewModel() {
 
-  var event: LeagueEvent? = null
+  var event: Event? = null
   private val isInFavorite = MutableLiveData<Boolean>()
 
-  private val _eventState = MutableLiveData<State<LeagueEvent>>()
-  val eventState: LiveData<State<LeagueEvent>> = _eventState
+  private val _eventState = MutableLiveData<State<Event>>()
+  val eventState: LiveData<State<Event>> = _eventState
 
   private val _favoriteMessage = MutableLiveData<Int>()
   val favoriteMessage: LiveData<Int> = _favoriteMessage
@@ -37,7 +37,7 @@ class LeagueEventDetailViewModel(
       val localEvent = checkFavorite(eventId)
 
       // fetch from network
-      val network = repository.fetchEventById(eventId, true)
+      val network = eventRepo.get(eventId)
       _eventState.postValue(network)
 
       when (network) {
@@ -72,17 +72,17 @@ class LeagueEventDetailViewModel(
   }
 
   // -- private --
-  private suspend fun checkFavorite(id: Long): LeagueEvent? {
-    val local = repository.getFavoriteEventById(id)
+  private suspend fun checkFavorite(id: Long): Event? {
+    val local = eventRepo.getFavorite(id)
     val result = if (local is Success) local.data else null
     isInFavorite.postValue(result != null)
     return result
   }
 
-  private suspend fun favoriteEventState(it: LeagueEvent): State<Boolean> {
+  private suspend fun favoriteEventState(it: Event): State<Boolean> {
     return when (isInFavorite.value) {
-      true -> repository.removeEventFromFavorite(it.id)
-      else -> repository.addEventToFavorite(it)
+      true -> eventRepo.removeFavorite(it.id)
+      else -> eventRepo.addFavorite(it)
     }
   }
 }

@@ -10,11 +10,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.kadesport.R
+import id.mustofa.kadesport.data.source.repository.EventRepository.EventType
 import id.mustofa.kadesport.ext.listingView
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
 import id.mustofa.kadesport.ui.common.EventAdapter
-import id.mustofa.kadesport.ui.common.EventType
 import id.mustofa.kadesport.ui.common.ListingView
 import org.jetbrains.anko.design.indefiniteSnackbar
 import org.jetbrains.anko.find

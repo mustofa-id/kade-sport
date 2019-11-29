@@ -5,8 +5,8 @@ import androidx.lifecycle.Observer
 import id.mustofa.kadesport.MainCoroutineRule
 import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State.Success
-import id.mustofa.kadesport.data.source.LeagueRepository
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
+import id.mustofa.kadesport.data.source.repository.LeagueRepository
 import id.mustofa.kadesport.mock
 import id.mustofa.kadesport.valueOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,7 +46,7 @@ class LeagueViewModelTest {
 
   @Test
   fun getLeagues() = runBlockingTest {
-    `when`(repository.fetchAllLeagues())
+    `when`(repository.getAll())
       .thenReturn(Success(leaguesSource))
 
     val observer: Observer<List<League>> = mock()
