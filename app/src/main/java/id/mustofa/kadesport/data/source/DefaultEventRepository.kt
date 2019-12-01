@@ -47,7 +47,14 @@ class DefaultEventRepository(
 
   override suspend fun search(query: String): State<List<Event>> {
     val response = handleResponse { remoteSource.searchEvents(query) }
-    return successOf(response) { Success(events ?: return Empty) }
+    return successOf(response) {
+      val data = events
+        ?.filter { it.sport == "Soccer" }
+        ?.apply {
+          forEach { it.applyBadge() }
+        } ?: return Empty
+      Success(data)
+    }
   }
 
   override suspend fun getFavorite(eventId: Long): State<Event> {
