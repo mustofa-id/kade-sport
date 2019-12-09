@@ -7,6 +7,8 @@ package id.mustofa.kadesport.data
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.PRIVATE
 import com.google.gson.Gson
+import id.mustofa.kadesport.data.entity.Event
+import id.mustofa.kadesport.data.entity.League
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.remote.LeagueEventResponse
 

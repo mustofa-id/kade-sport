@@ -7,10 +7,10 @@ package id.mustofa.kadesport.data.source.remote
 import android.util.Log
 import com.google.gson.annotations.SerializedName
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.data.Event
-import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State
-import id.mustofa.kadesport.data.Team
+import id.mustofa.kadesport.data.entity.Event
+import id.mustofa.kadesport.data.entity.League
+import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.data.source.remote.ResponseResult.Failure
 import id.mustofa.kadesport.data.source.remote.ResponseResult.Success
 import retrofit2.Response

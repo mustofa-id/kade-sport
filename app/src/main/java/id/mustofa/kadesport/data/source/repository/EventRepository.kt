@@ -4,8 +4,8 @@
  */
 package id.mustofa.kadesport.data.source.repository
 
-import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.data.State
+import id.mustofa.kadesport.data.entity.Event
 
 interface EventRepository {
 

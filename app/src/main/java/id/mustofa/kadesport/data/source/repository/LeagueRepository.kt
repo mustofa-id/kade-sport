@@ -4,8 +4,8 @@
  */
 package id.mustofa.kadesport.data.source.repository
 
-import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State
+import id.mustofa.kadesport.data.entity.League
 
 interface LeagueRepository {
 

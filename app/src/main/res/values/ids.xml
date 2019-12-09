@@ -10,20 +10,24 @@
   <item name="menuFavorite" type="id" />
   <item name="parentContainer" type="id" />
   <item name="items" type="id" />
-  <item name="loadingProgress" type="id" />
-  <item name="messageContainer" type="id" />
-  <item name="messageImage" type="id" />
-  <item name="messageText" type="id" />
+  <item name="messageView" type="id" />
   <item name="searchInput" type="id" />
-  <item name="searchContainer" type="id" />
+  <item name="searchView" type="id" />
   <item name="titleHome" type="id" />
   <item name="scoreText" type="id" />
   <item name="playTimeText" type="id" />
   <item name="titleAway" type="id" />
-  <item name="itemDescContainer" type="id" />
-  <item name="eventNextContainer" type="id" />
-  <item name="eventPastContainer" type="id" />
   <item name="itemDescText" type="id" />
-  <item name="mainTab" type="id" />
   <item name="menuSearch" type="id" />
+  <item name="homeToolbar" type="id" />
+  <item name="homePager" type="id" />
+  <item name="clusterListView" type="id" />
+  <item name="eventView" type="id" />
+  <item name="eventBadgeView" type="id" />
+  <item name="eventVs" type="id" />
+  <item name="sectionInfoView" type="id" />
+  <item name="teamLineupView" type="id" />
+  <item name="loadingView" type="id" />
+  <item name="teamView" type="id" />
+  <item name="leagueView" type="id" />
 </resources>

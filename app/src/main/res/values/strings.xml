@@ -1,22 +1,20 @@
 <resources>
   <string name="app_name">Kade Sport</string>
   <string name="db_name">league-sport.db</string>
-  <string name="title_detail">Detail league</string>
-  <string name="title_event">Events</string>
-  <string name="title_event_detail">Detail event</string>
+  <string name="dismiss">Dismiss</string>
   <string name="title_event_search">Search events</string>
   <string name="title_event_favorite">Favorite event</string>
   <string name="title_league">League</string>
   <string name="msg_empty_result">No data!</string>
-  <string name="msg_failed_result">Failed to fetch data!</string>
   <string name="msg_failed_add_fav">Failed to add to favorite!</string>
   <string name="msg_failed_remove_fav">Failed to remove from favorite!</string>
   <string name="msg_ok_add_fav">Added to favorite</string>
   <string name="msg_ok_remove_fav">Removed from favorite!</string>
   <string name="msg_please_wait">Please wait…</string>
-  <string name="msg_response_empty">Clouds is cloudy, you got nothing!</string>
-  <string name="msg_response_failure">Ops! Request failed</string>
-  <string name="msg_response_error">Something\'s wrong!\nAre you OK? I mean your network</string>
   <string name="msg_long_wait">Anyway, why don\'t you order a chicken or sandwich?</string>
-  <string name="close">Close</string>
+  <string name="msg_response_empty">You got nothing!</string>
+  <string name="msg_response_failure">Ops! Response failure</string>
+  <string name="msg_response_error">Ops! Response error</string>
+  <string name="menu_favorite">Toggle favorite</string>
+  <string name="menu_search">Search</string>
 </resources>

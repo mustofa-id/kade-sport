@@ -31,7 +31,7 @@ object ServiceLocator {
   fun provideLeagueRepository(context: Context) = leagueRepository ?: synchronized(this) {
     leagueRepository ?: DefaultLeagueRepository(
       embeddedSource = LeagueDataSource(),
-      remoteSource = createTheSportDbService(context)
+      cacheableRemoteSource = createTheSportDbService(context, true)
     )
   }
 

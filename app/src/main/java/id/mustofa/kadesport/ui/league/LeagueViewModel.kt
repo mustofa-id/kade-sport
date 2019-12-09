@@ -8,30 +8,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State
+import id.mustofa.kadesport.data.State.Loading
+import id.mustofa.kadesport.data.entity.League
 import id.mustofa.kadesport.data.source.repository.LeagueRepository
 import kotlinx.coroutines.launch
 
-class LeagueViewModel(private val repository: LeagueRepository) : ViewModel() {
+class LeagueViewModel(private val leagueRepo: LeagueRepository) : ViewModel() {
 
-  private val _leagues = MutableLiveData<List<League>>()
-  val leagues: LiveData<List<League>> = _leagues
-
-  private val _loading = MutableLiveData<Boolean>()
-  val loading: LiveData<Boolean> = _loading
+  private val _leagues = MutableLiveData<State<List<League>>>()
+  val leagues: LiveData<State<List<League>>> = _leagues
 
   init {
     loadLeagues()
   }
 
   private fun loadLeagues() {
-    _loading.postValue(true)
+    _leagues.postValue(Loading)
     viewModelScope.launch {
-      when (val state = repository.getAll()) {
-        is State.Success -> _leagues.postValue(state.data)
-      }
-      _loading.postValue(false)
+      val state = leagueRepo.getAll()
+      _leagues.postValue(state)
     }
   }
 }

@@ -4,56 +4,67 @@
  */
 package id.mustofa.kadesport.ui.league
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.ImageView.ScaleType
 import android.widget.TextView
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.ext.applyClickEffect
+import id.mustofa.kadesport.data.entity.League
+import id.mustofa.kadesport.util.GlideRequests
+import id.mustofa.kadesport.view.applyClickEffect
+import id.mustofa.kadesport.view.base.EntityView
 import org.jetbrains.anko.*
-import org.jetbrains.anko.cardview.v7.cardView
+import org.jetbrains.anko.cardview.v7._CardView
 
-class LeagueItemView : AnkoComponent<ViewGroup> {
+class LeagueItemView(context: Context) : _CardView(context), EntityView<League> {
 
-  override fun createView(ui: AnkoContext<ViewGroup>) = with(ui) {
-    cardView {
-      applyClickEffect()
-      lparams(
-        width = matchParent,
-        height = dip(186)
-      ) { margin = 8 }
+  private lateinit var glide: GlideRequests
+  private val badge: ImageView
+  private val title: TextView
 
-      imageView {
-        id = R.id.itemBadge
-        scaleType = ScaleType.CENTER_CROP
-      }.lparams(
-        width = matchParent,
-        height = matchParent
-      )
-
-      textView {
-        id = R.id.itemTitle
-        maxLines = 1
-        textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-        backgroundResource = R.drawable.bg_title_gradient
-        padding = dip(8)
-        textColor = Color.WHITE
-        typeface = Typeface.DEFAULT_BOLD
-        textSize = 16f // anko textView already interprets value in sp units
-      }.lparams(
-        gravity = Gravity.CENTER or Gravity.BOTTOM,
-        width = matchParent
-      )
-    }
+  constructor(
+    glide: GlideRequests,
+    parent: ViewGroup
+  ) : this(parent.context) {
+    this.glide = glide
   }
 
-  companion object {
-    fun create(parent: ViewGroup): FrameLayout {
-      val ankoContext = AnkoContext.Companion.create(parent.context, parent)
-      return LeagueItemView().createView(ankoContext)
-    }
+  init {
+    applyClickEffect()
+    lparams(
+      width = matchParent,
+      height = dip(186)
+    ) { margin = 8 }
+
+    badge = imageView {
+      id = R.id.itemBadge
+      scaleType = ScaleType.CENTER_CROP
+    }.lparams(
+      width = matchParent,
+      height = matchParent
+    )
+
+    title = textView {
+      id = R.id.itemTitle
+      maxLines = 1
+      textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+      backgroundResource = R.drawable.bg_title_gradient
+      padding = dip(8)
+      textColor = Color.WHITE
+      typeface = Typeface.DEFAULT_BOLD
+      textSize = 16f // anko textView already interprets value in sp units
+    }.lparams(
+      gravity = Gravity.CENTER or Gravity.BOTTOM,
+      width = matchParent
+    )
+  }
+
+  override fun bind(e: League) {
+    title.text = e.name
+    glide.load(e.badgeUrl).into(badge)
   }
 }

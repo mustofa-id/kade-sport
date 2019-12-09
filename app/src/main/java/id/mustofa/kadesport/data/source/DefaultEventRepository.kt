@@ -5,9 +5,9 @@
 package id.mustofa.kadesport.data.source
 
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.data.Event
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.*
+import id.mustofa.kadesport.data.entity.Event
 import id.mustofa.kadesport.data.source.local.EventDataSource
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
 import id.mustofa.kadesport.data.source.remote.handleResponse
@@ -50,9 +50,8 @@ class DefaultEventRepository(
     return successOf(response) {
       val data = events
         ?.filter { it.sport == "Soccer" }
-        ?.apply {
-          forEach { it.applyBadge() }
-        } ?: return Empty
+        ?.apply { forEach { it.applyBadge() } }
+      if (data.isNullOrEmpty()) return Empty
       Success(data)
     }
   }
@@ -64,6 +63,7 @@ class DefaultEventRepository(
 
   override suspend fun getFavorites(): State<List<Event>> {
     val favorites = localSource.getAllFavorites()
+    if (favorites.isEmpty()) return Empty
     return Success(favorites)
   }
 

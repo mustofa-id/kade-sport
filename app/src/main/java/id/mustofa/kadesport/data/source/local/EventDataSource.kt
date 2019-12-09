@@ -4,7 +4,7 @@
  */
 package id.mustofa.kadesport.data.source.local
 
-import id.mustofa.kadesport.data.Event
+import id.mustofa.kadesport.data.entity.Event
 import id.mustofa.kadesport.util.contentValueOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

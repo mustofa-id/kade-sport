@@ -1,6 +1,6 @@
 package id.mustofa.kadesport.data.source.embedded
 
-import id.mustofa.kadesport.data.League
+import id.mustofa.kadesport.data.entity.League
 
 class LeagueDataSource {
 

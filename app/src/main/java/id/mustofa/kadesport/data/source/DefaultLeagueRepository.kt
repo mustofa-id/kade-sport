@@ -4,9 +4,9 @@
  */
 package id.mustofa.kadesport.data.source
 
-import id.mustofa.kadesport.data.League
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.Success
+import id.mustofa.kadesport.data.entity.League
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
 import id.mustofa.kadesport.data.source.remote.handleResponse
@@ -17,7 +17,7 @@ import kotlinx.coroutines.delay
 
 class DefaultLeagueRepository(
   private val embeddedSource: LeagueDataSource,
-  private val remoteSource: TheSportDbService
+  private val cacheableRemoteSource: TheSportDbService
 ) : LeagueRepository {
 
   override suspend fun getAll(): State<List<League>> {
@@ -28,7 +28,7 @@ class DefaultLeagueRepository(
   }
 
   override suspend fun get(id: Long): State<League> {
-    val response = handleResponse { remoteSource.lookupLeague(id) }
+    val response = handleResponse { cacheableRemoteSource.lookupLeague(id) }
     return successOf(response) {
       val data = leagues?.get(0) ?: return State.Empty
       Success(data)

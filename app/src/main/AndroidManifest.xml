@@ -28,22 +28,6 @@
     <activity
       android:name=".ui.MainActivity"
       android:theme="@style/AppTheme.NoActionBar" />
-
-    <activity
-      android:name=".ui.leaguedetail.LeagueDetailActivity"
-      android:label="@string/title_detail" />
-
-    <activity
-      android:name=".ui.leagueevents.LeagueEventActivity"
-      android:label="@string/title_event" />
-
-    <activity
-      android:name=".ui.leagueeventdetail.LeagueEventDetailActivity"
-      android:label="@string/title_event_detail" />
-
-    <activity
-      android:name=".ui.leagueeventsearch.LeagueEventSearchActivity"
-      android:theme="@style/AppTheme.NoActionBar" />
   </application>
 
 </manifest>

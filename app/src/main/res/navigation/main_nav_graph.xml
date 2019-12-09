@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/main_nav_graph"
+  app:startDestination="@id/homeFragment">
+
+  <!-- fragments -->
+  <fragment
+    android:id="@+id/homeFragment"
+    android:name="id.mustofa.kadesport.ui.home.HomeFragment">
+    <action
+      android:id="@+id/action_to_leagueDetail"
+      app:destination="@id/leagueDetailFragment" />
+  </fragment>
+
+  <fragment
+    android:id="@+id/leagueDetailFragment"
+    android:name="id.mustofa.kadesport.ui.leaguedetail.LeagueDetailFragment">
+    <argument
+      android:name="leagueId"
+      android:defaultValue="0L"
+      app:argType="long" />
+    <action
+      android:id="@+id/action_to_event"
+      app:destination="@id/eventFragment" />
+  </fragment>
+
+  <fragment
+    android:id="@+id/eventDetailFragment"
+    android:name="id.mustofa.kadesport.ui.eventdetail.EventDetailFragment">
+    <argument
+      android:name="eventId"
+      android:defaultValue="0L"
+      app:argType="long" />
+  </fragment>
+
+  <fragment
+    android:id="@+id/eventFragment"
+    android:name="id.mustofa.kadesport.ui.event.EventFragment">
+    <argument
+      android:name="leagueId"
+      android:defaultValue="0L"
+      app:argType="long" />
+    <argument
+      android:name="eventType"
+      app:argType="id.mustofa.kadesport.data.source.repository.EventRepository$EventType" />
+    <argument
+      android:name="desc"
+      android:defaultValue="Events"
+      app:argType="string" />
+  </fragment>
+
+  <fragment
+    android:id="@+id/searchFragment"
+    android:name="id.mustofa.kadesport.ui.search.SearchFragment"
+    android:label="SearchFragment" />
+
+  <!-- Global actions -->
+  <action
+    android:id="@+id/action_to_detailEvent"
+    app:destination="@id/eventDetailFragment" />
+
+  <action
+    android:id="@+id/action_to_search"
+    app:destination="@id/searchFragment" />
+</navigation>
