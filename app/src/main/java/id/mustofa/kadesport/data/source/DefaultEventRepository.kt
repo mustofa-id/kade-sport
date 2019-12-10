@@ -62,18 +62,18 @@ class DefaultEventRepository(
   }
 
   override suspend fun getFavorites(): State<List<Event>> {
-    val favorites = localSource.getAllFavorites()
+    val favorites = localSource.getFavorites()
     if (favorites.isEmpty()) return Empty
     return Success(favorites)
   }
 
   override suspend fun addFavorite(event: Event): State<Boolean> {
-    val add = localSource.addFavorite(event)
+    val add = localSource.saveFavorite(event)
     return if (add > 0) Success(true) else Error(R.string.msg_failed_add_fav)
   }
 
   override suspend fun removeFavorite(id: Long): State<Boolean> {
-    val remove = localSource.removeFavorite(id)
+    val remove = localSource.deleteFavorite(id)
     return if (remove > 0) Success(true) else Error(R.string.msg_failed_remove_fav)
   }
 

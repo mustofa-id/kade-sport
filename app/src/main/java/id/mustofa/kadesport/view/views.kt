@@ -77,6 +77,11 @@ inline fun ViewManager.teamLineupView(init: TeamLineupView.() -> Unit): TeamLine
   return ankoView({ TeamLineupView(it) }, 0, init)
 }
 
+fun ViewManager.listingView() = listingView { }
+inline fun ViewManager.listingView(init: ListingView.() -> Unit): ListingView {
+  return ankoView({ ListingView(it) }, 0, init)
+}
+
 fun <T : View> T.withHolder(onItemClick: ((View, Int) -> Unit)? = null): EntityViewHolder<T> {
   return EntityViewHolder(this).apply {
     onItemClick?.also { itemClick ->

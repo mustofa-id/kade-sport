@@ -8,17 +8,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.data.entity.base.Entity
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
 import id.mustofa.kadesport.util.GlideApp
-import id.mustofa.kadesport.view.StateView
+import id.mustofa.kadesport.view.ListingView
+import id.mustofa.kadesport.view.listingView
 import id.mustofa.kadesport.view.onQuerySubmit
-import id.mustofa.kadesport.view.stateView
 import org.jetbrains.anko.appcompat.v7.searchView
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.dip
@@ -32,8 +30,7 @@ class SearchFragment : Fragment() {
   private val model: SearchViewModel by viewModel()
 
   private lateinit var adapter: SearchAdapter
-  private lateinit var stateView: StateView<List<Entity>>
-  private lateinit var searchView: SearchView
+  private lateinit var listingView: ListingView
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -44,18 +41,19 @@ class SearchFragment : Fragment() {
       lparams(matchParent, matchParent)
       cardView {
         id = R.id.searchView
-        searchView = searchView {
+        searchView {
           id = R.id.searchInput
           setIconifiedByDefault(false)
-          queryHint = getString(R.string.title_event_search)
+          queryHint = getString(R.string.title_search_hint)
           requestFocus()
+          setQuery(model.currentQuery, false)
           onQuerySubmit { it?.let { query -> model.search(query) }; true }
         }.lparams(matchParent)
       }.lparams(matchParent) {
         horizontalMargin = dip(16)
         topMargin = dip(16)
       }
-      stateView = stateView()
+      listingView = listingView()
     }
   }.view
 
@@ -63,15 +61,16 @@ class SearchFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     setupStateView()
     subscribeObservers()
-    searchView.setQuery(model.currentQuery, false)
   }
 
   private fun setupStateView() {
     adapter = SearchAdapter(GlideApp.with(this))
-    stateView.setup(adapter, LinearLayoutManager(context))
+    listingView.setup(adapter, LinearLayoutManager(context))
   }
 
   private fun subscribeObservers() {
-    observe(model.eventState) { stateView.handleState(it, adapter::submitList) }
+    observe(model.result, adapter::submitList)
+    observe(model.loading, listingView::isLoading)
+    observe(model.error, listingView::setError)
   }
 }

@@ -11,6 +11,7 @@ class KadeApplication : Application() {
   val repositories: Map<String, Any>
     get() = mapOf(
       "leagueRepository" to ServiceLocator.provideLeagueRepository(this),
-      "eventRepository" to ServiceLocator.provideEventRepository(this)
+      "eventRepository" to ServiceLocator.provideEventRepository(this),
+      "teamRepository" to ServiceLocator.provideTeamRepository(this)
     )
 }

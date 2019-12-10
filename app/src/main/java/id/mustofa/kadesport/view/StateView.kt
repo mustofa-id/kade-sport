@@ -52,6 +52,10 @@ class StateView<T>(context: Context) : _FrameLayout(context) {
     }
   }
 
+  fun setRecyclerView(init: RecyclerView.() -> Unit) {
+    init(recyclerView)
+  }
+
   fun setup(adapter: Adapter<*>, manager: LayoutManager) {
     recyclerView.adapter = adapter
     recyclerView.layoutManager = manager

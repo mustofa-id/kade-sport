@@ -8,12 +8,15 @@ import android.content.Context
 import com.google.gson.GsonBuilder
 import id.mustofa.kadesport.data.source.DefaultEventRepository
 import id.mustofa.kadesport.data.source.DefaultLeagueRepository
+import id.mustofa.kadesport.data.source.DefaultTeamRepository
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.local.EventDataSource
 import id.mustofa.kadesport.data.source.local.SportDBHelper
+import id.mustofa.kadesport.data.source.local.TeamDataSource
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
 import id.mustofa.kadesport.data.source.repository.EventRepository
 import id.mustofa.kadesport.data.source.repository.LeagueRepository
+import id.mustofa.kadesport.data.source.repository.TeamRepository
 import okhttp3.Cache
 import okhttp3.CacheControl
 import okhttp3.OkHttpClient
@@ -25,8 +28,12 @@ object ServiceLocator {
 
   @Volatile
   private var leagueRepository: LeagueRepository? = null
+
   @Volatile
   private var eventRepository: EventRepository? = null
+
+  @Volatile
+  private var teamRepository: TeamRepository? = null
 
   fun provideLeagueRepository(context: Context) = leagueRepository ?: synchronized(this) {
     leagueRepository ?: DefaultLeagueRepository(
@@ -40,6 +47,13 @@ object ServiceLocator {
       remoteSource = createTheSportDbService(context),
       cacheableRemoteSource = createTheSportDbService(context, true),
       localSource = createEventDataSource(context)
+    )
+  }
+
+  fun provideTeamRepository(context: Context) = teamRepository ?: synchronized(this) {
+    teamRepository ?: DefaultTeamRepository(
+      cacheableRemoteSource = createTheSportDbService(context, true),
+      localSource = createTeamDataSource(context)
     )
   }
 
@@ -83,8 +97,17 @@ object ServiceLocator {
   }
 
   private fun createEventDataSource(context: Context): EventDataSource {
-    val dbName = context.getString(R.string.db_name)
-    val dbHelper = SportDBHelper(context, dbName)
+    val dbHelper = sportDBHelper(context)
     return EventDataSource(dbHelper)
+  }
+
+  private fun createTeamDataSource(context: Context): TeamDataSource {
+    val dbHelper = sportDBHelper(context)
+    return TeamDataSource(dbHelper)
+  }
+
+  private fun sportDBHelper(context: Context): SportDBHelper {
+    val dbName = context.getString(R.string.db_name)
+    return SportDBHelper(context, dbName)
   }
 }

@@ -25,6 +25,12 @@ interface TheSportDbService {
   @GET("searchevents.php")
   suspend fun searchEvents(@Query("e") query: String): Response<LeagueEventResponse>
 
+  @GET("lookup_all_teams.php")
+  suspend fun lookupAllTeam(@Query("id") leagueId: Long): Response<TeamResponse>
+
   @GET("lookupteam.php")
   suspend fun lookupTeam(@Query("id") teamId: Long): Response<TeamResponse>
+
+  @GET("searchteams.php")
+  suspend fun searchTeams(@Query("t") query: String): Response<TeamResponse>
 }

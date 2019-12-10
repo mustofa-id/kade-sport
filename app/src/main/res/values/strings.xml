@@ -2,7 +2,7 @@
   <string name="app_name">Kade Sport</string>
   <string name="db_name">league-sport.db</string>
   <string name="dismiss">Dismiss</string>
-  <string name="title_event_search">Search events</string>
+  <string name="title_search_hint">Search events or teams</string>
   <string name="title_event_favorite">Favorite event</string>
   <string name="title_league">League</string>
   <string name="msg_empty_result">No data!</string>
@@ -15,6 +15,8 @@
   <string name="msg_response_empty">You got nothing!</string>
   <string name="msg_response_failure">Ops! Response failure</string>
   <string name="msg_response_error">Ops! Response error</string>
+  <string name="msg_user_unknown_error">Unknown error occurred!</string>
   <string name="menu_favorite">Toggle favorite</string>
   <string name="menu_search">Search</string>
+  <string name="msg_loading">Loading data…</string>
 </resources>
