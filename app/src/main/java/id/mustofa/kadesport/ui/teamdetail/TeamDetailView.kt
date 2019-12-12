@@ -1,8 +1,8 @@
 /*
- * Mustofa on 12/9/19
+ * Mustofa on 12/11/19
  * https://mustofa.id
  */
-package id.mustofa.kadesport.view
+package id.mustofa.kadesport.ui.teamdetail
 
 import android.content.Context
 import android.view.ViewGroup
@@ -12,14 +12,17 @@ import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.util.GlideRequests
 import id.mustofa.kadesport.view.base.EntityView
-import org.jetbrains.anko.*
+import org.jetbrains.anko._LinearLayout
+import org.jetbrains.anko.imageView
+import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.textView
 
-class TeamSimpleView(context: Context) : _LinearLayout(context), EntityView<Team> {
+// TODO: Design this view
+class TeamDetailView(context: Context) : _LinearLayout(context), EntityView<Team> {
 
   private lateinit var glide: GlideRequests
-
   private val badge: ImageView
-  private val title: TextView
+  private val name: TextView
 
   constructor(
     glide: GlideRequests,
@@ -29,24 +32,15 @@ class TeamSimpleView(context: Context) : _LinearLayout(context), EntityView<Team
   }
 
   init {
-    id = R.id.teamSimpleView
-    background = context.selectableItemBackground()
+    id = R.id.teamDetailView
+    lparams(matchParent)
     orientation = VERTICAL
-    isClickable = true
-    isFocusable = true
-    badge = imageView {
-      adjustViewBounds = true
-    }.lparams(dip(126), dip(126)) {
-      margin = dip(8)
-      bottomPadding = dip(8)
-    }
-    title = textView {
-      textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-    }
+    badge = imageView()
+    name = textView()
   }
 
   override fun bind(e: Team) {
-    title.text = e.name
+    name.text = e.name
     if (::glide.isInitialized) {
       glide.load(e.badgePath).into(badge)
     }

@@ -19,7 +19,7 @@ interface TeamRepository {
 
   suspend fun getFavorites(): State<List<Team>>
 
-  suspend fun addFavorite(team: Team): State<Boolean>
+  suspend fun addFavorite(team: Team): State<Int>
 
-  suspend fun removeFavorite(teamId: Long): State<Boolean>
+  suspend fun removeFavorite(teamId: Long): State<Int>
 }

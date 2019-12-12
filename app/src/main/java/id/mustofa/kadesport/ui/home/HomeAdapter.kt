@@ -8,7 +8,7 @@ import android.content.Context
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.ui.eventfavorite.EventFavoriteFragment
+import id.mustofa.kadesport.ui.favorite.FavoriteFragment
 import id.mustofa.kadesport.ui.league.LeagueFragment
 
 class HomeAdapter(context: Context, manager: FragmentManager) :
@@ -16,7 +16,7 @@ class HomeAdapter(context: Context, manager: FragmentManager) :
 
   private val fragments = linkedMapOf(
     context.getString(R.string.title_league) to LeagueFragment(),
-    context.getString(R.string.title_event_favorite) to EventFavoriteFragment()
+    context.getString(R.string.title_favorite) to FavoriteFragment()
   )
 
   override fun getCount() = fragments.size

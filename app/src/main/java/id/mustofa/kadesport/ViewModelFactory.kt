@@ -11,11 +11,12 @@ import id.mustofa.kadesport.data.source.repository.LeagueRepository
 import id.mustofa.kadesport.data.source.repository.TeamRepository
 import id.mustofa.kadesport.ui.event.EventViewModel
 import id.mustofa.kadesport.ui.eventdetail.EventDetailViewModel
-import id.mustofa.kadesport.ui.eventfavorite.EventFavoriteViewModel
+import id.mustofa.kadesport.ui.favorite.FavoriteViewModel
 import id.mustofa.kadesport.ui.league.LeagueViewModel
 import id.mustofa.kadesport.ui.leaguedetail.LeagueDetailViewModel
 import id.mustofa.kadesport.ui.search.SearchViewModel
 import id.mustofa.kadesport.ui.team.TeamViewModel
+import id.mustofa.kadesport.ui.teamdetail.TeamDetailViewModel
 
 class ViewModelFactory(repositories: Map<String, Any>) : ViewModelProvider.NewInstanceFactory() {
 
@@ -31,8 +32,9 @@ class ViewModelFactory(repositories: Map<String, Any>) : ViewModelProvider.NewIn
     EventViewModel::class.java to EventViewModel(eventRepository),
     EventDetailViewModel::class.java to EventDetailViewModel(eventRepository),
     SearchViewModel::class.java to SearchViewModel(eventRepository, teamRepository),
-    EventFavoriteViewModel::class.java to EventFavoriteViewModel(eventRepository),
-    TeamViewModel::class.java to TeamViewModel(teamRepository)
+    FavoriteViewModel::class.java to FavoriteViewModel(eventRepository, teamRepository),
+    TeamViewModel::class.java to TeamViewModel(teamRepository),
+    TeamDetailViewModel::class.java to TeamDetailViewModel(teamRepository)
   )
 
   @Suppress("UNCHECKED_CAST")

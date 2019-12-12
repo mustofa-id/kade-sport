@@ -6,6 +6,7 @@ package id.mustofa.kadesport.data.source.local
 
 import id.mustofa.kadesport.data.entity.Event
 import id.mustofa.kadesport.data.source.local.base.FavoriteDataSource
+import id.mustofa.kadesport.ext.currentTimeMillis
 import id.mustofa.kadesport.util.contentValueOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -36,6 +37,7 @@ class EventDataSource(
   }
 
   override suspend fun saveFavorite(value: Event): Long {
+    value.favoriteDate = currentTimeMillis()
     return withContext(Dispatchers.IO) {
       val values = contentValueOf(value)
       db.use { replace(tableFavoriteEvent, *values) }

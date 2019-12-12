@@ -6,6 +6,7 @@ package id.mustofa.kadesport.view
 
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Handler
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -60,6 +61,10 @@ class ListingView(context: Context) : _FrameLayout(context) {
     }
   }
 
+  fun setRecyclerView(init: RecyclerView.() -> Unit) {
+    init(recyclerView)
+  }
+
   fun setup(entityAdapter: EntityListAdapter, manager: RecyclerView.LayoutManager) {
     adapter = entityAdapter
     adapter.registerAdapterDataObserver(adapterDataObserver)
@@ -68,7 +73,9 @@ class ListingView(context: Context) : _FrameLayout(context) {
   }
 
   fun isLoading(constraint: Boolean) {
-    if (constraint) loadingBar.show() else loadingBar.dismiss()
+    if (constraint) loadingBar.show() else {
+      Handler().postDelayed(loadingBar::dismiss, 500)
+    }
   }
 
   fun setError(message: Int) {

@@ -12,9 +12,9 @@ import org.jetbrains.anko.*
 
 class LoadingView(context: Context) : _LinearLayout(context), EntityView<LoadingView.Model> {
 
-  object Model : Entity {
-    override val id: Long = 0
-  }
+  data class Model(
+    override val id: Long
+  ) : Entity
 
   init {
     id = R.id.loadingView

@@ -2,7 +2,7 @@
  * Mustofa on 12/6/19
  * https://mustofa.id
  */
-package id.mustofa.kadesport.ui.search
+package id.mustofa.kadesport.ui.common
 
 import android.view.View
 import android.view.ViewGroup
@@ -11,17 +11,16 @@ import id.mustofa.kadesport.MainNavGraphDirections
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.entity.Event
 import id.mustofa.kadesport.data.entity.Team
-import id.mustofa.kadesport.ui.common.EntityListAdapter
 import id.mustofa.kadesport.ui.team.TeamView
 import id.mustofa.kadesport.util.GlideRequests
 import id.mustofa.kadesport.view.EventBadgeView
 import id.mustofa.kadesport.view.withHolder
 
-class SearchAdapter(private val glide: GlideRequests) : EntityListAdapter() {
+class GroupedAdapter(private val glide: GlideRequests) : EntityListAdapter() {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
     R.id.eventBadgeView -> EventBadgeView(glide, parent).withHolder(::navigateToEventDetail)
-    R.id.teamView -> TeamView(glide, parent).withHolder()
+    R.id.teamView -> TeamView(glide, parent).withHolder(::navigateToTeamDetail)
     else -> throw IllegalArgumentException("Unknown view type: $viewType")
   }
 
@@ -35,7 +34,13 @@ class SearchAdapter(private val glide: GlideRequests) : EntityListAdapter() {
 
   private fun navigateToEventDetail(view: View, position: Int) {
     val item = getItem(position)
-    val action = MainNavGraphDirections.actionToDetailEvent(item.id)
+    val action = MainNavGraphDirections.actionToEventDetail(item.id)
+    view.findNavController().navigate(action)
+  }
+
+  private fun navigateToTeamDetail(view: View, position: Int) {
+    val item = getItem(position)
+    val action = MainNavGraphDirections.actionToTeamDetail(item.id)
     view.findNavController().navigate(action)
   }
 }

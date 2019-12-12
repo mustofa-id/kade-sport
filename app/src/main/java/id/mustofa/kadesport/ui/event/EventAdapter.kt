@@ -36,7 +36,7 @@ class EventAdapter(private val glide: GlideRequests) : EntityListAdapter() {
 
   private fun onItemClick(view: View, position: Int) {
     val event = getItem(position)
-    val action = MainNavGraphDirections.actionToDetailEvent(event.id)
+    val action = MainNavGraphDirections.actionToEventDetail(event.id)
     view.findNavController().navigate(action)
   }
 }

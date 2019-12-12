@@ -15,92 +15,94 @@ data class Team(
   override val id: Long,
 
   @SerializedName("intLoved")
-  val loved: Int,
+  val loved: Int = 0,
 
   @SerializedName("strTeam")
-  val name: String,
+  val name: String = "",
 
   @SerializedName("intFormedYear")
-  val formedYear: Int,
+  val formedYear: Int?,
 
   @SerializedName("strSport")
-  val sport: String,
+  val sport: String?,
 
   @SerializedName("strLeague")
-  val league: String,
+  val league: String?,
 
   @SerializedName("idLeague")
-  val leagueId: Long,
+  val leagueId: Long = 0,
 
   @SerializedName("strDivision")
-  val division: String,
+  val division: String?,
 
   @SerializedName("strManager")
-  val manager: String,
+  val manager: String?,
 
   @SerializedName("strStadium")
-  val stadium: String,
+  val stadium: String?,
 
   @SerializedName("strKeywords")
-  val keywords: String,
+  val keywords: String?,
 
   @SerializedName("strStadiumThumb")
-  val stadiumThumb: String,
+  val stadiumThumb: String?,
 
   @SerializedName("strStadiumDescription")
-  val stadiumDescription: String,
+  val stadiumDescription: String?,
 
   @SerializedName("strStadiumLocation")
-  val stadiumLocation: String,
+  val stadiumLocation: String?,
 
   @SerializedName("intStadiumCapacity")
-  val stadiumCapacity: Int,
+  val stadiumCapacity: Int = 0,
 
   @SerializedName("strWebsite")
-  val website: String,
+  val website: String?,
 
   @SerializedName("strFacebook")
-  val facebook: String,
+  val facebook: String?,
 
   @SerializedName("strTwitter")
-  val twitter: String,
+  val twitter: String?,
 
   @SerializedName("strInstagram")
-  val instagram: String,
+  val instagram: String?,
 
   @SerializedName("strDescriptionEN")
-  val description: String,
+  val description: String?,
 
   @SerializedName("strGender")
-  val gender: String,
+  val gender: String?,
 
   @SerializedName("strCountry")
-  val country: String,
+  val country: String?,
 
   @SerializedName("strTeamBadge")
-  val badgePath: String,
+  val badgePath: String?,
 
   @SerializedName("strTeamJersey")
-  val jersey: String,
+  val jersey: String?,
 
   @SerializedName("strTeamLogo")
-  val logo: String,
+  val logo: String?,
 
   @SerializedName("strTeamFanart1")
-  val fanart: String,
+  val fanart: String?,
 
   @SerializedName("strTeamFanart2")
-  val fanart2: String,
+  val fanart2: String?,
 
   @SerializedName("strTeamFanart3")
-  val fanart3: String,
+  val fanart3: String?,
 
   @SerializedName("strTeamFanart4")
-  val fanart4: String,
+  val fanart4: String?,
 
   @SerializedName("strTeamBanner")
-  val banner: String,
+  val banner: String?,
 
   @SerializedName("strYoutube")
-  val youtube: String
+  val youtube: String?,
+
+  var favoriteDate: Long
 ) : Entity

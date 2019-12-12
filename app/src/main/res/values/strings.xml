@@ -3,7 +3,7 @@
   <string name="db_name">league-sport.db</string>
   <string name="dismiss">Dismiss</string>
   <string name="title_search_hint">Search events or teams</string>
-  <string name="title_event_favorite">Favorite event</string>
+  <string name="title_favorite">Favorite</string>
   <string name="title_league">League</string>
   <string name="msg_empty_result">No data!</string>
   <string name="msg_failed_add_fav">Failed to add to favorite!</string>

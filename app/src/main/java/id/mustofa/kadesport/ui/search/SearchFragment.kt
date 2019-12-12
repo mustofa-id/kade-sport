@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
+import id.mustofa.kadesport.ui.common.GroupedAdapter
 import id.mustofa.kadesport.util.GlideApp
 import id.mustofa.kadesport.view.ListingView
 import id.mustofa.kadesport.view.listingView
@@ -29,7 +30,7 @@ class SearchFragment : Fragment() {
 
   private val model: SearchViewModel by viewModel()
 
-  private lateinit var adapter: SearchAdapter
+  private lateinit var adapter: GroupedAdapter
   private lateinit var listingView: ListingView
 
   override fun onCreateView(
@@ -64,7 +65,7 @@ class SearchFragment : Fragment() {
   }
 
   private fun setupStateView() {
-    adapter = SearchAdapter(GlideApp.with(this))
+    adapter = GroupedAdapter(GlideApp.with(this))
     listingView.setup(adapter, LinearLayoutManager(context))
   }
 

@@ -46,6 +46,17 @@ fun Toolbar.navigationUpEnable() {
   contentInsetStartWithNavigation = 0
 }
 
+fun Toolbar.favoriteMenuEnable(onClick: () -> Unit) {
+  menu.add(0, R.id.menuFavorite, 0, R.string.menu_favorite)
+    .setIcon(R.drawable.ic_favorite_removed)
+    .setOnMenuItemClickListener { onClick(); true }
+    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+}
+
+fun Toolbar.setFavoriteMenuIcon(iconRes: Int) {
+  menu.findItem(R.id.menuFavorite).setIcon(iconRes)
+}
+
 fun Toolbar.searchMenuEnable() {
   menu.add(0, R.id.menuSearch, 0, R.string.menu_search)
     .setIcon(R.drawable.ic_search)

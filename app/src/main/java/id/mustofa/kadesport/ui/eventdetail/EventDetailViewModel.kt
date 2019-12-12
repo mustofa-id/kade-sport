@@ -32,8 +32,9 @@ class EventDetailViewModel(
   fun loadEvent(eventId: Long) {
     _favoriteMessage.value = 0
     if (_eventState.value != null && event?.id == eventId) return
-    _eventState.value = Loading
 
+    isInFavorite.value = false
+    _eventState.value = Loading
     viewModelScope.launch {
       // check favorite
       val localEvent = checkFavorite(eventId)

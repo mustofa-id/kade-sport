@@ -31,4 +31,5 @@
   <item name="teamView" type="id" />
   <item name="leagueView" type="id" />
   <item name="teamSimpleView" type="id" />
+  <item name="teamDetailView" type="id" />
 </resources>

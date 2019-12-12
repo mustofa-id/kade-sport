@@ -114,5 +114,7 @@ data class Event(
   var awayBadgePath: String?,
 
   @SerializedName("strSport")
-  val sport: String?
+  val sport: String?,
+
+  var favoriteDate: Long
 ) : Entity

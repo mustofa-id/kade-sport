@@ -6,6 +6,7 @@ package id.mustofa.kadesport.data.source.local
 
 import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.data.source.local.base.FavoriteDataSource
+import id.mustofa.kadesport.ext.currentTimeMillis
 import id.mustofa.kadesport.util.contentValueOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -36,6 +37,7 @@ class TeamDataSource(
   }
 
   override suspend fun saveFavorite(value: Team): Long {
+    value.favoriteDate = currentTimeMillis()
     return withContext(Dispatchers.IO) {
       val values = contentValueOf(value)
       db.use { replace(tableFavoriteTeam, *values) }

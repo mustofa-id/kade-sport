@@ -4,6 +4,7 @@
  */
 package id.mustofa.kadesport.data.source
 
+import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.Empty
 import id.mustofa.kadesport.data.State.Success
@@ -20,7 +21,13 @@ class DefaultTeamRepository(
 ) : TeamRepository {
 
   override suspend fun get(id: Long): State<Team> {
-    TODO("not implemented")
+    val response = handleResponse { cacheableRemoteSource.lookupTeam(id) }
+    return successOf(response) {
+      val data = teams
+        ?.firstOrNull { it.id == id }
+        ?: return Empty
+      Success(data)
+    }
   }
 
   override suspend fun getAll(leagueId: Long): State<List<Team>> {
@@ -42,18 +49,25 @@ class DefaultTeamRepository(
   }
 
   override suspend fun getFavorite(teamId: Long): State<Team> {
-    TODO("not implemented")
+    val favorite = localSource.getFavorite(teamId) ?: return Empty
+    return Success(favorite)
   }
 
   override suspend fun getFavorites(): State<List<Team>> {
-    TODO("not implemented")
+    val favorites = localSource.getFavorites()
+    if (favorites.isEmpty()) return Empty
+    return Success(favorites)
   }
 
-  override suspend fun addFavorite(team: Team): State<Boolean> {
-    TODO("not implemented")
+  override suspend fun addFavorite(team: Team): State<Int> {
+    val add = localSource.saveFavorite(team)
+    return if (add > 0) Success(R.string.msg_ok_add_fav)
+    else State.Error(R.string.msg_failed_add_fav)
   }
 
-  override suspend fun removeFavorite(teamId: Long): State<Boolean> {
-    TODO("not implemented")
+  override suspend fun removeFavorite(teamId: Long): State<Int> {
+    val remove = localSource.deleteFavorite(teamId)
+    return if (remove > 0) Success(R.string.msg_ok_remove_fav)
+    else State.Error(R.string.msg_failed_remove_fav)
   }
 }

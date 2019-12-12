@@ -1,8 +1,8 @@
 /*
- * Mustofa on 12/4/19
+ * Mustofa on 12/10/19
  * https://mustofa.id
  */
-package id.mustofa.kadesport.ui.eventdetail
+package id.mustofa.kadesport.ui.teamdetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,9 +14,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
-import id.mustofa.kadesport.R
-import id.mustofa.kadesport.data.entity.Event
-import id.mustofa.kadesport.data.entity.base.Entity
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
 import id.mustofa.kadesport.util.GlideApp
@@ -28,25 +25,24 @@ import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.UI
 
-class EventDetailFragment : Fragment() {
+class TeamDetailFragment : Fragment() {
 
-  private val args: EventDetailFragmentArgs by navArgs()
-  private val model: EventDetailViewModel by viewModel()
+  private val args: TeamDetailFragmentArgs by navArgs()
+  private val model: TeamDetailViewModel by viewModel()
 
-  private lateinit var adapter: EventDetailAdapter
-  private lateinit var stateView: StateView<Entity>
+  private lateinit var adapter: TeamDetailAdapter
+  private lateinit var listingView: ListingView
   private lateinit var toolbar: Toolbar
 
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
-    state: Bundle?
+    savedInstanceState: Bundle?
   ): View? = UI {
     coordinatorLayout {
       appBarLayout {
         lparams(matchParent)
         toolbar = toolbar {
-          title = "Loading..."
           navigationUpEnable()
           favoriteMenuEnable(model::toggleFavorite)
           searchMenuEnable()
@@ -54,31 +50,26 @@ class EventDetailFragment : Fragment() {
           scrollFlags = SCROLL_FLAG_SNAP
         }
       }
-      stateView = stateView<Entity>()
+      listingView = listingView()
         .lparams(matchParent, matchParent) {
           behavior = AppBarLayout.ScrollingViewBehavior()
         }
     }
   }.view
 
-  override fun onViewCreated(view: View, state: Bundle?) {
-    super.onViewCreated(view, state)
-    adapter = EventDetailAdapter(GlideApp.with(this))
-    stateView.setup(adapter, LinearLayoutManager(context))
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    adapter = TeamDetailAdapter(GlideApp.with(this))
+    listingView.setup(adapter, LinearLayoutManager(context))
     subscribeObservers()
-    model.loadEvent(args.eventId)
+    model.loadTeam(args.teamId)
   }
 
   private fun subscribeObservers() {
-    observe(model.favoriteIcon) { toolbar.menu.findItem(R.id.menuFavorite).setIcon(it) }
-    observe(model.favoriteMessage) { if (it != 0) stateView.longSnackbar(it) }
-    observe(model.eventState) { state ->
-      stateView.handleState(state) {
-        if (it is Event) {
-          toolbar.title = "${it.homeName} VS ${it.awayName}"
-        }
-        adapter.submitList(listOf(it))
-      }
-    }
+    observe(model.error, listingView::setError)
+    observe(model.loading, listingView::isLoading)
+    observe(model.favoriteIcon, toolbar::setFavoriteMenuIcon)
+    observe(model.favoriteMessage) { if (it != 0) listingView.longSnackbar(it) }
+    observe(model.team, adapter::setTeam)
   }
 }
