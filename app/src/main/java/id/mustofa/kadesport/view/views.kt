@@ -15,6 +15,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import com.google.android.material.chip.ChipGroup
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.ui.common.EntityListAdapter.EntityViewHolder
 import org.jetbrains.anko.appcompat.v7.navigationIconResource
@@ -95,6 +96,14 @@ inline fun ViewManager.teamLineupView(init: TeamLineupView.() -> Unit): TeamLine
 fun ViewManager.listingView() = listingView { }
 inline fun ViewManager.listingView(init: ListingView.() -> Unit): ListingView {
   return ankoView({ ListingView(it) }, 0, init)
+}
+
+inline fun ViewManager.carouselView(init: CarouselView.() -> Unit): CarouselView {
+  return ankoView({ CarouselView(it) }, 0, init)
+}
+
+fun ViewManager.chipGroup(): ChipGroup {
+  return ankoView({ ChipGroup(it) }, 0) {}
 }
 
 fun <T : View> T.withHolder(onItemClick: ((View, Int) -> Unit)? = null): EntityViewHolder<T> {

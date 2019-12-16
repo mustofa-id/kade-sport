@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.entity.Event
-import id.mustofa.kadesport.ext.str
+import id.mustofa.kadesport.ext.dashable
 import id.mustofa.kadesport.util.GlideRequests
 import id.mustofa.kadesport.view.base.EntityView
 import org.jetbrains.anko.*
@@ -106,8 +106,8 @@ class EventBadgeView(context: Context) : _RelativeLayout(context), EntityView<Ev
   }
 
   override fun bind(e: Event): Unit = with(e) {
-    val bothScore = "${homeScore.str()} : ${awayScore.str()}"
-    val dateTime = "${time.str()}\n${date.str()}"
+    val bothScore = "${homeScore.dashable()} : ${awayScore.dashable()}"
+    val dateTime = "${time.dashable()}\n${date.dashable()}"
     homeTitle.text = homeName
     awayTitle.text = awayName
     score.text = bothScore

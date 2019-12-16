@@ -10,7 +10,7 @@ import android.view.Gravity
 import android.widget.TextView
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.entity.Event
-import id.mustofa.kadesport.ext.str
+import id.mustofa.kadesport.ext.dashable
 import id.mustofa.kadesport.view.base.EntityView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7._CardView
@@ -75,9 +75,9 @@ class EventView(context: Context) : _CardView(context), EntityView<Event> {
   }
 
   private fun String?.toSortDate(): String {
-    if (this.isNullOrBlank()) return str()
+    if (this.isNullOrBlank()) return dashable()
     val defaultFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val newFormat = SimpleDateFormat("dd/MM/yy", Locale.getDefault())
-    return defaultFormat.parse(this)?.let { newFormat.format(it) }.str()
+    return defaultFormat.parse(this)?.let { newFormat.format(it) }.dashable()
   }
 }
