@@ -6,44 +6,60 @@ package id.mustofa.kadesport.view
 
 import android.content.Context
 import android.graphics.Typeface
+import android.view.Gravity
 import android.widget.TextView
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.entity.Event
+import id.mustofa.kadesport.ext.str
 import id.mustofa.kadesport.view.base.EntityView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7._CardView
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EventView(context: Context) : _CardView(context), EntityView<Event> {
 
   private lateinit var home: TextView
   private lateinit var away: TextView
+  private lateinit var info: TextView
 
   init {
-    // TODO: Add more properties
     id = R.id.eventView
     applyClickEffect()
-    lparams(dip(256), dip(172))
+    lparams(dip(256), dip(148))
     useCompatPadding = true
+    radius = dip(8).toFloat()
     relativeLayout {
       padding = dip(16)
-      textView("VS") {
+      backgroundResource = R.drawable.bg_event
+      info = textView {
         id = R.id.eventVs
-        textSize = 24f
-        setTypeface(typeface, Typeface.BOLD_ITALIC)
+        backgroundResource = R.drawable.bg_event_info
+        typeface = Typeface.DEFAULT_BOLD
+        gravity = Gravity.CENTER
       }.lparams {
-        centerInParent()
+        alignParentBottom()
+        centerHorizontally()
+        bottomMargin = dip(24)
       }
-      home = textView().lparams {
+      home = textView {
+        textSize = 18F
+        typeface = Typeface.DEFAULT_BOLD
+        textColorResource = android.R.color.white
+      }.lparams {
         alignParentStart()
         alignParentTop()
-        startOf(R.id.eventVs)
+        // startOf(R.id.eventVs)
       }
       away = textView {
         textAlignment = TextView.TEXT_ALIGNMENT_TEXT_END
+        textSize = 18F
+        typeface = Typeface.DEFAULT_BOLD
+        textColorResource = android.R.color.white
       }.lparams {
         alignParentEnd()
         alignParentBottom()
-        endOf(R.id.eventVs)
+        // endOf(R.id.eventVs)
       }
     }
   }
@@ -51,5 +67,17 @@ class EventView(context: Context) : _CardView(context), EntityView<Event> {
   override fun bind(e: Event) {
     home.text = e.homeName
     away.text = e.awayName
+    info.text = if (e.homeScore == null && e.awayScore == null) {
+      e.dateEvent.toSortDate()
+    } else {
+      "${e.homeScore} - ${e.awayScore}"
+    }
+  }
+
+  private fun String?.toSortDate(): String {
+    if (this.isNullOrBlank()) return str()
+    val defaultFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val newFormat = SimpleDateFormat("dd/MM/yy", Locale.getDefault())
+    return defaultFormat.parse(this)?.let { newFormat.format(it) }.str()
   }
 }

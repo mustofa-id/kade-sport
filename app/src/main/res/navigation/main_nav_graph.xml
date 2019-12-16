@@ -88,7 +88,9 @@
   <!-- Global actions -->
   <action
     android:id="@+id/action_to_eventDetail"
-    app:destination="@id/eventDetailFragment" />
+    app:destination="@id/eventDetailFragment"
+    app:enterAnim="@anim/slide_in_right"
+    app:exitAnim="@anim/slide_out_left" />
 
   <action
     android:id="@+id/action_to_search"
