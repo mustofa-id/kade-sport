@@ -7,8 +7,11 @@ package id.mustofa.kadesport.view
 import android.content.Context
 import android.graphics.Typeface
 import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import id.mustofa.kadesport.R
 import org.jetbrains.anko.*
 
@@ -17,6 +20,7 @@ class ClusterView(context: Context) : _LinearLayout(context) {
   private val header: FrameLayout
 
   private lateinit var headerTitle: TextView
+  private lateinit var arrowImage: ImageView
 
   init {
     lparams(matchParent) {
@@ -27,7 +31,6 @@ class ClusterView(context: Context) : _LinearLayout(context) {
       lparams(matchParent) {
         horizontalPadding = dip(16)
       }
-      applyClickEffect()
       linearLayout {
         lparams(matchParent) {
           orientation = HORIZONTAL
@@ -41,7 +44,8 @@ class ClusterView(context: Context) : _LinearLayout(context) {
           verticalPadding = dip(8)
         }
         // head arrow
-        imageView(R.drawable.ic_arrow_forward) {
+        arrowImage = imageView(R.drawable.ic_arrow_forward) {
+          visibility = View.GONE
         }.lparams {
           marginStart = dip(8)
         }
@@ -54,7 +58,11 @@ class ClusterView(context: Context) : _LinearLayout(context) {
     headerTitle.text = title
   }
 
-  override fun setOnClickListener(l: OnClickListener?) {
-    header.setOnClickListener(l)
+  override fun setOnClickListener(listener: OnClickListener?) {
+    listener?.let {
+      arrowImage.isVisible = true
+      header.setOnClickListener(it)
+      header.applyClickEffect()
+    }
   }
 }

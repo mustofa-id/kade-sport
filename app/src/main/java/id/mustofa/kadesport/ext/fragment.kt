@@ -18,6 +18,8 @@ inline fun <reified T : ViewModel> Fragment.viewModel() = lazy {
   ViewModelProviders.of(requireActivity(), ViewModelFactory(repositories))[T::class.java]
 }
 
-fun <T> Fragment.observe(liveData: LiveData<T>, value: (T) -> Unit) {
-  liveData.observe(viewLifecycleOwner, Observer(value))
+fun <T> Fragment.observe(liveData: LiveData<T>, observe: (T) -> Unit) {
+  liveData.observe(viewLifecycleOwner, Observer {
+    if (it != null) observe(it)
+  })
 }

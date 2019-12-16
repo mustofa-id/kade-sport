@@ -64,7 +64,11 @@ fun Toolbar.searchMenuEnable() {
     .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
 }
 
-fun <T> ViewManager.stateView() = stateView<T> { }
+fun ViewManager.messageView() = messageView {}
+inline fun ViewManager.messageView(init: MessageView.() -> Unit): MessageView {
+  return ankoView({ MessageView(it) }, 0, init)
+}
+
 inline fun <T> ViewManager.stateView(init: StateView<T>.() -> Unit): StateView<T> {
   return ankoView({ StateView(it) }, 0, init)
 }

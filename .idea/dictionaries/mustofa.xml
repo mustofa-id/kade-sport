@@ -15,6 +15,7 @@
       <w>bundesliga</w>
       <w>cacheable</w>
       <w>calcio</w>
+      <w>classement</w>
       <w>concacaf</w>
       <w>coroutine</w>
       <w>coruña</w>
@@ -33,6 +34,9 @@
       <w>floatable</w>
       <w>fußball</w>
       <w>fútbol</w>
+      <w>goalsagainst</w>
+      <w>goalsdifference</w>
+      <w>goalsfor</w>
       <w>gson</w>
       <w>iffhs</w>
       <w>instagram</w>
@@ -74,6 +78,7 @@
       <w>supercup</w>
       <w>swindon</w>
       <w>teamdetail</w>
+      <w>teamid</w>
       <w>telecom</w>
       <w>uefa</w>
       <w>werder</w>

@@ -33,4 +33,7 @@ interface TheSportDbService {
 
   @GET("searchteams.php")
   suspend fun searchTeams(@Query("t") query: String): Response<TeamResponse>
+
+  @GET("lookuptable.php")
+  suspend fun lookupStandingsTable(@Query("l") leagueId: Long): Response<StandingsTableResponse>
 }

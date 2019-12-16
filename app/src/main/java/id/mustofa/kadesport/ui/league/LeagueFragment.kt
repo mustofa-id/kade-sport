@@ -17,7 +17,9 @@ import id.mustofa.kadesport.ext.viewModel
 import id.mustofa.kadesport.util.GlideApp
 import id.mustofa.kadesport.view.StateView
 import id.mustofa.kadesport.view.stateView
+import org.jetbrains.anko.padding
 import org.jetbrains.anko.support.v4.UI
+import org.jetbrains.anko.support.v4.dip
 
 class LeagueFragment : Fragment() {
 
@@ -30,7 +32,16 @@ class LeagueFragment : Fragment() {
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
-  ): View? = UI { stateView = stateView() }.view
+  ): View? = UI {
+    stateView = stateView {
+      id = R.id.leagueListContainer
+      setRecyclerView {
+        id = R.id.leagueGrid
+        clipToPadding = false
+        padding = dip(8)
+      }
+    }
+  }.view
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)

@@ -9,7 +9,9 @@ import id.mustofa.kadesport.data.entity.Event
 
 interface EventRepository {
 
-  enum class EventType { PAST, NEXT }
+  enum class EventType(val value: String) {
+    PAST("Latest event"), NEXT("Upcoming events")
+  }
 
   suspend fun get(id: Long): State<Event>
 

@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
     state: Bundle?
   ): View? = UI {
     coordinatorLayout {
+      id = R.id.homeFragment
       lparams(matchParent, matchParent)
       // viewPager
       homePager = viewPager {
@@ -44,6 +45,7 @@ class HomeFragment : Fragment() {
       }
       // appBarLayout
       appBarLayout {
+        id = R.id.homeToolbarContainer
         lparams(matchParent)
         // toolbar
         toolbar {
@@ -55,6 +57,7 @@ class HomeFragment : Fragment() {
         }
         // tabLayout
         homeTab = tabLayout {
+          id = R.id.homeTabLayout
           lparams(matchParent)
         }
       }

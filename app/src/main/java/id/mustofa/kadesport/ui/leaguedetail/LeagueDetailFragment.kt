@@ -12,40 +12,47 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
-import id.mustofa.kadesport.data.entity.League
-import id.mustofa.kadesport.data.entity.base.Entity
+import id.mustofa.kadesport.R
+import id.mustofa.kadesport.data.entity.Event
+import id.mustofa.kadesport.data.entity.Standing
+import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.data.source.repository.EventRepository.EventType
-import id.mustofa.kadesport.ext.asClusterList
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
 import id.mustofa.kadesport.ui.event.EventAdapter
-import id.mustofa.kadesport.ui.leaguedetail.view.LoadingView
+import id.mustofa.kadesport.ui.leaguedetail.adapter.ClassementAdapter
+import id.mustofa.kadesport.ui.leaguedetail.view.ClusterListView
+import id.mustofa.kadesport.ui.leaguedetail.view.ClusterListView.Companion.clusterListView
+import id.mustofa.kadesport.ui.leaguedetail.view.LeagueView
+import id.mustofa.kadesport.ui.leaguedetail.view.LeagueView.Companion.leagueView
 import id.mustofa.kadesport.ui.team.TeamAdapter
 import id.mustofa.kadesport.util.GlideApp
 import id.mustofa.kadesport.util.GlideRequests
-import id.mustofa.kadesport.view.StateView
 import id.mustofa.kadesport.view.navigationUpEnable
 import id.mustofa.kadesport.view.searchMenuEnable
-import id.mustofa.kadesport.view.stateView
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.design.appBarLayout
 import org.jetbrains.anko.design.coordinatorLayout
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.UI
+import org.jetbrains.anko.support.v4.nestedScrollView
+import org.jetbrains.anko.verticalLayout
 
-// TODO: Fix this crazy thins
 class LeagueDetailFragment : Fragment() {
 
   private val args: LeagueDetailFragmentArgs by navArgs()
   private val model: LeagueDetailViewModel by viewModel()
 
   private lateinit var glide: GlideRequests
-  private lateinit var adapter: LeagueDetailAdapter
-  private lateinit var stateView: StateView<Entity>
   private lateinit var toolbar: Toolbar
+
+  private lateinit var leagueView: LeagueView
+  private lateinit var teamsView: ClusterListView<Team>
+  private lateinit var pastEventsView: ClusterListView<Event>
+  private lateinit var nextEventsView: ClusterListView<Event>
+  private lateinit var standingsView: ClusterListView<Standing>
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -53,94 +60,70 @@ class LeagueDetailFragment : Fragment() {
     state: Bundle?
   ): View? = UI {
     coordinatorLayout {
+      id = R.id.leagueDetailFragment
       lparams(matchParent, matchParent)
       appBarLayout {
+        id = R.id.leagueDetailToolbarContainer
         lparams(matchParent)
         isLiftOnScroll = true
         toolbar = toolbar {
-          title = "Loading..."
+          id = R.id.leagueDetailToolbar
           navigationUpEnable()
           searchMenuEnable()
         }.lparams(matchParent) {
           scrollFlags = SCROLL_FLAG_SNAP
         }
       }
-      stateView = stateView<Entity>()
-        .lparams(matchParent, matchParent) {
-          behavior = AppBarLayout.ScrollingViewBehavior()
+
+      nestedScrollView {
+        id = R.id.leagueDetailItemContainer
+        verticalLayout {
+          id = R.id.leagueDetailItems
+          leagueView = leagueView()
+          teamsView = clusterListView()
+          pastEventsView = clusterListView()
+          nextEventsView = clusterListView()
+          standingsView = clusterListView()
         }
+      }.lparams(matchParent) {
+        behavior = AppBarLayout.ScrollingViewBehavior()
+      }
     }
   }.view
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     glide = GlideApp.with(this)
-    setupRecyclerView()
-    observeLeague()
-    observeTeams()
-    observeNextEvents()
-    observePastEvents()
-    model.loadAll(args.leagueId)
+    setupViews()
+    subscribeObservers()
+    model.loadLeague(args.leagueId)
   }
 
-  private fun setupRecyclerView() {
-    adapter = LeagueDetailAdapter(glide)
-    stateView.setup(adapter, LinearLayoutManager(context))
+  private fun setupViews() {
+    leagueView.setup(glide, toolbar)
+    teamsView.setup("All teams", TeamAdapter(glide, true)) { goToTeams(it) }
+    pastEventsView.setup("Latest results", EventAdapter(glide)) { goToEvents(it, EventType.PAST) }
+    nextEventsView.setup("Upcoming events", EventAdapter(glide)) { goToEvents(it, EventType.NEXT) }
+    standingsView.setup("Classement table", ClassementAdapter(), true)
   }
 
-  private fun observeLeague() {
-    observe(model.leagueState) { state ->
-      stateView.handleState(state) {
-        if (it is League) {
-          toolbar.title = it.name
-          submit(it)
-        }
-      }
-    }
+  private fun subscribeObservers() {
+    observe(model.leagueState, leagueView::setLeagueState)
+    observe(model.teamState, teamsView::setState)
+    observe(model.pastEventState, pastEventsView::setState)
+    observe(model.nextEventState, nextEventsView::setState)
+    observe(model.standingState, standingsView::setState)
   }
 
-  private fun observeTeams() {
-    val title = "All teams"
-    val teamAdapter = TeamAdapter(glide, true)
-    observe(model.teamState) {
-      submit(it.asClusterList(10, title, teamAdapter) {
-        val desc = "$title | ${toolbar.title}"
-        val action = LeagueDetailFragmentDirections.actionToTeam(args.leagueId, desc)
-        findNavController().navigate(action)
-      })
-    }
-  }
-
-  private fun observeNextEvents() {
-    val title = "Upcoming events"
-    val eventAdapter = EventAdapter(glide)
-    observe(model.nextEventState) {
-      submit(it.asClusterList(11, title, eventAdapter) {
-        navigateToEvents(title, EventType.NEXT)
-      })
-    }
-  }
-
-  private fun observePastEvents() {
-    val title = "Latest events"
-    val eventAdapter = EventAdapter(glide)
-    observe(model.pastEventState) {
-      submit(it.asClusterList(12, title, eventAdapter) {
-        navigateToEvents(title, EventType.PAST)
-      })
-    }
-  }
-
-  private var items = emptyList<Entity>()
-
-  private fun submit(entity: Entity) {
-    items = items.filter { it !is LoadingView.Model && it.id != entity.id } + listOf(entity)
-    adapter.submitList(items)
-  }
-
-  private fun navigateToEvents(title: String, type: EventType) {
-    val desc = "$title | ${toolbar.title}"
+  private fun goToEvents(title: String, type: EventType) {
+    val desc = "$title - ${toolbar.title}"
     val action = LeagueDetailFragmentDirections.actionToEvent(args.leagueId, type, desc)
+    findNavController().navigate(action)
+  }
+
+  private fun goToTeams(title: String) {
+    val desc = "$title - ${toolbar.title}"
+    val action = LeagueDetailFragmentDirections.actionToTeam(args.leagueId, desc)
     findNavController().navigate(action)
   }
 }

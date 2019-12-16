@@ -44,9 +44,12 @@ class EventFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? = UI {
     coordinatorLayout {
+      id = R.id.eventFragment
       appBarLayout {
+        id = R.id.eventToolbarContainer
         lparams(matchParent)
         toolbar {
+          id = R.id.eventToolbar
           title = args.desc
           navigationUpEnable()
           searchMenuEnable()
@@ -54,10 +57,14 @@ class EventFragment : Fragment() {
           scrollFlags = SCROLL_FLAG_SNAP
         }
       }
-      stateView = stateView<List<Event>>()
-        .lparams(matchParent, matchParent) {
-          behavior = AppBarLayout.ScrollingViewBehavior()
+      stateView = stateView<List<Event>> {
+        id = R.id.eventListContainer
+        setRecyclerView {
+          id = R.id.eventList
         }
+      }.lparams(matchParent, matchParent) {
+        behavior = AppBarLayout.ScrollingViewBehavior()
+      }
     }
   }.view
 

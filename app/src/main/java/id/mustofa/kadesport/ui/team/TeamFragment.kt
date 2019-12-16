@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
+import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
@@ -42,9 +43,12 @@ class TeamFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? = UI {
     coordinatorLayout {
+      id = R.id.teamFragment
       appBarLayout {
+        id = R.id.teamToolbarContainer
         lparams(matchParent)
         toolbar {
+          id = R.id.teamToolbar
           title = args.desc
           navigationUpEnable()
           searchMenuEnable()
@@ -53,7 +57,9 @@ class TeamFragment : Fragment() {
         }
       }
       stateView = stateView<List<Team>> {
+        id = R.id.teamListContainer
         setRecyclerView {
+          id = R.id.teamList
           clipToPadding = false
           verticalPadding = dip(16)
         }

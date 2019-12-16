@@ -1,56 +1,74 @@
+/*
+ * Mustofa on 12/15/19
+ * https://mustofa.id
+ */
 package id.mustofa.kadesport.ui.leaguedetail.view
 
 import android.content.Context
-import android.view.View
+import android.view.ViewManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import id.mustofa.kadesport.R
+import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.entity.base.Entity
+import id.mustofa.kadesport.ui.common.EntityListAdapter
 import id.mustofa.kadesport.view.ClusterView
-import id.mustofa.kadesport.view.base.EntityView
+import id.mustofa.kadesport.view.StateView
 import id.mustofa.kadesport.view.clusterView
+import id.mustofa.kadesport.view.stateView
 import org.jetbrains.anko._FrameLayout
+import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalPadding
 import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.recyclerview.v7.recyclerView
 
-class ClusterListView(context: Context) :
-  _FrameLayout(context), EntityView<ClusterListView.Model> {
-
-  data class Model(
-    override val id: Long,
-    val name: String,
-    val adapter: RecyclerView.Adapter<*>,
-    inline val onClick: (View) -> Unit
-  ) : Entity
+class ClusterListView<T : Entity>(context: Context) : _FrameLayout(context) {
 
   private val cluster: ClusterView
-  private lateinit var recyclerView: RecyclerView
+  private lateinit var stateView: StateView<List<T>>
+  private lateinit var adapter: EntityListAdapter
 
   init {
     id = R.id.clusterListView
     lparams(matchParent)
     cluster = clusterView {
-      recyclerView = recyclerView {
-        clipToPadding = false
-        horizontalPadding = dip(14)
+      id = R.id.clusterListContainer
+      stateView = stateView<List<T>> {
+        setRecyclerView {
+          id = R.id.clusterList
+          clipToPadding = false
+          horizontalPadding = dip(14)
+          isNestedScrollingEnabled = true
+        }
       }.lparams(matchParent)
     }
   }
 
-  init {
-    val layoutManager = LinearLayoutManager(
-      context,
-      LinearLayoutManager.HORIZONTAL,
-      false
-    )
-    recyclerView.layoutManager = layoutManager
+  fun setup(
+    title: String,
+    adapter: EntityListAdapter,
+    vertical: Boolean = false,
+    onClick: ((String) -> Unit)? = null
+  ) {
+    this.adapter = adapter
+    cluster.setTitle(title)
+    val layoutManager = if (vertical) {
+      stateView.setRecyclerView { isNestedScrollingEnabled = false }
+      LinearLayoutManager(context)
+    } else {
+      LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+    stateView.setup(adapter, layoutManager)
+    onClick?.let { cluster.setOnClickListener { it(title) } }
   }
 
-  override fun bind(e: Model) {
-    cluster.setTitle(e.name)
-    cluster.setOnClickListener(e.onClick)
-    recyclerView.adapter = e.adapter
+  fun setState(state: State<List<T>>) {
+    stateView.handleState(state, adapter::submitList)
+  }
+
+  companion object {
+    fun <T : Entity> ViewManager.clusterListView(): ClusterListView<T> {
+      return ankoView({ ClusterListView(it) }, 0) {}
+    }
   }
 }
+

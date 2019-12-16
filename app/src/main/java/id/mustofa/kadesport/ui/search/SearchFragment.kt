@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
-import id.mustofa.kadesport.ui.common.GroupedAdapter
+import id.mustofa.kadesport.ui.common.EventTeamAdapter
 import id.mustofa.kadesport.util.GlideApp
 import id.mustofa.kadesport.view.ListingView
 import id.mustofa.kadesport.view.listingView
@@ -30,7 +30,7 @@ class SearchFragment : Fragment() {
 
   private val model: SearchViewModel by viewModel()
 
-  private lateinit var adapter: GroupedAdapter
+  private lateinit var adapter: EventTeamAdapter
   private lateinit var listingView: ListingView
 
   override fun onCreateView(
@@ -39,6 +39,7 @@ class SearchFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? = UI {
     verticalLayout {
+      id = R.id.searchFragment
       lparams(matchParent, matchParent)
       cardView {
         id = R.id.searchView
@@ -54,7 +55,12 @@ class SearchFragment : Fragment() {
         horizontalMargin = dip(16)
         topMargin = dip(16)
       }
-      listingView = listingView()
+      listingView = listingView {
+        id = R.id.searchResultContainer
+        setRecyclerView {
+          id = R.id.searchResults
+        }
+      }
     }
   }.view
 
@@ -65,7 +71,7 @@ class SearchFragment : Fragment() {
   }
 
   private fun setupStateView() {
-    adapter = GroupedAdapter(GlideApp.with(this))
+    adapter = EventTeamAdapter(GlideApp.with(this))
     listingView.setup(adapter, LinearLayoutManager(context))
   }
 

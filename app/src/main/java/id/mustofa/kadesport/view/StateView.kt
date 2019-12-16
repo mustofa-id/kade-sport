@@ -5,9 +5,9 @@
 package id.mustofa.kadesport.view
 
 import android.content.Context
-import android.graphics.Typeface
 import android.view.Gravity
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -20,34 +20,21 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 class StateView<T>(context: Context) : _FrameLayout(context) {
 
   private val recyclerView = recyclerView()
+  private val messageView = messageView()
   private val loadingView = progressBar()
-  private val messageView: LinearLayout
-
-  private lateinit var messageImage: ImageView
-  private lateinit var messageText: TextView
 
   init {
-    messageView = verticalLayout {
-      messageImage = imageView()
-        .lparams(matchParent, dip(92))
-      messageText = textView {
-        textSize = 24f
-        typeface = Typeface.DEFAULT_BOLD
-        textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-      }.lparams(matchParent)
-    }
-
     applyRecursively {
       when (it) {
-        is LinearLayout, is ProgressBar ->
+        is RecyclerView, is FrameLayout ->
+          it.lparams(matchParent, matchParent)
+        is ProgressBar, is MessageView ->
           it.apply {
             lparams(matchParent) {
               gravity = Gravity.CENTER
               padding = dip(16)
             }
           }
-        is RecyclerView, is FrameLayout ->
-          it.lparams(matchParent, matchParent)
       }
     }
   }
@@ -84,7 +71,6 @@ class StateView<T>(context: Context) : _FrameLayout(context) {
   private fun setMessage(image: Int, text: Int) {
     loadingView.isVisible = false
     messageView.isVisible = true
-    messageImage.setImageResource(image)
-    messageText.setText(text)
+    messageView.setMessage(image, text)
   }
 }

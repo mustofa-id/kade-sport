@@ -4,7 +4,6 @@
  */
 package id.mustofa.kadesport.ui.common
 
-
 import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -26,7 +25,7 @@ abstract class EntityListAdapter : ListAdapter<Entity, EntityViewHolder<View>>(E
     override fun areContentsTheSame(old: Entity, new: Entity) = old.sameWith(new)
   }
 
-  private inline fun <V, reified X : EntityView<V>> bindItem(holder: EntityViewHolder<*>, item: V) {
-    if (holder.view is X) holder.view.bind(item)
+  private inline fun <E, reified V : EntityView<E>> bindItem(holder: EntityViewHolder<*>, item: E) {
+    if (holder.view is V) holder.view.bind(item)
   }
 }

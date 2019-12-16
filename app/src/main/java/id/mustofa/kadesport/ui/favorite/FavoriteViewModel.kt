@@ -33,22 +33,25 @@ class FavoriteViewModel(
   val error: LiveData<Int> = _error
 
   private val favoritesSet = mutableSetOf<Entity>()
+  var currentType = FavoriteType.ALL
 
-  fun loadEvents() {
+  fun loadFavorites() {
     _loading.value = true
     viewModelScope.launch {
-      launch { postState(eventRepo.getFavorites()) }
-      launch { postState(teamRepo.getFavorites()) }
+      when (currentType) {
+        FavoriteType.EVENT -> launch { postState(eventRepo.getFavorites()) }
+        FavoriteType.TEAM -> launch { postState(teamRepo.getFavorites()) }
+        FavoriteType.ALL -> {
+          launch { postState(eventRepo.getFavorites()) }
+          launch { postState(teamRepo.getFavorites()) }
+        }
+      }
     }.invokeOnCompletion(::onJobsComplete)
   }
 
   private fun postState(state: State<List<Entity>>) {
     when (state) {
-      is State.Success -> {
-        favoritesSet.addAll(state.data)
-        val result = favoritesSet.toList().sortByFavoriteDate()
-        _favorites.postValue(result)
-      }
+      is State.Success -> favoritesSet.addAll(state.data)
       is State.Error -> _error.postValue(state.message)
     }
   }
@@ -58,8 +61,10 @@ class FavoriteViewModel(
       _error.postValue(R.string.msg_user_unknown_error)
       Log.e(javaClass.name, "onJobsComplete: ", thr)
     }
-    _loading.postValue(false)
+    val result = favoritesSet.toList().sortByFavoriteDate()
+    _favorites.postValue(result)
     favoritesSet.clear()
+    _loading.postValue(false)
   }
 
   private fun List<Entity>.sortByFavoriteDate() = sortedWith(

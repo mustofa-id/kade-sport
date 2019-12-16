@@ -7,6 +7,7 @@ package id.mustofa.kadesport.data.source
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.Success
 import id.mustofa.kadesport.data.entity.League
+import id.mustofa.kadesport.data.entity.Standing
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
 import id.mustofa.kadesport.data.source.remote.handleResponse
@@ -17,7 +18,8 @@ import kotlinx.coroutines.delay
 
 class DefaultLeagueRepository(
   private val embeddedSource: LeagueDataSource,
-  private val cacheableRemoteSource: TheSportDbService
+  private val cacheableRemoteSource: TheSportDbService,
+  private val remoteSource: TheSportDbService
 ) : LeagueRepository {
 
   override suspend fun getAll(): State<List<League>> {
@@ -32,6 +34,14 @@ class DefaultLeagueRepository(
     return successOf(response) {
       val data = leagues?.get(0) ?: return State.Empty
       Success(data)
+    }
+  }
+
+  override suspend fun getStandings(id: Long): State<List<Standing>> {
+    val response = handleResponse { remoteSource.lookupStandingsTable(id) }
+    return successOf(response) {
+      if (table.isNullOrEmpty()) return State.Empty
+      Success(table)
     }
   }
 }

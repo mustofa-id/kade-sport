@@ -43,10 +43,12 @@ class EventDetailFragment : Fragment() {
     state: Bundle?
   ): View? = UI {
     coordinatorLayout {
+      id = R.id.eventDetailFragment
       appBarLayout {
+        id = R.id.eventDetailToolbarContainer
         lparams(matchParent)
         toolbar = toolbar {
-          title = "Loading..."
+          id = R.id.eventDetailToolbar
           navigationUpEnable()
           favoriteMenuEnable(model::toggleFavorite)
           searchMenuEnable()
@@ -54,10 +56,14 @@ class EventDetailFragment : Fragment() {
           scrollFlags = SCROLL_FLAG_SNAP
         }
       }
-      stateView = stateView<Entity>()
-        .lparams(matchParent, matchParent) {
-          behavior = AppBarLayout.ScrollingViewBehavior()
+      stateView = stateView<Entity> {
+        id = R.id.eventDetailItemContainer
+        setRecyclerView {
+          id = R.id.eventDetailItems
         }
+      }.lparams(matchParent, matchParent) {
+        behavior = AppBarLayout.ScrollingViewBehavior()
+      }
     }
   }.view
 

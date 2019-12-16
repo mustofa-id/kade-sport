@@ -16,7 +16,7 @@ import id.mustofa.kadesport.util.GlideRequests
 import id.mustofa.kadesport.view.EventBadgeView
 import id.mustofa.kadesport.view.withHolder
 
-class GroupedAdapter(private val glide: GlideRequests) : EntityListAdapter() {
+class EventTeamAdapter(private val glide: GlideRequests) : EntityListAdapter() {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
     R.id.eventBadgeView -> EventBadgeView(glide, parent).withHolder(::navigateToEventDetail)

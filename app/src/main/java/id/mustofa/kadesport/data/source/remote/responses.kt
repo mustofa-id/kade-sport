@@ -10,6 +10,7 @@ import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.entity.Event
 import id.mustofa.kadesport.data.entity.League
+import id.mustofa.kadesport.data.entity.Standing
 import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.data.source.remote.ResponseResult.Failure
 import id.mustofa.kadesport.data.source.remote.ResponseResult.Success
@@ -27,6 +28,10 @@ data class LeagueEventResponse(
 
 data class TeamResponse(
   val teams: List<Team>?
+)
+
+data class StandingsTableResponse(
+  val table: List<Standing>?
 )
 
 sealed class ResponseResult<out R> {
