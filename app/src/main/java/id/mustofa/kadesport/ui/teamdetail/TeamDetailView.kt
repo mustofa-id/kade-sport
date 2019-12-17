@@ -146,10 +146,11 @@ class TeamDetailView(context: Context) : _LinearLayout(context), EntityView<Team
   }
 
   private fun populateKeywords(e: Team) {
-    e.keywords?.toStrings(",")?.forEach {
-      val keyword = if (it.isBlank()) e.name else it
+    e.keywords.let {
+      if (it.isNullOrBlank()) e.name else it
+    }.toStrings(",")?.forEach {
       val chip = Chip(context).apply {
-        text = keyword
+        text = it
         isClickable = false
       }
       keywords.addView(chip)
