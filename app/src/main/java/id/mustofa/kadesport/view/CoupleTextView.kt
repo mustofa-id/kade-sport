@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.ext.splitLiner
+import id.mustofa.kadesport.ext.newLine
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.tintedImageView
 
@@ -38,11 +38,11 @@ class CoupleTextView(context: Context) : _LinearLayout(context) {
   }
 
   fun setLeftText(text: String?) {
-    leftText.text = text.splitLiner()
+    leftText.text = text.newLine(";")
   }
 
   fun setRightText(text: String?) {
-    rightText.text = text.splitLiner()
+    rightText.text = text.newLine(";")
   }
 
   fun setIcon(iconRes: Int, colorRes: Int) {

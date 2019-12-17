@@ -19,9 +19,13 @@ fun Int?.dashable() = if (this == null) "-" else "$this"
 
 fun String?.dashable() = this ?: "-"
 
-fun String?.splitComma() = this?.split(';')?.dropLastWhile { it.isBlank() }
+fun String?.toStrings(splitter: String) = this
+  ?.split(Regex("$splitter[ ]*"))
+  ?.dropLastWhile { it.isBlank() }
 
-fun String?.splitLiner() = if (isNullOrBlank()) "-" else splitComma()?.joinToString("\n")
+fun String?.newLine(by: String) =
+  if (isNullOrBlank()) "-"
+  else this?.replace(Regex("$by[ ]*"), "\n")
 
 fun String.toIconLink() = socialIcons[this] ?: R.drawable.ic_link
 

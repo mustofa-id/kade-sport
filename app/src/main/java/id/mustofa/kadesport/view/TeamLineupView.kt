@@ -11,7 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import id.mustofa.kadesport.R
-import id.mustofa.kadesport.ext.splitComma
+import id.mustofa.kadesport.ext.toStrings
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7._CardView
 
@@ -45,7 +45,7 @@ class TeamLineupView(context: Context) : _CardView(context) {
   }
 
   fun addLine(players: String?) {
-    playerContainer.addView(lineupView(players.splitComma()))
+    playerContainer.addView(lineupView(players.toStrings(";")))
   }
 
   private fun View.lineupView(values: List<String>?): View {

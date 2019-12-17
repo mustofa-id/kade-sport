@@ -14,10 +14,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+import id.mustofa.kadesport.R
 import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
 import id.mustofa.kadesport.util.GlideApp
 import id.mustofa.kadesport.view.*
+import org.jetbrains.anko.appcompat.v7.titleResource
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.design.appBarLayout
 import org.jetbrains.anko.design.coordinatorLayout
@@ -43,6 +45,7 @@ class TeamDetailFragment : Fragment() {
       appBarLayout {
         lparams(matchParent)
         toolbar = toolbar {
+          titleResource = R.string.title_team
           navigationUpEnable()
           favoriteMenuEnable(model::toggleFavorite)
           searchMenuEnable()

@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.google.android.material.chip.ChipGroup
 import id.mustofa.kadesport.R
+import id.mustofa.kadesport.data.entity.base.Entity
 import id.mustofa.kadesport.ui.common.EntityListAdapter.EntityViewHolder
 import org.jetbrains.anko.appcompat.v7.navigationIconResource
 import org.jetbrains.anko.custom.ankoView
@@ -72,6 +73,10 @@ inline fun ViewManager.messageView(init: MessageView.() -> Unit): MessageView {
 
 inline fun <T> ViewManager.stateView(init: StateView<T>.() -> Unit): StateView<T> {
   return ankoView({ StateView(it) }, 0, init)
+}
+
+fun <T : Entity> ViewManager.clusterListView(): ClusterListView<T> {
+  return ankoView({ ClusterListView(it) }, 0) {}
 }
 
 inline fun ViewManager.clusterView(init: ClusterView.() -> Unit): ClusterView {

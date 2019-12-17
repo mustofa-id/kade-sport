@@ -23,13 +23,13 @@ import id.mustofa.kadesport.ext.observe
 import id.mustofa.kadesport.ext.viewModel
 import id.mustofa.kadesport.ui.event.EventAdapter
 import id.mustofa.kadesport.ui.leaguedetail.adapter.ClassementAdapter
-import id.mustofa.kadesport.ui.leaguedetail.view.ClusterListView
-import id.mustofa.kadesport.ui.leaguedetail.view.ClusterListView.Companion.clusterListView
 import id.mustofa.kadesport.ui.leaguedetail.view.LeagueView
 import id.mustofa.kadesport.ui.leaguedetail.view.LeagueView.Companion.leagueView
 import id.mustofa.kadesport.ui.team.TeamAdapter
 import id.mustofa.kadesport.util.GlideApp
 import id.mustofa.kadesport.util.GlideRequests
+import id.mustofa.kadesport.view.ClusterListView
+import id.mustofa.kadesport.view.clusterListView
 import id.mustofa.kadesport.view.navigationUpEnable
 import id.mustofa.kadesport.view.searchMenuEnable
 import org.jetbrains.anko.appcompat.v7.toolbar

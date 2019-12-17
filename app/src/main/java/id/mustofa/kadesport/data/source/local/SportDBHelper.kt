@@ -13,23 +13,25 @@ class SportDBHelper(context: Context, dbName: String) :
   ManagedSQLiteOpenHelper(context, dbName, version = 2) {
 
   override fun onCreate(db: SQLiteDatabase?) {
-    createTables(db)
+    createTableFavoriteEvent(db)
+    createTableFavoriteTeam(db)
   }
 
   override fun onUpgrade(db: SQLiteDatabase?, oldV: Int, newV: Int) {
-    if (newV > oldV) {
-      val teamColumns = createColumns<Team>()
-      db?.createTable(TABLE_FAVORITE_TEAM, true, *teamColumns)
+    if (newV > oldV && newV == 2) {
+      createTableFavoriteTeam(db)
 
       val time = currentTimeMillis()
       db?.execSQL("ALTER TABLE $TABLE_FAVORITE_EVENT ADD COLUMN favoriteDate INTEGER DEFAULT $time")
     }
   }
 
-  private fun createTables(db: SQLiteDatabase?) {
+  private fun createTableFavoriteEvent(db: SQLiteDatabase?) {
     val eventColumns = createColumns<Event>()
     db?.createTable(TABLE_FAVORITE_EVENT, true, *eventColumns)
+  }
 
+  private fun createTableFavoriteTeam(db: SQLiteDatabase?) {
     val teamColumns = createColumns<Team>()
     db?.createTable(TABLE_FAVORITE_TEAM, true, *teamColumns)
   }

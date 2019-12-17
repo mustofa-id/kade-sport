@@ -2,21 +2,15 @@
  * Mustofa on 12/15/19
  * https://mustofa.id
  */
-package id.mustofa.kadesport.ui.leaguedetail.view
+package id.mustofa.kadesport.view
 
 import android.content.Context
-import android.view.ViewManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.entity.base.Entity
 import id.mustofa.kadesport.ui.common.EntityListAdapter
-import id.mustofa.kadesport.view.ClusterView
-import id.mustofa.kadesport.view.StateView
-import id.mustofa.kadesport.view.clusterView
-import id.mustofa.kadesport.view.stateView
 import org.jetbrains.anko._FrameLayout
-import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalPadding
 import org.jetbrains.anko.matchParent
@@ -63,12 +57,6 @@ class ClusterListView<T : Entity>(context: Context) : _FrameLayout(context) {
 
   fun setState(state: State<List<T>>) {
     stateView.handleState(state, adapter::submitList)
-  }
-
-  companion object {
-    fun <T : Entity> ViewManager.clusterListView(): ClusterListView<T> {
-      return ankoView({ ClusterListView(it) }, 0) {}
-    }
   }
 }
 

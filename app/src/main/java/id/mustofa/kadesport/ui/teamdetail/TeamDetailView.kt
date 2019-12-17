@@ -18,6 +18,7 @@ import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.ext.dashable
 import id.mustofa.kadesport.ext.toIconLink
+import id.mustofa.kadesport.ext.toStrings
 import id.mustofa.kadesport.util.GlideRequests
 import id.mustofa.kadesport.view.CarouselView
 import id.mustofa.kadesport.view.base.EntityView
@@ -145,14 +146,13 @@ class TeamDetailView(context: Context) : _LinearLayout(context), EntityView<Team
   }
 
   private fun populateKeywords(e: Team) {
-    e.keywords?.run {
-      replace(" ", "")
-      split(",").forEach {
-        val chip = Chip(context).apply {
-          text = it; isClickable = false
-        }
-        keywords.addView(chip)
+    e.keywords?.toStrings(",")?.forEach {
+      val keyword = if (it.isBlank()) e.name else it
+      val chip = Chip(context).apply {
+        text = keyword
+        isClickable = false
       }
+      keywords.addView(chip)
     }
   }
 
