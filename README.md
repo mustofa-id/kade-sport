@@ -2,11 +2,21 @@
 Kade Sport is Android apps for lookup football league events using [TheSportDB](https://www.thesportsdb.com/api.php) API.
 
 # Endpoints
-- League detail: https://www.thesportsdb.com/api/v1/json/1/lookupleague.php?id={leagueId}
-- Next match: https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id={leagueId}
-- Previous match: https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id={leagueId}
-- Match detail: https://www.thesportsdb.com/api/v1/json/1/lookupevent.php?id={eventId}
-- Match search: https://www.thesportsdb.com/api/v1/json/1/searchevents.php?e={query}
+- Detail liga: https://www.thesportsdb.com/api/v1/json/1/lookupleague.php?id={idLeague}
+- Daftar tim: https://www.thesportsdb.com/api/v1/json/1/lookup_all_teams.php?id={idLeague}
+- Klasemen pertandingan: https://www.thesportsdb.com/api/v1/json/1/lookuptable.php?l={idLeague}
+- Detail tim: https://www.thesportsdb.com/api/v1/json/1/lookupteam.php?id={idTeam}
+- Daftar pemain: https://www.thesportsdb.com/api/v1/json/1/lookup_all_players.php?id={idTeam}
+- Detail pemain: https://www.thesportsdb.com/api/v1/json/1/lookupplayer.php?id={idPemain}
+- Daftar next match:
+    https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id={idLeague}
+    https://www.thesportsdb.com/api/v1/json/1/eventsnext.php?id={idTeam}
+- Daftar previous match:
+    https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id={idLeague}
+    https://www.thesportsdb.com/api/v1/json/1/eventslast.php?id={idTeam}
+- Detail pertandingan: https://www.thesportsdb.com/api/v1/json/1/lookupevent.php?id={idEvent}
+- Pencarian pertandingan: https://www.thesportsdb.com/api/v1/json/1/searchevents.php?e={query}
+- Pencarian tim: https://www.thesportsdb.com/api/v1/json/1/searchteams.php?t={query}
 
 # Unit Tests
 <details>
@@ -265,6 +275,6 @@ Kade Sport is Android apps for lookup football league events using [TheSportDB](
 
 # Warning!
 
-### You must be familiar this image bellow, right?
+### You must be familiar with image bellow, right?
 
 [![Dicoding plagiarism notice](images/dicoding_plagiarism_warn.jpeg)](https://www.dicoding.com/academies/55/)
