@@ -68,6 +68,17 @@ class EventViewModelTest {
 
   @Test
   fun notifierTest() {
-    TODO("Do it latter")
+    eventRepo.responseTime = 7_000 + 1
+
+    val observer: Observer<Boolean> = mock()
+    model.notifier.observeForever(observer)
+
+    coroutineRule.pauseDispatcher()
+
+    model.loadEvents(leagueId, EventType.PAST)
+    coroutineRule.resumeDispatcher()
+
+    val notifier = valueOf(model.notifier)
+    verify(observer).onChanged(notifier)
   }
 }

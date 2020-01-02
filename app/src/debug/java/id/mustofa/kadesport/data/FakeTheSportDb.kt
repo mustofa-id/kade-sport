@@ -51,7 +51,7 @@ class FakeTheSportDb {
 
   fun searchTeam(query: String) = lookupAllTeams().filter { it.name.contains(query, true) }
 
-  fun favoriteTeams() = lookupAllTeams().shuffled().take(3)
+  fun favoriteTeams() = lookupAllTeams().take(3)
 
   fun lookupStandingsTable() = jsonOf<StandingsTableResponse>("lookuptable.json")?.table!!
 
