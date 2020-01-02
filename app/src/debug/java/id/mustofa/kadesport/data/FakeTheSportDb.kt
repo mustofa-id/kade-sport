@@ -11,6 +11,8 @@ import id.mustofa.kadesport.data.entity.Event
 import id.mustofa.kadesport.data.entity.League
 import id.mustofa.kadesport.data.source.embedded.LeagueDataSource
 import id.mustofa.kadesport.data.source.remote.LeagueEventResponse
+import id.mustofa.kadesport.data.source.remote.StandingsTableResponse
+import id.mustofa.kadesport.data.source.remote.TeamResponse
 
 @VisibleForTesting(otherwise = PRIVATE)
 class FakeTheSportDb {
@@ -43,6 +45,17 @@ class FakeTheSportDb {
     }
   }
 
+  fun lookupAllTeams() = jsonOf<TeamResponse>("lookup_all_teams.json")?.teams!!
+
+  fun lookupTeam(teamId: Long) = lookupAllTeams().first { it.id == teamId }
+
+  fun searchTeam(query: String) = lookupAllTeams().filter { it.name.contains(query, true) }
+
+  fun favoriteTeams() = lookupAllTeams().shuffled().take(3)
+
+  fun lookupStandingsTable() = jsonOf<StandingsTableResponse>("lookuptable.json")?.table!!
+
+  // -- private --
   private inline fun <reified T> jsonOf(resName: String) = javaClass.classLoader
     ?.getResourceAsStream(resName)
     ?.reader()

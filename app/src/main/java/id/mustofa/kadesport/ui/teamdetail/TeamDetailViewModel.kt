@@ -4,7 +4,6 @@
  */
 package id.mustofa.kadesport.ui.teamdetail
 
-import android.util.Log
 import androidx.lifecycle.*
 import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.State
@@ -54,7 +53,7 @@ class TeamDetailViewModel(private val teamRepo: TeamRepository) : ViewModel() {
     }.invokeOnCompletion {
       if (it != null) {
         _error.postValue(R.string.msg_user_unknown_error)
-        Log.e(javaClass.name, "loadTeam: ", it)
+        // Log.e(javaClass.name, "loadTeam: ", it)
       }
       _loading.postValue(false)
     }

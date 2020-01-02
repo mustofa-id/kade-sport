@@ -4,7 +4,6 @@
  */
 package id.mustofa.kadesport.ui.favorite
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +15,7 @@ import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.data.entity.base.Entity
 import id.mustofa.kadesport.data.source.repository.EventRepository
 import id.mustofa.kadesport.data.source.repository.TeamRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class FavoriteViewModel(
@@ -39,32 +39,34 @@ class FavoriteViewModel(
     _loading.value = true
     viewModelScope.launch {
       when (currentType) {
-        FavoriteType.EVENT -> launch { postState(eventRepo.getFavorites()) }
-        FavoriteType.TEAM -> launch { postState(teamRepo.getFavorites()) }
+        FavoriteType.EVENT -> postState(eventRepo.getFavorites())
+        FavoriteType.TEAM -> postState(teamRepo.getFavorites())
         FavoriteType.ALL -> {
-          launch { postState(eventRepo.getFavorites()) }
-          launch { postState(teamRepo.getFavorites()) }
+          postState(eventRepo.getFavorites())
+          postState(teamRepo.getFavorites())
         }
       }
     }.invokeOnCompletion(::onJobsComplete)
   }
 
-  private fun postState(state: State<List<Entity>>) {
-    when (state) {
-      is State.Success -> favoritesSet.addAll(state.data)
-      is State.Error -> _error.postValue(state.message)
-    }
-  }
-
   private fun onJobsComplete(thr: Throwable?) {
     if (thr != null) {
       _error.postValue(R.string.msg_user_unknown_error)
-      Log.e(javaClass.name, "onJobsComplete: ", thr)
+      // Log.e(javaClass.name, "onJobsComplete: ", thr)
     }
     val result = favoritesSet.toList().sortByFavoriteDate()
     _favorites.postValue(result)
     favoritesSet.clear()
     _loading.postValue(false)
+  }
+
+  private fun CoroutineScope.postState(state: State<List<Entity>>) {
+    launch {
+      when (state) {
+        is State.Success -> favoritesSet.addAll(state.data)
+        is State.Error -> _error.postValue(state.message)
+      }
+    }
   }
 
   private fun List<Entity>.sortByFavoriteDate() = sortedWith(

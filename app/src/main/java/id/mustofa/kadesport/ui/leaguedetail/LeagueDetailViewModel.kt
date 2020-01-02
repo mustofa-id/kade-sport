@@ -43,9 +43,6 @@ class LeagueDetailViewModel(
   private val _standingState = MutableLiveData<State<List<Standing>>>()
   val standingState: LiveData<State<List<Standing>>> = _standingState
 
-  private val _error = MutableLiveData<Int>()
-  val error: LiveData<Int> = _error
-
   fun loadLeague(leagueId: Long) {
     if (leagueId == currentLeagueId) return
     currentLeagueId = leagueId

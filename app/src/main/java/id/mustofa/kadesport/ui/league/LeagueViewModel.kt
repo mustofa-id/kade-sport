@@ -24,7 +24,7 @@ class LeagueViewModel(private val leagueRepo: LeagueRepository) : ViewModel() {
   }
 
   private fun loadLeagues() {
-    _leagues.postValue(Loading)
+    _leagues.value = Loading
     viewModelScope.launch {
       val state = leagueRepo.getAll()
       _leagues.postValue(state)
