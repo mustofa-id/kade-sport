@@ -20,7 +20,6 @@ import org.mockito.Mockito.verify
 
 /**
  * @author Habib Mustofa
- * Indonesia on 1/2/20
  */
 @ExperimentalCoroutinesApi
 class TeamViewModelTest {
