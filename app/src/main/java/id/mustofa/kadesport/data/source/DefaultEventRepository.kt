@@ -8,12 +8,15 @@ import id.mustofa.kadesport.R
 import id.mustofa.kadesport.data.State
 import id.mustofa.kadesport.data.State.*
 import id.mustofa.kadesport.data.entity.Event
+import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.data.source.local.EventDataSource
+import id.mustofa.kadesport.data.source.remote.ResponseResult
 import id.mustofa.kadesport.data.source.remote.TheSportDbService
 import id.mustofa.kadesport.data.source.remote.handleResponse
 import id.mustofa.kadesport.data.source.remote.successOf
 import id.mustofa.kadesport.data.source.repository.EventRepository
 import id.mustofa.kadesport.data.source.repository.EventRepository.EventType
+import id.mustofa.kadesport.util.wrapWithIdlingResource
 
 class DefaultEventRepository(
   private val remoteSource: TheSportDbService,
@@ -57,30 +60,41 @@ class DefaultEventRepository(
   }
 
   override suspend fun getFavorite(eventId: Long): State<Event> {
-    val favorite = localSource.getFavorite(eventId) ?: return Empty
-    return Success(favorite)
+    return wrapWithIdlingResource {
+      val favorite = localSource.getFavorite(eventId) ?: return Empty
+      Success(favorite)
+    }
   }
 
   override suspend fun getFavorites(): State<List<Event>> {
-    val favorites = localSource.getFavorites()
-    if (favorites.isEmpty()) return Empty
-    return Success(favorites)
+    return wrapWithIdlingResource {
+      val favorites = localSource.getFavorites()
+      if (favorites.isEmpty()) return Empty
+      Success(favorites)
+    }
   }
 
   override suspend fun addFavorite(event: Event): State<Boolean> {
-    val add = localSource.saveFavorite(event)
-    return if (add > 0) Success(true) else Error(R.string.msg_failed_add_fav)
+    return wrapWithIdlingResource {
+      val add = localSource.saveFavorite(event)
+      if (add > 0) Success(true) else Error(R.string.msg_failed_add_fav)
+    }
   }
 
   override suspend fun removeFavorite(id: Long): State<Boolean> {
-    val remove = localSource.deleteFavorite(id)
-    return if (remove > 0) Success(true) else Error(R.string.msg_failed_remove_fav)
+    return wrapWithIdlingResource {
+      val remove = localSource.deleteFavorite(id)
+      if (remove > 0) Success(true) else Error(R.string.msg_failed_remove_fav)
+    }
   }
 
   private suspend fun Event.applyBadge() {
-    suspend fun team(id: Long) = cacheableRemoteSource
-      .lookupTeam(id).body()?.teams?.get(0)
-    homeBadgePath = team(homeTeamId)?.badgePath
-    awayBadgePath = team(awayTeamId)?.badgePath
+    homeBadgePath = getCachedTeam(homeTeamId)?.badgePath
+    awayBadgePath = getCachedTeam(awayTeamId)?.badgePath
+  }
+
+  private suspend fun getCachedTeam(id: Long): Team? {
+    val response = handleResponse { cacheableRemoteSource.lookupTeam(id) }
+    return if (response is ResponseResult.Success) response.data.teams?.get(0) else null
   }
 }

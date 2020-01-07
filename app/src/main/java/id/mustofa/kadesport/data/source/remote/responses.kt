@@ -14,6 +14,7 @@ import id.mustofa.kadesport.data.entity.Standing
 import id.mustofa.kadesport.data.entity.Team
 import id.mustofa.kadesport.data.source.remote.ResponseResult.Failure
 import id.mustofa.kadesport.data.source.remote.ResponseResult.Success
+import id.mustofa.kadesport.util.EspressoIdlingResource
 import retrofit2.Response
 
 data class LeagueResponse(
@@ -40,6 +41,7 @@ sealed class ResponseResult<out R> {
 }
 
 inline fun <reified T> handleResponse(response: () -> Response<T>): ResponseResult<T> {
+  EspressoIdlingResource.increment()
   return try {
     val res = response()
     if (res.isSuccessful) {
@@ -51,6 +53,8 @@ inline fun <reified T> handleResponse(response: () -> Response<T>): ResponseResu
   } catch (e: Exception) {
     Log.e(T::class.qualifiedName, "handleResponse: ", e)
     Failure(R.string.msg_response_error)
+  } finally {
+    EspressoIdlingResource.decrement()
   }
 }
 

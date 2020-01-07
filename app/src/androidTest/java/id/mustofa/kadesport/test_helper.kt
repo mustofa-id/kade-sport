@@ -51,7 +51,6 @@ object CustomMatchers {
   }
 
   fun tabTitle(position: Int, @StringRes expectedTitle: Int): Matcher<View> {
-
     return object : TypeSafeMatcher<View>() {
       override fun describeTo(description: Description?) {
         description?.appendText("Tab with title res $expectedTitle")
@@ -60,6 +59,22 @@ object CustomMatchers {
       override fun matchesSafely(item: View?): Boolean {
         return item is TabLayout && `is`(item.context.getString(expectedTitle))
           .matches(item.getTabAt(position)?.text)
+      }
+    }
+  }
+
+  fun atIndex(matcher: Matcher<View>, index: Int): TypeSafeMatcher<View> {
+    return object : TypeSafeMatcher<View>() {
+
+      private var current = 0
+
+      override fun describeTo(description: Description?) {
+        description?.appendText("at index: $index ")
+        matcher.describeTo(description)
+      }
+
+      override fun matchesSafely(item: View?): Boolean {
+        return matcher.matches(item) && current++ == index
       }
     }
   }

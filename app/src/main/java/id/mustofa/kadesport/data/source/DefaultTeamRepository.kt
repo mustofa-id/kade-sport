@@ -14,6 +14,7 @@ import id.mustofa.kadesport.data.source.remote.TheSportDbService
 import id.mustofa.kadesport.data.source.remote.handleResponse
 import id.mustofa.kadesport.data.source.remote.successOf
 import id.mustofa.kadesport.data.source.repository.TeamRepository
+import id.mustofa.kadesport.util.wrapWithIdlingResource
 
 class DefaultTeamRepository(
   private val cacheableRemoteSource: TheSportDbService,
@@ -49,25 +50,33 @@ class DefaultTeamRepository(
   }
 
   override suspend fun getFavorite(teamId: Long): State<Team> {
-    val favorite = localSource.getFavorite(teamId) ?: return Empty
-    return Success(favorite)
+    return wrapWithIdlingResource {
+      val favorite = localSource.getFavorite(teamId) ?: return Empty
+      Success(favorite)
+    }
   }
 
   override suspend fun getFavorites(): State<List<Team>> {
-    val favorites = localSource.getFavorites()
-    if (favorites.isEmpty()) return Empty
-    return Success(favorites)
+    return wrapWithIdlingResource {
+      val favorites = localSource.getFavorites()
+      if (favorites.isEmpty()) return Empty
+      Success(favorites)
+    }
   }
 
   override suspend fun addFavorite(team: Team): State<Int> {
-    val add = localSource.saveFavorite(team)
-    return if (add > 0) Success(R.string.msg_ok_add_fav)
-    else State.Error(R.string.msg_failed_add_fav)
+    return wrapWithIdlingResource {
+      val add = localSource.saveFavorite(team)
+      if (add > 0) Success(R.string.msg_ok_add_fav)
+      else State.Error(R.string.msg_failed_add_fav)
+    }
   }
 
   override suspend fun removeFavorite(teamId: Long): State<Int> {
-    val remove = localSource.deleteFavorite(teamId)
-    return if (remove > 0) Success(R.string.msg_ok_remove_fav)
-    else State.Error(R.string.msg_failed_remove_fav)
+    return wrapWithIdlingResource {
+      val remove = localSource.deleteFavorite(teamId)
+      if (remove > 0) Success(R.string.msg_ok_remove_fav)
+      else State.Error(R.string.msg_failed_remove_fav)
+    }
   }
 }

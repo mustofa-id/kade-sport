@@ -67,6 +67,7 @@ class TeamDetailView(context: Context) : _LinearLayout(context), EntityView<Team
       }
       verticalLayout {
         title = textView {
+          id = R.id.itemTitle
           textSize = 24F
           typeface = Typeface.DEFAULT_BOLD
         }
